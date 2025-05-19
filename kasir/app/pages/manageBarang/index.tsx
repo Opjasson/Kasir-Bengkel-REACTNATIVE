@@ -13,7 +13,6 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
-
 import MenuDrawer from "react-native-side-drawer";
 import React, { useState } from "react";
 
@@ -47,7 +46,8 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 </View>
 
                 <View style={styles.sidebarMain}>
-                    <TouchableOpacity onPress={() => navigation.navigate("kasir")}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("kasir")}>
                         <Text style={styles.sidebarMenu}>Transaksi Baru</Text>
                     </TouchableOpacity>
 
@@ -60,6 +60,15 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                         <Text style={styles.sidebarMenu}>
                             History transaksi
                         </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity activeOpacity={0.5} style={styles.tutupSidebar} onPress={() => toggleOpen()}>
+                        <Ionicons
+                            name="arrow-back-circle-outline"
+                            size={30}
+                            color="black"
+                        />
+                        <Text style={{ fontSize: 18 }}>Tutup</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -89,19 +98,26 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
 
-            {/* bagian pencarian barang */}
-            <View style={styles.containerSearch}>
-                <TextInput
-                    placeholder="Cari Hotel"
-                    style={styles.searchHotel}
-                    onChangeText={(text) => {
-                        setFind(text);
-                        setFindLower(text.toLowerCase());
-                    }}
-                />
-                <Entypo name="magnifying-glass" size={30} color="black" />
+            <View style={styles.containerTambah}>
+                <TouchableOpacity style={styles.tambahBarang}>
+                    <FontAwesome6 name="add" size={30} color="black" />
+                    <Text>Tambah</Text>
+                </TouchableOpacity>
+
+                {/* bagian pencarian barang */}
+                <View style={styles.containerSearch}>
+                    <TextInput
+                        placeholder="Cari Hotel"
+                        style={styles.searchHotel}
+                        onChangeText={(text) => {
+                            setFind(text);
+                            setFindLower(text.toLowerCase());
+                        }}
+                    />
+                    <Entypo name="magnifying-glass" size={30} color="black" />
+                </View>
+                {/* --------------- */}
             </View>
-            {/* --------------- */}
 
             {/* menampilkan daftar menu */}
             <ScrollView>
@@ -313,19 +329,8 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 {/* ------------ */}
             </ScrollView>
             {/* ---------- */}
-            <TouchableOpacity
-                style={styles.containerCart}
-                activeOpacity={1}
-                onPress={() => alert("hallo")}>
-                <View style={styles.cartContent1}>
-                    <AntDesign name="shoppingcart" size={24} color="black" />
-                    <Text>Pcs : 2</Text>
-                </View>
-
-                <Text style={styles.cartContent2}>Total : Rp.20000</Text>
-            </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -347,9 +352,16 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         flexDirection: "column",
         justifyContent: "space-between",
+        height: "50%",
+        marginTop: 20,
     },
     sidebarMenu: {
-        fontSize: 15,
+        fontSize: 20,
+        fontWeight: "800"
+    },
+    tutupSidebar: {
+        flexDirection: "row",
+        alignItems: "center"
     },
     container: {
         flex: 1,
@@ -357,6 +369,17 @@ const styles = StyleSheet.create({
     headContainer: {
         flexDirection: "row",
         position: "relative",
+    },
+    containerTambah: {
+        flexDirection: "row"
+    },
+    tambahBarang: {
+        flexDirection : "row",
+        borderWidth: 2,
+        width: 100,
+        borderRadius: 30,
+        alignItems: "center",
+        backgroundColor: "green"
     },
     containerSearch: {
         flexDirection: "row",
@@ -385,22 +408,6 @@ const styles = StyleSheet.create({
     actionMenu: {
         flexDirection: "row",
     },
-    containerCart: {
-        borderWidth: 2,
-        marginTop: 10,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 7,
-        height: 100,
-        width: "100%",
-        position: "absolute",
-        bottom: 0,
-        backgroundColor: "blue",
-    },
-    cartContent1: {
-        flexDirection: "row",
-    },
-    cartContent2: {},
 });
 
 export default ManageBarang

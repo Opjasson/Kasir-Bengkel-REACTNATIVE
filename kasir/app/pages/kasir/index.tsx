@@ -47,7 +47,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 </View>
 
                 <View style={styles.sidebarMain}>
-                    <TouchableOpacity onPress={() => navigation.navigate("kasir")}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("kasir")}>
                         <Text style={styles.sidebarMenu}>Transaksi Baru</Text>
                     </TouchableOpacity>
 
@@ -60,6 +61,18 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                         <Text style={styles.sidebarMenu}>
                             History transaksi
                         </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={styles.tutupSidebar}
+                        onPress={() => toggleOpen()}>
+                        <Ionicons
+                            name="arrow-back-circle-outline"
+                            size={30}
+                            color="black"
+                        />
+                        <Text style={{ fontSize: 18 }}>Tutup</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -337,19 +350,26 @@ const styles = StyleSheet.create({
     sidebarHead: {
         flexDirection: "row",
         borderWidth: 2,
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     sidebarTitle: {
         fontSize: 17,
-        fontWeight: "700"
+        fontWeight: "700",
     },
     sidebarMain: {
         borderWidth: 2,
         flexDirection: "column",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        height: "50%",
+        marginTop: 20,
     },
     sidebarMenu: {
-        fontSize: 15
+        fontSize: 20,
+        fontWeight: "800",
+    },
+    tutupSidebar: {
+        flexDirection: "row",
+        alignItems: "center",
     },
     container: {
         flex: 1,
