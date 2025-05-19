@@ -3,17 +3,11 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
-
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
 
@@ -22,8 +16,6 @@ interface props {
 }
 
 const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
-    const [find, setFind] = useState<string>();
-    const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -59,24 +51,12 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             </View>
             {/* ------------ */}
 
-            {/* bagian pencarian barang */}
-            <View style={styles.containerSearch}>
-                <TextInput
-                    placeholder="Cari Hotel"
-                    style={styles.searchHotel}
-                    onChangeText={(text) => {
-                        setFind(text);
-                        setFindLower(text.toLowerCase());
-                    }}
-                />
-                <Entypo name="magnifying-glass" size={30} color="black" />
-            </View>
-            {/* --------------- */}
-
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.containerBarang}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("")}
+                    style={styles.containerBarang}>
                     <Text>30 jan 2025</Text>
                     <View style={styles.barisInfo}>
                         <Text>Rp.500,000</Text>
@@ -159,7 +139,7 @@ const styles = StyleSheet.create({
     },
     barisInfo2: {
         alignItems: "flex-end",
-    }
+    },
 });
 
 export default HistoryTransaksi;
