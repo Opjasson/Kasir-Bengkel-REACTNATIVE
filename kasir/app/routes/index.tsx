@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Kasir, ManageBarang } from "../pages";
+import { Kasir, ManageBarang, Ubahbarang } from "../pages";
 
 const Route = () => {
     const Stack = createStackNavigator();
@@ -10,7 +10,7 @@ const Route = () => {
             <Stack.Screen name="kasir" component={Kasir} />
             <Stack.Screen name="manage-barang" component={ManageBarang} />
             <Stack.Screen name="tambah-barang" component={ManageBarang} />
-            <Stack.Screen name="ubah-barang" component={ManageBarang} />
+            <Stack.Screen name="ubah-barang" component={Ubahbarang} />
         </Stack.Navigator>
     );
 };
