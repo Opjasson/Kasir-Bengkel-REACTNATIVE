@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Kasir, ManageBarang, Ubahbarang } from "../pages";
-import TambahBarang from "../pages/tambahBarang";
+import { Kasir, ManageBarang, Ubahbarang, TambahBarang } from "../pages";
 
 const Route = () => {
     const Stack = createStackNavigator();
