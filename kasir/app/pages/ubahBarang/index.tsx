@@ -1,5 +1,12 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 const Ubahbarang = () => {
     return (
@@ -41,7 +48,7 @@ const Ubahbarang = () => {
             {/* End Form */}
 
             <TouchableOpacity style={styles.button}>
-              <Text style={{ color: "white" }}>Kirim</Text>
+                <Text style={{ color: "white" }}>Kirim</Text>
             </TouchableOpacity>
         </ScrollView>
     );
