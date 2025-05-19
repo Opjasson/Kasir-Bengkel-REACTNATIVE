@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -16,12 +15,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
 
 import MenuDrawer from "react-native-side-drawer";
+import React, { useState } from "react";
 
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const Kasir: React.FC<props> = ({ navigation }) => {
+const ManageBarang : React.FC <props> = ({navigation}) => {
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
@@ -76,7 +76,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                     color="black"
                     onPress={() => toggleOpen()}
                 />
-                <Text>Transaksi Baru</Text>
+                <Text>Manage Barang</Text>
             </View>
             {/* ------------ */}
 
@@ -325,8 +325,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 <Text style={styles.cartContent2}>Total : Rp.20000</Text>
             </TouchableOpacity>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     animatedBox: {
@@ -337,19 +337,19 @@ const styles = StyleSheet.create({
     sidebarHead: {
         flexDirection: "row",
         borderWidth: 2,
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     sidebarTitle: {
         fontSize: 17,
-        fontWeight: "700"
+        fontWeight: "700",
     },
     sidebarMain: {
         borderWidth: 2,
         flexDirection: "column",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     sidebarMenu: {
-        fontSize: 15
+        fontSize: 15,
     },
     container: {
         flex: 1,
@@ -403,4 +403,4 @@ const styles = StyleSheet.create({
     cartContent2: {},
 });
 
-export default Kasir;
+export default ManageBarang

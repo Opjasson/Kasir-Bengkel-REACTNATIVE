@@ -1,5 +1,7 @@
 import Kasir from "./kasir";
+import ManageBarang from "./manageBarang";
 
 export {
-    Kasir
+    Kasir,
+    ManageBarang
 }
