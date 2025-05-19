@@ -9,6 +9,8 @@ const Route = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="kasir" component={Kasir} />
             <Stack.Screen name="manage-barang" component={ManageBarang} />
+            <Stack.Screen name="tambah-barang" component={ManageBarang} />
+            <Stack.Screen name="ubah-barang" component={ManageBarang} />
         </Stack.Navigator>
     );
 };
