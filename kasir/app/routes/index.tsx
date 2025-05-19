@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Kasir, ManageBarang, Ubahbarang } from "../pages";
+import TambahBarang from "../pages/tambahBarang";
 
 const Route = () => {
     const Stack = createStackNavigator();
@@ -17,6 +18,14 @@ const Route = () => {
                 }}
                 name="ubah-barang"
                 component={Ubahbarang}
+            />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Kembali",
+                }}
+                name="tambah-barang"
+                component={TambahBarang}
             />
         </Stack.Navigator>
     );
