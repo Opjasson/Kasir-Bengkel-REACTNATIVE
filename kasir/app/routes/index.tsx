@@ -6,8 +6,9 @@ const Route = () => {
     const Stack = createStackNavigator();
 
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="kasir" component={Kasir}/>
+        <Stack.Navigator
+            screenOptions={{ headerShown: false }}>
+            <Stack.Screen  name="kasir" component={Kasir}/>
         </Stack.Navigator>
     )
 };
