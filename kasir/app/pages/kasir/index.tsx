@@ -6,16 +6,17 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Button,
+
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
 
 import MenuDrawer from "react-native-side-drawer";
+import { DrawerContent } from "@/app/components";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -34,50 +35,16 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         }
     };
 
-    const drawerContent = () => {
+    const sideBarContent = () => {
         return (
-            <View style={styles.animatedBox}>
-                <View style={styles.sidebarHead}>
-                    <FontAwesome5
-                        name="cash-register"
-                        size={28}
-                        color="black"
-                    />
-                    <Text style={styles.sidebarTitle}>Kasir Bengkel</Text>
-                </View>
-
-                <View style={styles.sidebarMain}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("kasir")}>
-                        <Text style={styles.sidebarMenu}>Transaksi Baru</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("manage-barang")}>
-                        <Text style={styles.sidebarMenu}>Manage Menu</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.navigate("/")}>
-                        <Text style={styles.sidebarMenu}>
-                            History transaksi
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        style={styles.tutupSidebar}
-                        onPress={() => toggleOpen()}>
-                        <Ionicons
-                            name="arrow-back-circle-outline"
-                            size={30}
-                            color="black"
-                        />
-                        <Text style={{ fontSize: 18 }}>Tutup</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <DrawerContent
+                toggleOpen={toggleOpen}
+                onPress1={() => navigation.navigate("kasir")}
+                onPress2={() => navigation.navigate("manage-barang")}
+                onPress3={() => navigation.navigate("history-transaksi")}
+            />
         );
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -96,7 +63,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             <MenuDrawer
                 open={open}
                 position={"left"}
-                drawerContent={drawerContent()}
+                drawerContent={sideBarContent()}
                 drawerPercentage={50}
                 animationTime={250}
                 overlay={true}

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Kasir, ManageBarang, Ubahbarang, TambahBarang } from "../pages";
+import { Kasir, ManageBarang, Ubahbarang, TambahBarang, HistoryTransaksi } from "../pages";
 
 const Route = () => {
     const Stack = createStackNavigator();
@@ -9,6 +9,7 @@ const Route = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="kasir" component={Kasir} />
             <Stack.Screen name="manage-barang" component={ManageBarang} />
+            <Stack.Screen name="history-transaksi" component={HistoryTransaksi} />
             <Stack.Screen
                 options={{
                     headerShown: true,
