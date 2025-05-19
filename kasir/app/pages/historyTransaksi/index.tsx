@@ -55,7 +55,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             <ScrollView>
                 {/* menu bagian */}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("")}
+                    onPress={() => navigation.navigate("detail-transaksi")}
                     style={styles.containerBarang}>
                     <Text>30 jan 2025</Text>
                     <View style={styles.barisInfo}>

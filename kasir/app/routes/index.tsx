@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Kasir, ManageBarang, Ubahbarang, TambahBarang, HistoryTransaksi } from "../pages";
+import { Kasir, ManageBarang, Ubahbarang, TambahBarang, HistoryTransaksi, DetailTransaksi } from "../pages";
 
 const Route = () => {
     const Stack = createStackNavigator();
@@ -25,6 +25,14 @@ const Route = () => {
                 }}
                 name="tambah-barang"
                 component={TambahBarang}
+            />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Detail Transaksi",
+                }}
+                name="detail-transaksi"
+                component={DetailTransaksi}
             />
         </Stack.Navigator>
     );
