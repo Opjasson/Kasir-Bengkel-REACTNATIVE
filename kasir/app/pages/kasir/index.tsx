@@ -1,22 +1,84 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    Button,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-// import Fontisto from "@expo/vector-icons/Fontisto";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { NavigationProp } from "@react-navigation/native";
 
-const Kasir = () => {
+import MenuDrawer from "react-native-side-drawer";
+
+interface props {
+    navigation: NavigationProp<any, any>;
+}
+
+const Kasir: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
+    const [open, setOpen] = useState(false);
+
+    const toggleOpen = () => {
+        if (open === false) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
+
+    const drawerContent = () => {
+        return (
+            <View style={styles.animatedBox}>
+                <View style={styles.sidebarHead}>
+                    <FontAwesome5
+                        name="cash-register"
+                        size={24}
+                        color="black"
+                    />
+                    <Text>Kasir Bengkel</Text>
+                </View>
+
+                <View>
+                    <TouchableOpacity onPress={() => navigation.navigate("/")}>
+                        <Text>Transaksi Baru</Text>
+                    </TouchableOpacity>
+                    <Text></Text>
+                    <Text></Text>
+                </View>
+            </View>
+        );
+    };
+
     return (
         <View style={styles.container}>
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
-                <Ionicons name="menu" size={24} color="black" />
+                <Ionicons
+                    name="menu"
+                    size={24}
+                    color="black"
+                    onPress={() => toggleOpen()}
+                />
                 <Text>Transaksi Baru</Text>
             </View>
             {/* ------------ */}
+
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={drawerContent()}
+                drawerPercentage={50}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
 
             {/* bagian pencarian barang */}
             <View style={styles.containerSearch}>
@@ -32,6 +94,7 @@ const Kasir = () => {
             </View>
             {/* --------------- */}
 
+            {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
                 <View style={styles.containerMenu}>
@@ -240,8 +303,11 @@ const Kasir = () => {
 
                 {/* ------------ */}
             </ScrollView>
-
-            <TouchableOpacity style={styles.containerCart} activeOpacity={1}  onPress={() => alert("hallo")}>
+            {/* ---------- */}
+            <TouchableOpacity
+                style={styles.containerCart}
+                activeOpacity={1}
+                onPress={() => alert("hallo")}>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={24} color="black" />
                     <Text>Pcs : 2</Text>
@@ -254,11 +320,20 @@ const Kasir = () => {
 };
 
 const styles = StyleSheet.create({
+    animatedBox: {
+        flex: 1,
+        backgroundColor: "#38C8EC",
+        padding: 10,
+    },
+    sidebarHead: {
+        flexDirection: "row",
+    },
     container: {
         flex: 1,
     },
     headContainer: {
         flexDirection: "row",
+        position: "relative",
     },
     containerSearch: {
         flexDirection: "row",
@@ -297,14 +372,12 @@ const styles = StyleSheet.create({
         width: "100%",
         position: "absolute",
         bottom: 0,
-        backgroundColor: "blue"
+        backgroundColor: "blue",
     },
     cartContent1: {
-        flexDirection: "row"
+        flexDirection: "row",
     },
-    cartContent2: {
-    
-    }
+    cartContent2: {},
 });
 
 export default Kasir;
