@@ -1,4 +1,4 @@
-import Kasir from "./kasir";
+import Kasir from "./tambahTransaksi";
 import ManageBarang from "./manageBarang";
 import Ubahbarang from "./ubahBarang";
 import TambahBarang from "./tambahBarang";

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -5,22 +6,23 @@ import {
     TextInput,
     TouchableOpacity,
     View,
+
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
+
 import MenuDrawer from "react-native-side-drawer";
-import React, { useState } from "react";
-import Fontisto from "@expo/vector-icons/Fontisto";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DrawerContent } from "@/app/components";
 
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const ManageBarang : React.FC <props> = ({navigation}) => {
+const Kasir: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
@@ -42,7 +44,7 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 onPress3={() => navigation.navigate("history-transaksi")}
             />
         );
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -54,30 +56,23 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                     color="black"
                     onPress={() => toggleOpen()}
                 />
-                <Text>Manage Barang</Text>
+                <Text>Transaksi Baru</Text>
             </View>
             {/* ------------ */}
 
-            <View style={styles.containerTambah}>
-                <TouchableOpacity style={styles.tambahBarang} onPress={() => navigation.navigate("tambah-barang")}>
-                    <FontAwesome6 name="add" size={30} color="black" />
-                    <Text>Tambah</Text>
-                </TouchableOpacity>
-
-                {/* bagian pencarian barang */}
-                <View style={styles.containerSearch}>
-                    <TextInput
-                        placeholder="Cari Hotel"
-                        style={styles.searchHotel}
-                        onChangeText={(text) => {
-                            setFind(text);
-                            setFindLower(text.toLowerCase());
-                        }}
-                    />
-                    <Entypo name="magnifying-glass" size={30} color="black" />
-                </View>
-                {/* --------------- */}
+            {/* bagian pencarian barang */}
+            <View style={styles.containerSearch}>
+                <TextInput
+                    placeholder="Cari Hotel"
+                    style={styles.searchHotel}
+                    onChangeText={(text) => {
+                        setFind(text);
+                        setFindLower(text.toLowerCase());
+                    }}
+                />
+                <Entypo name="magnifying-glass" size={30} color="black" />
             </View>
+            {/* --------------- */}
 
             {/* menampilkan daftar menu */}
             <ScrollView>
@@ -89,17 +84,13 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                         <Text>Stok : 100 pcs</Text>
                     </View>
                     <View style={styles.actionMenu}>
-                        <TouchableOpacity onPress={() => navigation.navigate("ubah-barang")} style={styles.menuIcon}>
-                            <FontAwesome
-                                name="pencil"
-                                size={24}
-                                color="black"
-                            />
-                        </TouchableOpacity>
+                        <View style={styles.menuIcon}>
+                            <FontAwesome6 name="add" size={30} color="black" />
+                        </View>
 
-                        <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
-                            <Fontisto name="trash" size={24} color="black" />
-                        </TouchableOpacity>
+                        {/* <View style={styles.menuIcon}>
+                        <Fontisto name="trash" size={24} color="black" />
+                    </View> */}
                     </View>
                 </View>
 
@@ -114,9 +105,21 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
+
+            <TouchableOpacity
+                style={styles.containerCart}
+                activeOpacity={1}
+                onPress={() => alert("hallo")}>
+                <View style={styles.cartContent1}>
+                    <AntDesign name="shoppingcart" size={24} color="black" />
+                    <Text>Pcs : 2</Text>
+                </View>
+
+                <Text style={styles.cartContent2}>Total : Rp.20000</Text>
+            </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     animatedBox: {
@@ -142,11 +145,11 @@ const styles = StyleSheet.create({
     },
     sidebarMenu: {
         fontSize: 20,
-        fontWeight: "800"
+        fontWeight: "800",
     },
     tutupSidebar: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     container: {
         flex: 1,
@@ -154,17 +157,6 @@ const styles = StyleSheet.create({
     headContainer: {
         flexDirection: "row",
         position: "relative",
-    },
-    containerTambah: {
-        flexDirection: "row"
-    },
-    tambahBarang: {
-        flexDirection : "row",
-        borderWidth: 2,
-        width: 100,
-        borderRadius: 30,
-        alignItems: "center",
-        backgroundColor: "green"
     },
     containerSearch: {
         flexDirection: "row",
@@ -193,6 +185,22 @@ const styles = StyleSheet.create({
     actionMenu: {
         flexDirection: "row",
     },
+    containerCart: {
+        borderWidth: 2,
+        marginTop: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 7,
+        height: 100,
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        backgroundColor: "blue",
+    },
+    cartContent1: {
+        flexDirection: "row",
+    },
+    cartContent2: {},
 });
 
-export default ManageBarang
+export default Kasir;
