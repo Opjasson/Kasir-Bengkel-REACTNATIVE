@@ -5,16 +5,16 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Button,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import React, { useState } from "react";
+import Fontisto from "@expo/vector-icons/Fontisto";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -89,15 +89,6 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
             </View>
             {/* ------------ */}
 
-            <MenuDrawer
-                open={open}
-                position={"left"}
-                drawerContent={drawerContent()}
-                drawerPercentage={50}
-                animationTime={250}
-                overlay={true}
-                opacity={0.4}></MenuDrawer>
-
             <View style={styles.containerTambah}>
                 <TouchableOpacity style={styles.tambahBarang}>
                     <FontAwesome6 name="add" size={30} color="black" />
@@ -129,206 +120,31 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                         <Text>Stok : 100 pcs</Text>
                     </View>
                     <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
+                            <FontAwesome
+                                name="pencil"
+                                size={24}
+                                color="black"
+                            />
+                        </TouchableOpacity>
 
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
-                    </View>
-                </View>
-
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
-                        </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
+                        <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
+                            <Fontisto name="trash" size={24} color="black" />
+                        </TouchableOpacity>
                     </View>
                 </View>
 
                 {/* ------------ */}
             </ScrollView>
             {/* ---------- */}
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={drawerContent()}
+                drawerPercentage={50}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
         </View>
     );
 }
