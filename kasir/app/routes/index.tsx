@@ -10,11 +10,10 @@ const Route = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="kasir" component={Kasir} />
             <Stack.Screen name="manage-barang" component={ManageBarang} />
-            <Stack.Screen name="tambah-barang" component={ManageBarang} />
             <Stack.Screen
                 options={{
                     headerShown: true,
-                    headerTitle: "Kembali",
+                    headerTitle: "Ubah barang",
                 }}
                 name="ubah-barang"
                 component={Ubahbarang}
@@ -22,7 +21,7 @@ const Route = () => {
             <Stack.Screen
                 options={{
                     headerShown: true,
-                    headerTitle: "Kembali",
+                    headerTitle: "Tambah barang",
                 }}
                 name="tambah-barang"
                 component={TambahBarang}

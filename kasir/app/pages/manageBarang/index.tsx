@@ -90,7 +90,7 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
             {/* ------------ */}
 
             <View style={styles.containerTambah}>
-                <TouchableOpacity style={styles.tambahBarang}>
+                <TouchableOpacity style={styles.tambahBarang} onPress={() => navigation.navigate("tambah-barang")}>
                     <FontAwesome6 name="add" size={30} color="black" />
                     <Text>Tambah</Text>
                 </TouchableOpacity>
