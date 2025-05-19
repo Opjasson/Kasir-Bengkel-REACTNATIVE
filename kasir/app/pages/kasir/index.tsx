@@ -1,10 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 const Kasir = () => {
   return (
     <View>
-      
+      <Text>Hallo</Text>
     </View>
   )
 }
