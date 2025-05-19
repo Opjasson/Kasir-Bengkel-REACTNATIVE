@@ -120,7 +120,7 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                         <Text>Stok : 100 pcs</Text>
                     </View>
                     <View style={styles.actionMenu}>
-                        <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
+                        <TouchableOpacity onPress={() => navigation.navigate("ubah-barang")} style={styles.menuIcon}>
                             <FontAwesome
                                 name="pencil"
                                 size={24}
