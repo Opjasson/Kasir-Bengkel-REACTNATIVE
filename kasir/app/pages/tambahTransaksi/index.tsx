@@ -80,19 +80,18 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             <ScrollView>
                 {/* menu bagian */}
                 <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
+                    <View>
+                        <Text style={styles.menu1}>Oli Fastron</Text>
+                        <Text style={styles.menu2}>Rp. 50.000</Text>
+                        <Text style={styles.menu3}>Stok : 100 pcs</Text>
                     </View>
                     <View style={styles.actionMenu}>
                         <View style={styles.menuIcon}>
+                            <Entypo name="minus" size={30} color="black" />
+                        </View>
+                        <View style={styles.menuIcon}>
                             <FontAwesome6 name="add" size={30} color="black" />
                         </View>
-
-                        {/* <View style={styles.menuIcon}>
-                        <Fontisto name="trash" size={24} color="black" />
-                    </View> */}
                     </View>
                 </View>
 
@@ -182,22 +181,36 @@ const styles = StyleSheet.create({
         width: 270,
     },
     containerMenu: {
-        borderWidth: 2,
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: 10,
+        backgroundColor: "#FFF085",
+        padding: 5,
     },
     menuIcon: {
         fontSize: 30,
         borderWidth: 2,
+        backgroundColor: "#F8F4E1",
         paddingHorizontal: 10,
         justifyContent: "center",
     },
     trashIcon: {
         fontSize: 30,
     },
-    menu: {},
+    menu1: {
+        fontSize: 18,
+        fontWeight: "800"
+    },
+    menu2: {
+        fontSize: 15
+    },
+    menu3: {
+        fontSize: 13
+    },
     actionMenu: {
         flexDirection: "row",
+        width: 115,
+        gap: 5
     },
     containerCart: {
         flexDirection: "row",
@@ -215,12 +228,12 @@ const styles = StyleSheet.create({
     cartContent1: {
         flexDirection: "row",
         width: 120,
-        gap: 5
+        gap: 5,
     },
     cartContent2: {
         fontSize: 18,
         fontWeight: "700",
-        color: "white"
+        color: "white",
     },
 });
 
