@@ -75,7 +75,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 open={open}
                 position={"left"}
                 drawerContent={sideBarContent()}
-                drawerPercentage={50}
+                drawerPercentage={70}
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
