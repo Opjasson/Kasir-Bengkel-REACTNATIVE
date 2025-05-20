@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
     ScrollView,
+    StatusBar,
     StyleSheet,
     Text,
     TextInput,
@@ -48,15 +49,16 @@ const Kasir: React.FC<props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar backgroundColor={"#27548A"} barStyle={"light-content"} />
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
                 <Ionicons
                     name="menu"
-                    size={24}
-                    color="black"
+                    size={30}
+                    color="white"
                     onPress={() => toggleOpen()}
                 />
-                <Text>Transaksi Baru</Text>
+                <Text style={styles.headTitle}>Transaksi Baru</Text>
             </View>
             {/* ------------ */}
 
@@ -111,8 +113,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 activeOpacity={1}
                 onPress={() => alert("hallo")}>
                 <View style={styles.cartContent1}>
-                    <AntDesign name="shoppingcart" size={24} color="black" />
-                    <Text>Pcs : 2</Text>
+                    <AntDesign name="shoppingcart" size={28} color="white" />
+                    <Text style={styles.cartContent2}>Pcs : 2</Text>
                 </View>
 
                 <Text style={styles.cartContent2}>Total : Rp.20000</Text>
@@ -157,15 +159,27 @@ const styles = StyleSheet.create({
     headContainer: {
         flexDirection: "row",
         position: "relative",
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        backgroundColor: "#27548A",
+    },
+    headTitle: {
+        fontSize: 20,
+        marginLeft: 30,
+        color: "white",
     },
     containerSearch: {
         flexDirection: "row",
-        borderWidth: 3,
         alignItems: "center",
+        marginHorizontal: "auto",
+        marginTop: 10,
+        backgroundColor: "#F8F4E1",
+        paddingHorizontal: 5,
+        borderRadius: 10,
+        elevation: 5,
     },
     searchHotel: {
         width: 270,
-        borderWidth: 2,
     },
     containerMenu: {
         borderWidth: 2,
@@ -186,21 +200,28 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     containerCart: {
-        borderWidth: 2,
-        marginTop: 10,
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 7,
-        height: 100,
+        paddingHorizontal: 10,
+        height: 70,
         width: "100%",
         position: "absolute",
         bottom: 0,
-        backgroundColor: "blue",
+        backgroundColor: "#27548A",
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingTop: 5,
     },
     cartContent1: {
         flexDirection: "row",
+        width: 120,
+        gap: 5
     },
-    cartContent2: {},
+    cartContent2: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "white"
+    },
 });
 
 export default Kasir;
