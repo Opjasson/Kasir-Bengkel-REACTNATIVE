@@ -50,11 +50,11 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
             <View style={styles.headContainer}>
                 <Ionicons
                     name="menu"
-                    size={24}
-                    color="black"
+                    size={30}
+                    color="white"
                     onPress={() => toggleOpen()}
                 />
-                <Text>Manage Barang</Text>
+                <Text style={styles.headTitle}>Manage Barang</Text>
             </View>
             {/* ------------ */}
 
@@ -84,21 +84,21 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 {/* menu bagian */}
                 <View style={styles.containerMenu}>
                     <View style={styles.menu}>
-                        <Text>Oli Fastron</Text>
-                        <Text>Rp. 50.000</Text>
-                        <Text>Stok : 100 pcs</Text>
+                        <Text style={styles.menu1}>Oli Fastron</Text>
+                        <Text style={styles.menu2}>Rp. 50.000</Text>
+                        <Text style={styles.menu3}>Stok : 100 pcs</Text>
                     </View>
                     <View style={styles.actionMenu}>
                         <TouchableOpacity onPress={() => navigation.navigate("ubah-barang")} style={styles.menuIcon}>
                             <FontAwesome
                                 name="pencil"
-                                size={24}
+                                size={30}
                                 color="black"
                             />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
-                            <Fontisto name="trash" size={24} color="black" />
+                            <Fontisto name="trash" size={30} color="black" />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -158,11 +158,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         backgroundColor: "#27548A",
     },
+    headTitle: {
+        fontSize: 20,
+        marginLeft: 30,
+        color: "white",
+    },
     containerTambah: {
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
     },
     tambahBarang: {
         flexDirection: "row",
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
         gap: 5,
         height: 40,
         paddingHorizontal: 5,
-        marginTop: 5
+        marginTop: 5,
     },
     containerSearch: {
         flexDirection: "row",
@@ -187,13 +192,26 @@ const styles = StyleSheet.create({
         width: 240,
     },
     containerMenu: {
-        borderWidth: 2,
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: 10,
+        backgroundColor: "#FFF085",
+        padding: 5,
+    },
+    menu1: {
+        fontSize: 18,
+        fontWeight: "800",
+    },
+    menu2: {
+        fontSize: 15,
+    },
+    menu3: {
+        fontSize: 13,
     },
     menuIcon: {
         fontSize: 30,
         borderWidth: 2,
+        backgroundColor: "#F8F4E1",
         paddingHorizontal: 10,
         justifyContent: "center",
     },
@@ -203,6 +221,8 @@ const styles = StyleSheet.create({
     menu: {},
     actionMenu: {
         flexDirection: "row",
+        width: 115,
+        gap: 5,
     },
 });
 
