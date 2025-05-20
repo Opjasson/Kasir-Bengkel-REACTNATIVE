@@ -19,7 +19,7 @@ const DrawerContent: React.FC<props> = ({
     return (
         <View style={styles.animatedBox}>
             <View style={styles.sidebarHead}>
-                <FontAwesome5 name="cash-register" size={28} color="black" />
+                <FontAwesome5 name="cash-register" size={28} color="white" />
                 <Text style={styles.sidebarTitle}>Kasir Bengkel</Text>
             </View>
 
@@ -55,24 +55,25 @@ const DrawerContent: React.FC<props> = ({
 const styles = StyleSheet.create({
     animatedBox: {
         flex: 1,
-        backgroundColor: "#38C8EC",
-        padding: 10,
+        backgroundColor: "#FFF8F8",
     },
     sidebarHead: {
         flexDirection: "row",
-        borderWidth: 2,
-        justifyContent: "space-between",
+        gap: 15,
+        backgroundColor: "#27548A",
+        padding: 15
     },
     sidebarTitle: {
         fontSize: 17,
         fontWeight: "700",
+        color: "white"
     },
     sidebarMain: {
-        borderWidth: 2,
         flexDirection: "column",
         justifyContent: "space-between",
         height: "50%",
         marginTop: 20,
+        padding: 10
     },
     sidebarMenu: {
         fontSize: 20,

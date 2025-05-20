@@ -60,8 +60,8 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
 
             <View style={styles.containerTambah}>
                 <TouchableOpacity style={styles.tambahBarang} onPress={() => navigation.navigate("tambah-barang")}>
-                    <FontAwesome6 name="add" size={30} color="black" />
-                    <Text>Tambah</Text>
+                    <FontAwesome6 name="add" size={25} color="white" />
+                    <Text style={{ fontSize: 17, color: "white" }}>Tambah</Text>
                 </TouchableOpacity>
 
                 {/* bagian pencarian barang */}
@@ -142,11 +142,11 @@ const styles = StyleSheet.create({
     },
     sidebarMenu: {
         fontSize: 20,
-        fontWeight: "800"
+        fontWeight: "800",
     },
     tutupSidebar: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     container: {
         flex: 1,
@@ -154,26 +154,37 @@ const styles = StyleSheet.create({
     headContainer: {
         flexDirection: "row",
         position: "relative",
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        backgroundColor: "#27548A",
     },
     containerTambah: {
-        flexDirection: "row"
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        paddingHorizontal: 5
     },
     tambahBarang: {
-        flexDirection : "row",
-        borderWidth: 2,
-        width: 100,
-        borderRadius: 30,
+        flexDirection: "row",
+        borderRadius: 10,
         alignItems: "center",
-        backgroundColor: "green"
+        backgroundColor: "green",
+        gap: 5,
+        height: 40,
+        paddingHorizontal: 5,
+        marginTop: 5
     },
     containerSearch: {
         flexDirection: "row",
-        borderWidth: 3,
         alignItems: "center",
+        marginTop: 10,
+        backgroundColor: "#F8F4E1",
+        paddingHorizontal: 5,
+        borderRadius: 10,
+        elevation: 5,
     },
     searchHotel: {
-        width: 270,
-        borderWidth: 2,
+        width: 240,
     },
     containerMenu: {
         borderWidth: 2,
