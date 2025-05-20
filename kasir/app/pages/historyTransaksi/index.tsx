@@ -43,11 +43,11 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             <View style={styles.headContainer}>
                 <Ionicons
                     name="menu"
-                    size={24}
-                    color="black"
+                    size={30}
+                    color="white"
                     onPress={() => toggleOpen()}
                 />
-                <Text>History Transaksi</Text>
+                <Text style={styles.headTitle}>History Transaksi</Text>
             </View>
             {/* ------------ */}
 
@@ -57,12 +57,12 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 <TouchableOpacity
                     onPress={() => navigation.navigate("detail-transaksi")}
                     style={styles.containerBarang}>
-                    <Text>30 jan 2025</Text>
+                    <Text style={{ textDecorationLine: "underline" }}>30 jan 2025</Text>
                     <View style={styles.barisInfo}>
                         <Text>Rp.500,000</Text>
 
                         <View style={styles.barisInfo2}>
-                            <Text>#1</Text>
+                            <Text style={{ fontWeight : "700", fontSize: 20 }}>#1</Text>
                             <Text>Oli repsol:1 oli yamaha:1</Text>
                         </View>
                     </View>
@@ -119,6 +119,14 @@ const styles = StyleSheet.create({
     headContainer: {
         flexDirection: "row",
         position: "relative",
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        backgroundColor: "#27548A",
+    },
+    headTitle: {
+        fontSize: 20,
+        marginLeft: 30,
+        color: "white",
     },
     containerSearch: {
         flexDirection: "row",
@@ -130,8 +138,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     containerBarang: {
-        borderWidth: 2,
-        paddingHorizontal: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 10,
+        backgroundColor: "#FFF085",
+        padding: 5,
+        paddingVertical: 15
     },
     barisInfo: {
         flexDirection: "row",
@@ -139,6 +151,8 @@ const styles = StyleSheet.create({
     },
     barisInfo2: {
         alignItems: "flex-end",
+        flexDirection: "column",
+        gap: 15
     },
 });
 
