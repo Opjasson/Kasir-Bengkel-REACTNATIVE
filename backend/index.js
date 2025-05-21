@@ -1,5 +1,6 @@
 import express from "express";
-import barang from "./models/barang.js";
+import barang from "./models/barangModel.js";
+import barang_Route from "./routes/barangRoute.js"
 
 const app = express();
 
@@ -7,8 +8,8 @@ const app = express();
 //     await barang.sync()
 // })()
 
-
 app.use(express.json());
+app.use(barang_Route)
 
 
 app.listen(5000, (error) => {
