@@ -1,8 +1,9 @@
-import express from "express"
-import { createBarang } from "../controllers/barangController.js"
+import express from "express";
+import { createBarang, getBarang } from "../controllers/barangController.js";
 
-const route = express.Router()
+const route = express.Router();
 
-route.post("/barang",createBarang)
+route.get("/barang", getBarang);
+route.post("/barang", createBarang);
 
 export default route;
