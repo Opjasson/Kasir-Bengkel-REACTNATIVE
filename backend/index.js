@@ -1,6 +1,12 @@
 import express from "express";
+import barang from "./models/barang.js";
 
 const app = express();
+
+// (async() => {
+//     await barang.sync()
+// })()
+
 
 app.use(express.json());
 
