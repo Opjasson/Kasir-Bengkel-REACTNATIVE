@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ScrollView,
     StatusBar,
@@ -18,22 +18,31 @@ import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
 
-
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
 const Kasir: React.FC<props> = ({ navigation }) => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<
+        {
+            nama: string;
+            harga: number;
+            stok: number;
+        }[]
+    >([]);
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
 
     const getDataBarang = async () => {
         const response = await fetch("http://192.168.85.220:5000/barang");
-        const data = response.json();
-        
+        const barang = await response.json();
+        setData(barang);
     };
+
+    useEffect(() => {
+        getDataBarang();
+    }, []);
 
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
@@ -90,21 +99,27 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                <View style={styles.containerMenu}>
-                    <View>
-                        <Text style={styles.menu1}>Oli Fastron</Text>
-                        <Text style={styles.menu2}>Rp. 50.000</Text>
-                        <Text style={styles.menu3}>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <View style={styles.menuIcon}>
-                            <Entypo name="minus" size={30} color="black" />
+                {data.map((item, index) => (
+                    <View key={index} style={styles.containerMenu}>
+                        <View>
+                            <Text style={styles.menu1}>{item.nama}</Text>
+                            <Text style={styles.menu2}>Rp. {item.harga}</Text>
+                            <Text style={styles.menu3}>Stok : {item.stok} pcs</Text>
                         </View>
-                        <View style={styles.menuIcon}>
-                            <FontAwesome6 name="add" size={30} color="black" />
+                        <View style={styles.actionMenu}>
+                            <View style={styles.menuIcon}>
+                                <Entypo name="minus" size={30} color="black" />
+                            </View>
+                            <View style={styles.menuIcon}>
+                                <FontAwesome6
+                                    name="add"
+                                    size={30}
+                                    color="black"
+                                />
+                            </View>
                         </View>
                     </View>
-                </View>
+                ))}
 
                 {/* ------------ */}
             </ScrollView>
