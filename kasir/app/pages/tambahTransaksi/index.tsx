@@ -168,36 +168,43 @@ const Kasir: React.FC<props> = ({ navigation }) => {
 
                             <TouchableOpacity
                                 onPress={() => addCart(item.id)}
-                                style={styles.menuIcon}>
-                                {cart.length === 0 ? (
-                                    <FontAwesome6
-                                        style={{ borderWidth: 2 }}
-                                        key={index}
-                                        name="add"
-                                        size={30}
-                                        color="black"
-                                    />
-                                ) : (
-                                    cart.map((a, index) =>
-                                        a.id === item.id ? (
-                                            <Text
-                                                style={{
-                                                    paddingHorizontal: 9,
-                                                }}
-                                                key={index}>
-                                                {a.qty}
-                                            </Text>
-                                        ) : (
-                                            <FontAwesome6
-                                                style={{ display: "none" }}
-                                                key={index}
-                                                name="add"
-                                                size={30}
-                                                color="black"
-                                            />
-                                        )
-                                    )
-                                )}
+                                style={{
+                                    borderWidth: 2,
+                                    backgroundColor: "#F8F4E1",
+                                    paddingHorizontal: 10,
+                                    justifyContent: "center",
+                                    display: cart.length > 0 ? "flex" : "none",
+                                }}>
+                                {cart.map((a) => (
+                                    <Text
+                                        style={{
+                                            paddingHorizontal: 9,
+                                            display:
+                                                a.id === item.id
+                                                    ? "flex"
+                                                    : "none",
+                                        }}
+                                        key={a.id}>
+                                        {a.qty + 1}
+                                    </Text>
+                                ))}
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                key={index}
+                                style={{
+                                    borderWidth: 2,
+                                    backgroundColor: "#F8F4E1",
+                                    paddingHorizontal: 10,
+                                    justifyContent: "center",
+                                    display : cart.find((f) => f.id === item.id) ? "none" : "flex"
+                                }}
+                                onPress={() => addCart(item.id)}>
+                                <FontAwesome6
+                                    name="add"
+                                    size={30}
+                                    color="black"
+                                />
                             </TouchableOpacity>
 
                             {/* icon plus */}
@@ -321,7 +328,8 @@ const styles = StyleSheet.create({
     },
     actionMenu: {
         flexDirection: "row",
-        width: 115,
+        // width: 115,
+        width: 200,
         gap: 5,
     },
     containerCart: {
