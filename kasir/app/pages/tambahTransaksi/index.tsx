@@ -30,8 +30,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             stok: number;
         }[]
     >([]);
-    const [find, setFind] = useState<string>();
-    const [findLower, setFindLower] = useState<string>("");
+    const [find, setFind] = useState<string>("");
     const [open, setOpen] = useState(false);
 
     const getDataBarang = async () => {
@@ -40,10 +39,19 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         setData(barang);
     };
 
+    
+
     useEffect(() => {
         getDataBarang();
     }, []);
 
+    const filterData = data.filter((item) => {
+        const words = find?.split(" ");
+        return words?.some((word) => item.nama.includes(word));
+    });
+
+    console.log(filterData);
+    
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {
@@ -88,8 +96,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                     placeholder="Cari Hotel"
                     style={styles.searchHotel}
                     onChangeText={(text) => {
-                        setFind(text);
-                        setFindLower(text.toLowerCase());
+                        setFind(text.toLowerCase());
                     }}
                 />
                 <Entypo name="magnifying-glass" size={30} color="black" />
@@ -99,12 +106,14 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                {data.map((item, index) => (
+                {filterData.map((item, index) => (
                     <View key={index} style={styles.containerMenu}>
                         <View>
                             <Text style={styles.menu1}>{item.nama}</Text>
                             <Text style={styles.menu2}>Rp. {item.harga}</Text>
-                            <Text style={styles.menu3}>Stok : {item.stok} pcs</Text>
+                            <Text style={styles.menu3}>
+                                Stok : {item.stok} pcs
+                            </Text>
                         </View>
                         <View style={styles.actionMenu}>
                             <View style={styles.menuIcon}>
