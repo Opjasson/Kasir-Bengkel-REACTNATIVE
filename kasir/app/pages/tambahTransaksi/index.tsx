@@ -25,6 +25,7 @@ interface props {
 const Kasir: React.FC<props> = ({ navigation }) => {
     const [data, setData] = useState<
         {
+            id: number;
             nama: string;
             harga: number;
             stok: number;
@@ -32,6 +33,16 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     >([]);
     const [find, setFind] = useState<string>("");
     const [open, setOpen] = useState(false);
+    const [stok, setStok] = useState<number>();
+    const [cart, setCart] = useState<
+        {
+            id: number;
+            nama: string;
+            harga: number;
+            stok?: number;
+            qty: number;
+        }[]
+    >([]);
 
     const getDataBarang = async () => {
         const response = await fetch("http://192.168.85.220:5000/barang");
@@ -39,19 +50,50 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         setData(barang);
     };
 
-    
-
     useEffect(() => {
         getDataBarang();
     }, []);
+
+    const addCart = (id: number) => {
+        if (cart.find((item) => item.id === id)) {
+            setCart(
+                cart.map((barang) =>
+                    barang.id === id
+                        ? { ...barang, qty: barang.qty + 1 }
+                        : barang
+                )
+            );
+        } else {
+            const barang_Masuk = data.filter((item) => item.id === id);
+            barang_Masuk.map((a) =>
+                setCart([...cart, { id, nama: a.nama, qty: 1, harga: a.harga }])
+            );
+        }
+    };
+
+    const minQty = (id: number) => {
+        if (cart.find((item) => item.id === id)) {
+            setCart(
+                cart.map((barang) =>
+                    barang.id === id
+                        ? { ...barang, qty: barang.qty - 1 }
+                        : barang
+                )
+            );
+        } else {
+            const barang_Masuk = data.filter((item) => item.id === id);
+            barang_Masuk.map((a) =>
+                setCart([...cart, { id, nama: a.nama, qty: 1, harga: a.harga }])
+            );
+        }
+    };
+    console.log(cart);
 
     const filterData = data.filter((item) => {
         const words = find?.split(" ");
         return words?.some((word) => item.nama.includes(word));
     });
 
-    console.log(filterData);
-    
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {
@@ -116,16 +158,51 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                             </Text>
                         </View>
                         <View style={styles.actionMenu}>
-                            <View style={styles.menuIcon}>
+                            {/* icon minus */}
+                            <TouchableOpacity
+                                style={styles.menuIcon}
+                                onPress={() => minQty(item.id)}>
                                 <Entypo name="minus" size={30} color="black" />
-                            </View>
-                            <View style={styles.menuIcon}>
-                                <FontAwesome6
-                                    name="add"
-                                    size={30}
-                                    color="black"
-                                />
-                            </View>
+                            </TouchableOpacity>
+                            {/* --------- */}
+
+                            <TouchableOpacity
+                                onPress={() => addCart(item.id)}
+                                style={styles.menuIcon}>
+                                {cart.length === 0 ? (
+                                    <FontAwesome6
+                                        style={{ borderWidth: 2 }}
+                                        key={index}
+                                        name="add"
+                                        size={30}
+                                        color="black"
+                                    />
+                                ) : (
+                                    cart.map((a, index) =>
+                                        a.id === item.id ? (
+                                            <Text
+                                                style={{
+                                                    paddingHorizontal: 9,
+                                                }}
+                                                key={index}>
+                                                {a.qty}
+                                            </Text>
+                                        ) : (
+                                            <FontAwesome6
+                                                style={{ display: "none" }}
+                                                key={index}
+                                                name="add"
+                                                size={30}
+                                                color="black"
+                                            />
+                                        )
+                                    )
+                                )}
+                            </TouchableOpacity>
+
+                            {/* icon plus */}
+
+                            {/* ---------- */}
                         </View>
                     </View>
                 ))}
