@@ -2,6 +2,7 @@ import express from "express";
 import barang from "./models/barangModel.js";
 import barang_Route from "./routes/barangRoute.js";
 import dotenv from "dotenv";
+import cors from "cors"
 
 // (async() => {
 //     await barang.sync()
@@ -10,6 +11,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
+app.use(cors())
 app.use(express.json());
 
 app.use(barang_Route);

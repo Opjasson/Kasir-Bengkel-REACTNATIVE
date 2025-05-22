@@ -7,7 +7,6 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -19,15 +18,24 @@ import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
 
+
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
 const Kasir: React.FC<props> = ({ navigation }) => {
+    const [data, setData] = useState([]);
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
 
+    const getDataBarang = async () => {
+        const response = await fetch("http://192.168.85.220:5000/barang");
+        const data = response.json();
+        
+    };
+
+    // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {
             setOpen(true);
@@ -35,7 +43,9 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             setOpen(false);
         }
     };
+    // ---------------
 
+    // daftar menu sidebar
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -45,7 +55,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 onPress3={() => navigation.navigate("history-transaksi")}
             />
         );
-    }
+    };
+    // -------------
 
     return (
         <View style={styles.container}>
@@ -199,18 +210,18 @@ const styles = StyleSheet.create({
     },
     menu1: {
         fontSize: 18,
-        fontWeight: "800"
+        fontWeight: "800",
     },
     menu2: {
-        fontSize: 15
+        fontSize: 15,
     },
     menu3: {
-        fontSize: 13
+        fontSize: 13,
     },
     actionMenu: {
         flexDirection: "row",
         width: 115,
-        gap: 5
+        gap: 5,
     },
     containerCart: {
         flexDirection: "row",
