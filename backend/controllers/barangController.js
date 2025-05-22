@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import barang from "../models/barangModel.js";
 
-
 export const createBarang = async (req, res) => {
     const { nama, harga, stok } = req.body;
 
@@ -17,40 +16,42 @@ export const createBarang = async (req, res) => {
     }
 };
 
-
 export const getBarang = async (req, res) => {
     try {
         const response = await barang.findAll({
-            attributes: ["id","nama","harga","stok"]
-        })
-        res.status(200).json(response)
+            attributes: ["id", "nama", "harga", "stok"],
+        });
+        res.status(200).json(response);
     } catch (error) {
-        res.status(400).json({msg : error.message})
+        res.status(400).json({ msg: error.message });
     }
-}
+};
 
 export const getBarangById = async (req, res) => {
     try {
         const response = await barang.findOne({
-            where : {
-                id : req.params.id
-            }
-        })
-        res.status(200).json(response)
+            where: {
+                id: req.params.id,
+            },
+        });
+
+        if (!response) res.status(400).json({ msg: "Data tidak tersedia!" });
+
+        res.status(200).json(response);
     } catch (error) {
-        res.status(400).json({msg : error.message})
+        res.status(400).json({ msg: error.message });
     }
-}
+};
 
 export const deleteBarangById = async (req, res) => {
     try {
         await barang.destroy({
-            where : {
-                id : req.params.id
-            }
-        })
-        res.status(200).json({msg : "Data berhasil dihapus!"})
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json({ msg: "Data berhasil dihapus!" });
     } catch (error) {
-        res.status(400).json({msg : error.message})
+        res.status(400).json({ msg: error.message });
     }
-}
+};
