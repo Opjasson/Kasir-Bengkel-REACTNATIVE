@@ -41,3 +41,16 @@ export const getBarangById = async (req, res) => {
         res.status(400).json({msg : error.message})
     }
 }
+
+export const deleteBarangById = async (req, res) => {
+    try {
+        await barang.destroy({
+            where : {
+                id : req.params.id
+            }
+        })
+        res.status(200).json({msg : "Data berhasil dihapus!"})
+    } catch (error) {
+        res.status(400).json({msg : error.message})
+    }
+}
