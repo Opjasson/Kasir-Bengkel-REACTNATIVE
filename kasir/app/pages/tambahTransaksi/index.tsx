@@ -111,7 +111,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         const words = find?.split(" ");
         return words?.some((word) => item.nama.includes(word));
     });
-
+    
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {

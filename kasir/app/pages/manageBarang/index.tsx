@@ -22,7 +22,6 @@ interface props {
 
 const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>();
-    const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
     const [data, setData] = useState<
         {
@@ -50,6 +49,16 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             setOpen(false);
         }
     };
+
+    const filterData = data.filter((item) => {
+        if (find) {
+            const words = find?.split(" ");
+            return words?.some((word) => item.nama.includes(word));
+        }else {
+            return data
+        }
+        
+    });
 
     const sideBarContent = () => {
         return (
@@ -90,8 +99,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                         placeholder="Cari Hotel"
                         style={styles.searchHotel}
                         onChangeText={(text) => {
-                            setFind(text);
-                            setFindLower(text.toLowerCase());
+                            setFind(text.toLowerCase());
                         }}
                     />
                     <Entypo name="magnifying-glass" size={30} color="black" />
@@ -102,7 +110,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                {data.map((item, index) => (
+                {filterData.map((item, index) => (
                     <View style={styles.containerMenu} key={index}>
                         <View style={styles.menu}>
                             <Text style={styles.menu1}>{item.nama}</Text>
