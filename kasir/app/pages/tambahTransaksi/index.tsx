@@ -72,20 +72,18 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     };
 
     const minQty = (id: number) => {
-        if (cart.find((item) => item.id === id)) {
-            setCart(
-                cart.map((barang) =>
+        setCart(
+            cart
+                .map((barang) =>
                     barang.id === id
-                        ? { ...barang, qty: barang.qty - 1 }
+                        ? {
+                              ...barang,
+                              qty: barang.qty > 0 ? barang.qty - 1 : 0,
+                          }
                         : barang
                 )
-            );
-        } else {
-            const barang_Masuk = data.filter((item) => item.id === id);
-            barang_Masuk.map((a) =>
-                setCart([...cart, { id, nama: a.nama, qty: 1, harga: a.harga }])
-            );
-        }
+                .filter((barang) => barang.qty > 0)
+        );
     };
     console.log(cart);
 
@@ -173,31 +171,35 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                                     backgroundColor: "#F8F4E1",
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
-                                    display: cart.length > 0 ? "flex" : "none",
+                                    display: cart.find((k) => k.id === item.id)
+                                        ? "flex"
+                                        : "none",
                                 }}>
-                                {cart.map((a) => (
+                                {cart.find((a) => a.id === item.id) ? (
                                     <Text
                                         style={{
                                             paddingHorizontal: 9,
-                                            display:
-                                                a.id === item.id
-                                                    ? "flex"
-                                                    : "none",
-                                        }}
-                                        key={a.id}>
-                                        {a.qty + 1}
+                                            display: "flex",
+                                        }}>
+                                        {
+                                            cart.find((a) => a.id === item.id)
+                                                ?.qty
+                                        }
                                     </Text>
-                                ))}
+                                ) : (
+                                    ""
+                                )}
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                key={index}
                                 style={{
                                     borderWidth: 2,
                                     backgroundColor: "#F8F4E1",
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
-                                    display : cart.find((f) => f.id === item.id) ? "none" : "flex"
+                                    display: cart.some((a) => a.id === item.id)
+                                        ? "none"
+                                        : "flex",
                                 }}
                                 onPress={() => addCart(item.id)}>
                                 <FontAwesome6
@@ -329,7 +331,8 @@ const styles = StyleSheet.create({
     actionMenu: {
         flexDirection: "row",
         // width: 115,
-        width: 200,
+        // width: 200,
+        borderWidth: 2,
         gap: 5,
     },
     containerCart: {
