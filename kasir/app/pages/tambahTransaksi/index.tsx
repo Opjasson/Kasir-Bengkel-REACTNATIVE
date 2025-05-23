@@ -33,6 +33,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     >([]);
     const [find, setFind] = useState<string>("");
     const [open, setOpen] = useState(false);
+    const [totalHarga, setTotalHarga] = useState<number>();
     const [stok, setStok] = useState<number>();
     const [cart, setCart] = useState<
         {
@@ -86,6 +87,18 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         );
     };
     console.log(cart);
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            const sum = cart.reduce((acc, item) => {
+                const product = data.find((e) => e.id === item.id);
+                return acc + product!.harga * item.qty
+            }, 0);
+            setTotalHarga(sum)
+        }else {
+            setTotalHarga(0)
+        }
+    }, [cart, data]);
 
     const filterData = data.filter((item) => {
         const words = find?.split(" ");
@@ -167,8 +180,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                             <TouchableOpacity
                                 onPress={() => addCart(item.id)}
                                 style={{
-                                    borderWidth: 2,
                                     backgroundColor: "#F8F4E1",
+                                    borderWidth: 2,
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
                                     display: cart.find((k) => k.id === item.id)
@@ -234,10 +247,10 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 onPress={() => alert("hallo")}>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
-                    <Text style={styles.cartContent2}>Pcs : 2</Text>
+                    <Text style={styles.cartContent2}>Pcs : {cart.length}</Text>
                 </View>
 
-                <Text style={styles.cartContent2}>Total : Rp.20000</Text>
+                <Text style={styles.cartContent2}>Total : Rp.{totalHarga}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -330,9 +343,6 @@ const styles = StyleSheet.create({
     },
     actionMenu: {
         flexDirection: "row",
-        // width: 115,
-        // width: 200,
-        borderWidth: 2,
         gap: 5,
     },
     containerCart: {
