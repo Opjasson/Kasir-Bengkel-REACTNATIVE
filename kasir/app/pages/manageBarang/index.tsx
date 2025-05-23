@@ -120,7 +120,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                         <View style={styles.actionMenu}>
                             <TouchableOpacity
                                 onPress={() =>
-                                    navigation.navigate("ubah-barang")
+                                    navigation.navigate("ubah-barang",{id : item.id})
                                 }
                                 style={styles.menuIcon}>
                                 <FontAwesome
