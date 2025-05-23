@@ -11,7 +11,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DrawerContent } from "@/app/components";
@@ -20,10 +20,28 @@ interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const ManageBarang : React.FC <props> = ({navigation}) => {
+const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>();
     const [findLower, setFindLower] = useState<string>("");
     const [open, setOpen] = useState(false);
+    const [data, setData] = useState<
+        {
+            id: number;
+            nama: string;
+            harga: number;
+            stok: number;
+        }[]
+    >([]);
+
+    const getDataBarang = async () => {
+        const response = await fetch("http://192.168.85.220:5000/barang");
+        const barang = await response.json();
+        setData(barang);
+    };
+
+    useEffect(() => {
+        getDataBarang();
+    }, []);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -59,7 +77,9 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
             {/* ------------ */}
 
             <View style={styles.containerTambah}>
-                <TouchableOpacity style={styles.tambahBarang} onPress={() => navigation.navigate("tambah-barang")}>
+                <TouchableOpacity
+                    style={styles.tambahBarang}
+                    onPress={() => navigation.navigate("tambah-barang")}>
                     <FontAwesome6 name="add" size={25} color="white" />
                     <Text style={{ fontSize: 17, color: "white" }}>Tambah</Text>
                 </TouchableOpacity>
@@ -82,26 +102,38 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                <View style={styles.containerMenu}>
-                    <View style={styles.menu}>
-                        <Text style={styles.menu1}>Oli Fastron</Text>
-                        <Text style={styles.menu2}>Rp. 50.000</Text>
-                        <Text style={styles.menu3}>Stok : 100 pcs</Text>
-                    </View>
-                    <View style={styles.actionMenu}>
-                        <TouchableOpacity onPress={() => navigation.navigate("ubah-barang")} style={styles.menuIcon}>
-                            <FontAwesome
-                                name="pencil"
-                                size={30}
-                                color="black"
-                            />
-                        </TouchableOpacity>
+                {data.map((item, index) => (
+                    <View style={styles.containerMenu} key={index}>
+                        <View style={styles.menu}>
+                            <Text style={styles.menu1}>{item.nama}</Text>
+                            <Text style={styles.menu2}>Rp. {item.harga}</Text>
+                            <Text style={styles.menu3}>Stok : {item.stok} pcs</Text>
+                        </View>
+                        <View style={styles.actionMenu}>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigation.navigate("ubah-barang")
+                                }
+                                style={styles.menuIcon}>
+                                <FontAwesome
+                                    name="pencil"
+                                    size={30}
+                                    color="black"
+                                />
+                            </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => navigation.navigate("")} style={styles.menuIcon}>
-                            <Fontisto name="trash" size={30} color="black" />
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("")}
+                                style={styles.menuIcon}>
+                                <Fontisto
+                                    name="trash"
+                                    size={30}
+                                    color="black"
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                ))}
 
                 {/* ------------ */}
             </ScrollView>
@@ -116,7 +148,7 @@ const ManageBarang : React.FC <props> = ({navigation}) => {
                 opacity={0.4}></MenuDrawer>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     animatedBox: {
@@ -226,4 +258,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ManageBarang
+export default ManageBarang;
