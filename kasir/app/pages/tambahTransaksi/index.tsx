@@ -34,6 +34,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>("");
     const [open, setOpen] = useState(false);
     const [totalHarga, setTotalHarga] = useState<number>();
+    const [qtyBarangBelanja, setQtyBarangBelanja] = useState<number>()
     const [stok, setStok] = useState<number>();
     const [cart, setCart] = useState<
         {
@@ -92,11 +93,17 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         if (cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
                 const product = data.find((e) => e.id === item.id);
-                return acc + product!.harga * item.qty
+                return acc + product!.harga * item.qty;
             }, 0);
-            setTotalHarga(sum)
-        }else {
-            setTotalHarga(0)
+            setTotalHarga(sum);
+
+            const sumJumlahBarang = cart.reduce((acc, item) => {
+                return acc + item.qty;
+            }, 0);
+            setQtyBarangBelanja(sumJumlahBarang);
+        } else {
+            setTotalHarga(0);
+            setQtyBarangBelanja(0)
         }
     }, [cart, data]);
 
@@ -247,7 +254,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 onPress={() => alert("hallo")}>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
-                    <Text style={styles.cartContent2}>Pcs : {cart.length}</Text>
+                    <Text style={styles.cartContent2}>Pcs : {qtyBarangBelanja}</Text>
                 </View>
 
                 <Text style={styles.cartContent2}>Total : Rp.{totalHarga}</Text>
