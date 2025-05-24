@@ -15,27 +15,34 @@ interface props {
 }
 
 const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
-    const [nama, setNama] = useState("");
-    const [harga, setHarga] = useState<number>();
-    const [stok, setStok] = useState<number>();
-
     // Get id menggunakan params di previos page
     const index = route.params?.id;
     const sendData = route.params?.data;
 
-    const getDataBarang = async () => {
-        const response = await fetch(
-            `http://192.168.85.220:5000/barang/${index}`
-        );
-        const barang = await response.json();
-        setNama(barang.nama)
-        setHarga(barang.harga)
-        setStok(barang.stok)
+    const [nama, setNama] = useState<string>(sendData.nama);
+    const [harga, setHarga] = useState<number>(sendData.harga);
+    const [stok, setStok] = useState<number>(sendData.stok);
+
+    const updateBarang = async () => {
+        try {
+            await fetch(`http://192.168.85.220:5000/barang/${index}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nama: nama,
+                    harga: harga,
+                    stok: stok,
+                }),
+            });
+            alert("Barang berhasil dirubah!");
+            navigation.navigate("manage-barang");
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    useEffect(() => {
-        getDataBarang();
-    },);
     return (
         <ScrollView>
             <View style={styles.containerForm}>
@@ -48,6 +55,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     }}
                     keyboardType="default"
                     placeholder="Nama barang"
+                    onChangeText={(text) => setNama(text)}
                     value={nama}
                 />
 
@@ -60,6 +68,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     }}
                     keyboardType="numeric"
                     placeholder="Rp."
+                    onChangeText={(text) => setHarga(Number(text))}
                     value={harga + ""}
                 />
 
@@ -72,12 +81,13 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     }}
                     placeholder="/Pcs"
                     keyboardType="numeric"
+                    onChangeText={(text) => setStok(Number(text))}
                     value={stok + ""}
                 />
             </View>
             {/* End Form */}
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={updateBarang}>
                 <Text style={{ color: "white" }}>Kirim</Text>
             </TouchableOpacity>
         </ScrollView>
