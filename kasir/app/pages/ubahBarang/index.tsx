@@ -1,5 +1,5 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -23,6 +23,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
     const [harga, setHarga] = useState<number>(sendData.harga);
     const [stok, setStok] = useState<number>(sendData.stok);
 
+    // function mengubah barang
     const updateBarang = async () => {
         try {
             await fetch(`http://192.168.85.220:5000/barang/${index}`, {
@@ -42,6 +43,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
             console.log(error);
         }
     };
+    // -----------------
 
     return (
         <ScrollView>
