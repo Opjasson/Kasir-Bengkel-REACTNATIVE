@@ -64,7 +64,11 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             await fetch(`http://192.168.85.220:5000/barang/${id}`, {
                 method: "DELETE",
             });
-            setRefresh(true)
+            if (refresh) {
+                setRefresh(false);
+            } else {
+                setRefresh(true);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -88,8 +92,6 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             ]
         );
     };
-
-   
 
     const filterData = data.filter((item) => {
         if (find) {
@@ -153,7 +155,9 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                 {filterData.map((item, index) => (
                     <View style={styles.containerMenu} key={index}>
                         <View style={styles.menu}>
-                            <Text style={styles.menu1}>{item.nama}</Text>
+                            <Text style={styles.menu1}>
+                                {item.nama.toLocaleUpperCase()}
+                            </Text>
                             <Text style={styles.menu2}>Rp. {item.harga}</Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs

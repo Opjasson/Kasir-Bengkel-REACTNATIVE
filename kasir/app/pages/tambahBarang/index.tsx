@@ -50,7 +50,7 @@ const TambahBarang: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="default"
                     placeholder="Nama barang"
-                    onChangeText={(text) => setNama(text)}
+                    onChangeText={(text) => setNama(text.toLowerCase())}
                 />
 
                 <Text style={styles.textLabel}>Harga</Text>

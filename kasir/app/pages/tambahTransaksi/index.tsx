@@ -169,7 +169,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 {filterData.map((item, index) => (
                     <View key={index} style={styles.containerMenu}>
                         <View>
-                            <Text style={styles.menu1}>{item.nama}</Text>
+                            <Text style={styles.menu1}>{item.nama.toLocaleUpperCase()}</Text>
                             <Text style={styles.menu2}>Rp. {item.harga}</Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs
