@@ -1,4 +1,6 @@
 import {
+    Alert,
+    RootViewStyleProvider,
     ScrollView,
     StyleSheet,
     Text,
@@ -9,7 +11,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import React, { useEffect, useState } from "react";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -18,6 +20,10 @@ import { DrawerContent } from "@/app/components";
 
 interface props {
     navigation: NavigationProp<any, any>;
+}
+
+interface RootStackParamList {
+    "manage-barang": undefined;
 }
 
 const ManageBarang: React.FC<props> = ({ navigation }) => {
@@ -31,6 +37,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             stok: number;
         }[]
     >([]);
+    const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
         const response = await fetch("http://192.168.85.220:5000/barang");
@@ -40,7 +47,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     useEffect(() => {
         getDataBarang();
-    }, []);
+    }, [refresh]);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -50,14 +57,47 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
         }
     };
 
+    const pindahHalaman = useNavigation<NavigationProp<RootStackParamList>>();
+
+    const handleDelete = async (id: number) => {
+        try {
+            await fetch(`http://192.168.85.220:5000/barang/${id}`, {
+                method: "DELETE",
+            });
+            setRefresh(true)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const info = (id: number) => {
+        Alert.alert(
+            "Hapus data ini?",
+            "Pilih Ya untuk hapus pilih tidak untuk kembali",
+            [
+                {
+                    text: "Ya",
+                    onPress: () => handleDelete(id),
+                    style: "default",
+                },
+                {
+                    text: "Tidak",
+                    onPress: () => pindahHalaman.navigate("manage-barang"),
+                    style: "default",
+                },
+            ]
+        );
+    };
+
+   
+
     const filterData = data.filter((item) => {
         if (find) {
             const words = find?.split(" ");
             return words?.some((word) => item.nama.includes(word));
-        }else {
-            return data
+        } else {
+            return data;
         }
-        
     });
 
     const sideBarContent = () => {
@@ -115,12 +155,17 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                         <View style={styles.menu}>
                             <Text style={styles.menu1}>{item.nama}</Text>
                             <Text style={styles.menu2}>Rp. {item.harga}</Text>
-                            <Text style={styles.menu3}>Stok : {item.stok} pcs</Text>
+                            <Text style={styles.menu3}>
+                                Stok : {item.stok} pcs
+                            </Text>
                         </View>
                         <View style={styles.actionMenu}>
                             <TouchableOpacity
                                 onPress={() =>
-                                    navigation.navigate("ubah-barang",{id : item.id, data : item})
+                                    navigation.navigate("ubah-barang", {
+                                        id: item.id,
+                                        data: item,
+                                    })
                                 }
                                 style={styles.menuIcon}>
                                 <FontAwesome
@@ -131,7 +176,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => navigation.navigate("")}
+                                onPress={() => info(item.id)}
                                 style={styles.menuIcon}>
                                 <Fontisto
                                     name="trash"
