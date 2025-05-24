@@ -17,16 +17,20 @@ export const createBarang = async (req, res) => {
 };
 
 export const updateBarangById = async (req, res) => {
-    const { nama, harga, stok } = req.body;
     try {
-        await barang.update({
-            nama,
-            harga,
-            stok,
-            where: {
-                id: req.params.id,
+        const { nama, harga, stok } = req.body;
+        await barang.update(
+            {
+                nama,
+                harga,
+                stok,
             },
-        });
+            {
+                where: {
+                    id : req.params.id
+                },
+            }
+        );
         res.status(200).json({ msg: "Data berhasil dirubah" });
     } catch (error) {
         res.status(400).json({ msg: error.message });
