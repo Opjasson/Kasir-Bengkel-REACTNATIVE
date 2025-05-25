@@ -13,7 +13,7 @@ export const addTransaksi = async (req, res) => {
 export const getAllTransaksi = async (req, res) => {
     try {
         const response = await transaksiModel.findAll({
-            attributes: ["uuid","totalHarga"],
+            attributes: ["uuid","totalHarga","createdAt"],
             include: [
                 {
                     model: cartModel,
