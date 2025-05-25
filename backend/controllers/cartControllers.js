@@ -11,8 +11,17 @@ export const addCart = async (req, res) => {
         });
         req.status(200).json({ msg: "Data berhasil dibuat!" });
     } catch (error) {
-        console.log(error.message);
+        res.status(400).json({ msg: error.message });
     }
 };
 
-
+export const getCartAll = async (req, res) => {
+    try {
+        const response = await cartModel.findAll({
+            attributes: ["barangId", "transaksiId", qty],
+        });
+        res.status(200).json({ response });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
