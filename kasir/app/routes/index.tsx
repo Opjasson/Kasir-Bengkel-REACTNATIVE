@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Kasir, ManageBarang, Ubahbarang, TambahBarang, HistoryTransaksi, DetailTransaksi } from "../pages";
+import ProsesTransaksi from "../pages/prosesTransaksi";
 
 const Route = () => {
     const Stack = createStackNavigator();
@@ -33,6 +34,14 @@ const Route = () => {
                 }}
                 name="detail-transaksi"
                 component={DetailTransaksi}
+            />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Proses Transaksi",
+                }}
+                name="proses-transaksi"
+                component={ProsesTransaksi}
             />
         </Stack.Navigator>
     );
