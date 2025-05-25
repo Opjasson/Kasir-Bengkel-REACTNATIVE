@@ -10,4 +10,17 @@ export const addTransaksi = async (req, res) => {
     }
 };
 
-
+export const getAllTransaksi = async (req, res) => {
+    try {
+        const response = await transaksiModel.findAll({
+            attributes: ["uuid"],
+            include: [
+                {
+                    model: cartModel,
+                    attributes: ["barangId", "transaksiId", "qty"],
+                },
+            ],
+        });
+        res.status(200).json({ response });
+    } catch (error) {}
+};
