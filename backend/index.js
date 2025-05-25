@@ -21,6 +21,7 @@ app.use(express.json());
 
 app.use(barang_Route);
 app.use(transaksi_Route)
+app.use(cart_Route)
 
 app.listen(process.env.PORT, (error) => {
     if (error) {
