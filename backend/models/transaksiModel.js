@@ -1,4 +1,4 @@
-import { STRING, UUIDV4 } from "sequelize";
+import { INTEGER, STRING, UUIDV4 } from "sequelize";
 import db from "../config/database.js";
 import cartModel from "./cartModel.js";
 
@@ -13,11 +13,18 @@ const transaksiModel = db.define(
                 notEmpty: true,
             },
         },
+        totalHarga: {
+            type: INTEGER,
+            defaultValue : 0,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
     },
     {
         freezeTableName: true,
     }
 );
-
 
 export default transaksiModel;

@@ -10,7 +10,7 @@ import transaksiModel from "./models/transaksiModel.js";
 
 
 // (async() => {
-//     await cartModel.sync()
+//     await transaksiModel.sync()
 // })()
 
 dotenv.config();
