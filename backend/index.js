@@ -3,9 +3,11 @@ import barang from "./models/barangModel.js";
 import barang_Route from "./routes/barangRoute.js";
 import dotenv from "dotenv";
 import cors from "cors"
+import cartModel from "./models/cartModel.js";
+import transaksiModel from "./models/transaksiModel.js";
 
 // (async() => {
-//     await barang.sync()
+//     await cartModel.sync()
 // })()
 
 dotenv.config();
