@@ -26,3 +26,16 @@ export const getAllTransaksi = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
+export const getTransaksiByUuid = async (req, res) => {
+    try {
+        const response = await transaksiModel.findOne({
+            where: {
+                uuid: req.params.id,
+            },
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
