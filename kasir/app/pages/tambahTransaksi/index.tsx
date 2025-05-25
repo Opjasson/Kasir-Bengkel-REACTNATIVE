@@ -34,7 +34,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     const [find, setFind] = useState<string>("");
     const [open, setOpen] = useState(false);
     const [totalHarga, setTotalHarga] = useState<number>();
-    const [qtyBarangBelanja, setQtyBarangBelanja] = useState<number>()
+    const [qtyBarangBelanja, setQtyBarangBelanja] = useState<number>();
     const [stok, setStok] = useState<number>();
     const [cart, setCart] = useState<
         {
@@ -89,6 +89,20 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     };
     console.log(cart);
 
+    const createCart = async () => {
+        await fetch("http://192.168.85.220:5000/cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                qty: qty,
+                barangId: harga,
+                transaksiId: stok,
+            }),
+        });
+    };
+
     useEffect(() => {
         if (cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
@@ -103,7 +117,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             setQtyBarangBelanja(sumJumlahBarang);
         } else {
             setTotalHarga(0);
-            setQtyBarangBelanja(0)
+            setQtyBarangBelanja(0);
         }
     }, [cart, data]);
 
@@ -111,7 +125,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         const words = find?.split(" ");
         return words?.some((word) => item.nama.includes(word));
     });
-    
+
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {
@@ -169,7 +183,9 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 {filterData.map((item, index) => (
                     <View key={index} style={styles.containerMenu}>
                         <View>
-                            <Text style={styles.menu1}>{item.nama.toLocaleUpperCase()}</Text>
+                            <Text style={styles.menu1}>
+                                {item.nama.toLocaleUpperCase()}
+                            </Text>
                             <Text style={styles.menu2}>Rp. {item.harga}</Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs
@@ -254,7 +270,9 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 onPress={() => alert("hallo")}>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
-                    <Text style={styles.cartContent2}>Pcs : {qtyBarangBelanja}</Text>
+                    <Text style={styles.cartContent2}>
+                        Pcs : {qtyBarangBelanja}
+                    </Text>
                 </View>
 
                 <Text style={styles.cartContent2}>Total : Rp.{totalHarga}</Text>
