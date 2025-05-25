@@ -33,6 +33,12 @@ export const getTransaksiByUuid = async (req, res) => {
             where: {
                 uuid: req.params.id,
             },
+            include: [
+                {
+                    model: cartModel,
+                    attributes: ["barangId", "transaksiId", "qty"],
+                },
+            ],
         });
         res.status(200).json(response);
     } catch (error) {
