@@ -18,4 +18,6 @@ const transaksiModel = db.define(
         freezeTableName: true,
     }
 );
+
+
 export default transaksiModel;

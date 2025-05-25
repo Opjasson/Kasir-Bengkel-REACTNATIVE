@@ -9,7 +9,7 @@ export const addCart = async (req, res) => {
             barangId,
             transaksiId,
         });
-        req.status(200).json({ msg: "Data berhasil dibuat!" });
+        res.status(200).json({ msg: "Data berhasil dibuat!" });
     } catch (error) {
         res.status(400).json({ msg: error.message });
     }

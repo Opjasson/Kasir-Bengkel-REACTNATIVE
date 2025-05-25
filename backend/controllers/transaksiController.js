@@ -1,4 +1,4 @@
-import cartModel from "../models/cartModel";
+import cartModel from "../models/cartModel.js";
 import transaksiModel from "../models/transaksiModel.js";
 
 export const addTransaksi = async (req, res) => {

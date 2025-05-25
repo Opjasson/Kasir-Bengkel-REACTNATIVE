@@ -19,6 +19,7 @@ const cartModel = db.define(
     }
 );
 
+transaksiModel.hasMany(cartModel);
 cartModel.belongsTo(barang, { foreignKey: "barangId" });
 cartModel.belongsTo(transaksiModel, { foreignKey: "transaksiId" });
 
