@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -17,6 +17,28 @@ interface props {
 
 const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
+    const [historyTransaksi, setHistoryTransaksi] = useState<
+        {
+            carts: [];
+            id: number;
+            uuid: string;
+            totalHarga: number;
+            createdAt: string;
+        }[]
+    >([]);
+    const [cart, setCart] = useState<
+        {
+            barangId: number;
+            transaksiId: number;
+            qty: number;
+        }[]
+    >([]);
+    const [barang, setBarang] = useState<{
+        id : number;
+        nama : string;
+        harga : number;
+        stok : number;
+    }[]>([])
 
     const toggleOpen = () => {
         if (open === false) {
@@ -37,6 +59,52 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         );
     };
 
+
+    const getHistorys = async () => {
+        try {
+            const response = await fetch(
+                "http://192.168.85.220:5000/transaksi"
+            );
+            const history = (await response.json()) as {
+                response: {
+                    carts: [];
+                    id: number;
+                    uuid: string;
+                    totalHarga: number;
+                    createdAt: string;
+                }[];
+            };
+            const dataArray = history.response;
+            setHistoryTransaksi(dataArray);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getDataBarang = async () => {
+        try {
+            const response = await fetch("http://192.168.85.220:5000/barang");
+            const barang = await response.json();
+            setBarang(barang)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getDataBarang();
+    }, []);
+
+    useEffect(() => {
+        const mappedCart = historyTransaksi.flatMap((a) => a.carts);
+
+        setCart(mappedCart);
+    }, [historyTransaksi]);
+
+    useEffect(() => {
+        getHistorys();
+    }, []);
+
     return (
         <View style={styles.container}>
             {/* bagian atas aplikasi kasir */}
@@ -54,22 +122,46 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             {/* menampilkan daftar menu */}
             <ScrollView>
                 {/* menu bagian */}
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("detail-transaksi")}
-                    style={styles.containerBarang}>
-                    <Text style={{ textDecorationLine: "underline" }}>30 jan 2025</Text>
-                    <View style={styles.barisInfo}>
-                        <Text>Rp.500,000</Text>
+                {historyTransaksi.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => navigation.navigate("detail-transaksi")}
+                        style={styles.containerBarang}>
+                        <Text style={{ textDecorationLine: "underline" }}>
+                            {item.createdAt.split("T")[0]}
+                        </Text>
+                        <View style={styles.barisInfo}>
+                            <Text>Rp.{item.totalHarga}</Text>
 
-                        <View style={styles.barisInfo2}>
-                            <Text style={{ fontWeight : "700", fontSize: 20 }}>#1</Text>
-                            <Text>Oli repsol:1 oli yamaha:1</Text>
+                            <View style={styles.barisInfo2}>
+                                <Text
+                                    style={{ fontWeight: "700", fontSize: 20 }}>
+                                    #{index + 1}
+                                </Text>
+                                <View style={{ flexDirection: "row"}}>
+                                    {item.carts.map((e, index) => (
+                                        <View style={{  marginRight: 5 }} key={index}>
+                                            <Text
+                                                key={index}
+                                                style={{ width: 40 }}>
+                                                {
+                                                    barang.find(
+                                                        (b) =>
+                                                            b.id === e.barangId
+                                                    )?.nama
+                                                }
+                                            </Text>
+                                            <Text>{e.qty}</Text>
+                                        </View>
+                                    ))}
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                </TouchableOpacity>
-
+                    </TouchableOpacity>
+                ))}
                 {/* ------------ */}
             </ScrollView>
+
             {/* ---------- */}
             <MenuDrawer
                 open={open}
@@ -143,7 +235,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: "#FFF085",
         padding: 5,
-        paddingVertical: 15
+        paddingVertical: 15,
     },
     barisInfo: {
         flexDirection: "row",
@@ -152,7 +244,7 @@ const styles = StyleSheet.create({
     barisInfo2: {
         alignItems: "flex-end",
         flexDirection: "column",
-        gap: 15
+        gap: 15,
     },
 });
 
