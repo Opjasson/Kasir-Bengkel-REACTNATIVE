@@ -22,5 +22,7 @@ export const getAllTransaksi = async (req, res) => {
             ],
         });
         res.status(200).json({ response });
-    } catch (error) {}
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
 };
