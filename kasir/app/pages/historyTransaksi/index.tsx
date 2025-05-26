@@ -139,8 +139,8 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                     #{index + 1}
                                 </Text>
                                 <View style={{ flexDirection: "row"}}>
-                                    {item.carts.map((e, index) => (
-                                        <View style={{  marginRight: 5 }} key={index}>
+                                    {item.carts.slice(0, 3).map((e, index) => (
+                                        <View style={{  marginLeft: 5 }} key={index}>
                                             <Text
                                                 key={index}
                                                 style={{ width: 40 }}>
@@ -154,6 +154,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                             <Text>{e.qty}</Text>
                                         </View>
                                     ))}
+                                    <Text>...</Text>
                                 </View>
                             </View>
                         </View>

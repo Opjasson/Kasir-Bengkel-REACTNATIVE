@@ -89,20 +89,6 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     };
     console.log(cart);
 
-    const createCart = async () => {
-        await fetch("http://192.168.85.220:5000/cart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                qty: qty,
-                barangId: harga,
-                transaksiId: stok,
-            }),
-        });
-    };
-
     useEffect(() => {
         if (cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
@@ -267,7 +253,12 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.containerCart}
                 activeOpacity={1}
-                onPress={() => alert("hallo")}>
+                onPress={() =>
+                    navigation.navigate("proses-transaksi", {
+                        cart: cart,
+                        totalHarga: totalHarga,
+                    })
+                }>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
                     <Text style={styles.cartContent2}>
