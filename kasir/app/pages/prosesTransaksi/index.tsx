@@ -18,18 +18,26 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     // const [barangId, setBarangId] = useState<number>();
     // const [transaksiId, setTransaksiId] = useState<number>();
     const [bayar, setBayar] = useState<number>(0);
-    const [id, setId] = useState<number>()
+    const [id, setId] = useState<number>();
 
     // dapat data cart dari halaman tambah transaksi
     const cart = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
-    const transaksiData = route.params?.transaksiData;
+    const transaksiId = route.params?.transaksiData;
 
-    
-    // console.log("ini data transaksi", totalHarga);
+    console.log("ini data transaksi", transaksiId);
 
     const createCart = async () => {
-        cart.forEach(async (item) => {
+        await fetch(`http://192.168.85.220:5000/transaksi/${transaksiId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                totalHarga: totalHarga,
+            }),
+        });
+        cart.forEach(async (item : any) => {
             await fetch("http://192.168.85.220:5000/cart", {
                 method: "POST",
                 headers: {
@@ -37,11 +45,12 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                 },
                 body: JSON.stringify({
                     qty: item.qty,
-                    transaksiId: 4,
+                    transaksiId: transaksiId,
                     barangId: item.id,
                 }),
             });
         });
+        navigation.navigate("history-transaksi");
     };
 
     return (
