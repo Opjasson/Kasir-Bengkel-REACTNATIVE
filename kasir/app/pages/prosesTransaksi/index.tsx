@@ -13,21 +13,23 @@ interface props {
     route: RouteProp<any, any>;
 }
 
+interface cartType {
+    nama : string;
+    qty : number;
+    harga : number;
+}
+
 const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
-    // const [qty, setQty] = useState<string>();
-    // const [barangId, setBarangId] = useState<number>();
-    // const [transaksiId, setTransaksiId] = useState<number>();
     const [bayar, setBayar] = useState<number>(0);
-    const [id, setId] = useState<number>();
 
     // dapat data cart dari halaman tambah transaksi
-    const cart = route.params?.cart;
+    const cart : cartType[] = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
     const transaksiId = route.params?.transaksiData;
 
     console.log("ini data transaksi", transaksiId);
 
-    const createCart = async () => {
+    const createTransaksi = async () => {
         await fetch(`http://192.168.85.220:5000/transaksi/${transaksiId}`, {
             method: "PATCH",
             headers: {
@@ -37,7 +39,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                 totalHarga: totalHarga,
             }),
         });
-        cart.forEach(async (item : any) => {
+        cart.forEach(async (item: any) => {
             await fetch("http://192.168.85.220:5000/cart", {
                 method: "POST",
                 headers: {
@@ -82,7 +84,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 
             <TouchableOpacity
                 style={styles.tambahBarang}
-                onPress={() => createCart()}>
+                onPress={() => createTransaksi()}>
                 <Text style={{ fontSize: 17, color: "white" }}>Tambah</Text>
             </TouchableOpacity>
         </View>
