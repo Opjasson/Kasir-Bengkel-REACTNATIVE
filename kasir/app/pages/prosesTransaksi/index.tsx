@@ -18,12 +18,15 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     // const [barangId, setBarangId] = useState<number>();
     // const [transaksiId, setTransaksiId] = useState<number>();
     const [bayar, setBayar] = useState<number>(0);
+    const [id, setId] = useState<number>()
 
     // dapat data cart dari halaman tambah transaksi
     const cart = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
+    const transaksiData = route.params?.transaksiData;
 
-    // console.log("ini data cart",cart);
+    
+    // console.log("ini data transaksi", totalHarga);
 
     const createCart = async () => {
         cart.forEach(async (item) => {
@@ -38,8 +41,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                     barangId: item.id,
                 }),
             });
-        })
-
+        });
     };
 
     return (

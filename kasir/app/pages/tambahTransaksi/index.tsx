@@ -113,12 +113,17 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     });
 
     const prosesCart = async () => {
-        await fetch("http://192.168.85.220:5000/transaksi");
+        const response = await fetch("http://192.168.85.220:5000/transaksi", {
+            method: "POST",
+        });
+        const transaksi = await response.json();
+
         navigation.navigate("proses-transaksi", {
             cart: cart,
             totalHarga: totalHarga,
-        })
-    }
+            transaksiData: transaksi.response.id,
+        });
+    };
 
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
@@ -261,9 +266,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.containerCart}
                 activeOpacity={1}
-                onPress={() =>
-                    prosesCart()
-                }>
+                onPress={() => prosesCart()}>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
                     <Text style={styles.cartContent2}>
