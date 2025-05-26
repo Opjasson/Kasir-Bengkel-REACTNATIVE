@@ -25,7 +25,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 
     // console.log("ini data cart",cart);
 
-    const createCart = () => {
+    const createCart = async () => {
         cart.forEach(async (item) => {
             await fetch("http://192.168.85.220:5000/cart", {
                 method: "POST",
@@ -39,7 +39,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                 }),
             });
         })
-        navigation.navigate("history-transaksi")
+
     };
 
     return (

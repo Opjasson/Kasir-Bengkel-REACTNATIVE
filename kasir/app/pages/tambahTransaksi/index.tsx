@@ -112,6 +112,14 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         return words?.some((word) => item.nama.includes(word));
     });
 
+    const prosesCart = async () => {
+        await fetch("http://192.168.85.220:5000/transaksi");
+        navigation.navigate("proses-transaksi", {
+            cart: cart,
+            totalHarga: totalHarga,
+        })
+    }
+
     // fungsi untuk membuka sidebar
     const toggleOpen = () => {
         if (open === false) {
@@ -254,10 +262,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 style={styles.containerCart}
                 activeOpacity={1}
                 onPress={() =>
-                    navigation.navigate("proses-transaksi", {
-                        cart: cart,
-                        totalHarga: totalHarga,
-                    })
+                    prosesCart()
                 }>
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
