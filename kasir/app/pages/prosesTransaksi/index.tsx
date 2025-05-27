@@ -14,20 +14,42 @@ interface props {
 }
 
 interface cartType {
-    nama : string;
-    qty : number;
-    harga : number;
+    id : number;
+    nama: string;
+    qty: number;
+    harga: number;
 }
 
 const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     const [bayar, setBayar] = useState<number>(0);
-
+    const [barang, setBarang] = useState<
+            {
+                id: number;
+                nama: string;
+                harga: number;
+                stok: number;
+            }[]
+        >([]);
     // dapat data cart dari halaman tambah transaksi
-    const cart : cartType[] = route.params?.cart;
+    const cart: cartType[] = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
     const transaksiId = route.params?.transaksiData;
 
-    console.log("ini data transaksi", transaksiId);
+    console.log("ini data transaksi", cart);
+
+    const getDataBarang = async () => {
+        try {
+            const response = await fetch("http://192.168.85.220:5000/barang");
+            const barang = await response.json();
+            setBarang(barang);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getDataBarang()
+    },[])
 
     const createTransaksi = async () => {
         await fetch(`http://192.168.85.220:5000/transaksi/${transaksiId}`, {
@@ -51,6 +73,25 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                     barangId: item.id,
                 }),
             });
+        });
+
+        
+        cart.forEach(async (item: any) => {
+            const foundBarang = barang.find((e) => e.id === item.id)
+            
+            if (foundBarang) {
+                await fetch(`http://192.168.85.220:5000/barang/${item.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        stok: foundBarang.stok - item.qty,
+                    }),
+                });
+            }else {
+                alert("barang tidak ditemukan")
+            }
         });
         navigation.navigate("history-transaksi");
     };
