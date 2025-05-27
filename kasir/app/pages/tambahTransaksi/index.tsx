@@ -166,7 +166,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             {/* bagian pencarian barang */}
             <View style={styles.containerSearch}>
                 <TextInput
-                    placeholder="Cari Hotel"
+                    placeholder="Cari Nama Barang"
                     style={styles.searchHotel}
                     onChangeText={(text) => {
                         setFind(text.toLowerCase());
