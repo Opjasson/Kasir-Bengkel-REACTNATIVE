@@ -26,19 +26,15 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             createdAt: string;
         }[]
     >([]);
-    const [cart, setCart] = useState<
+ 
+    const [barang, setBarang] = useState<
         {
-            barangId: number;
-            transaksiId: number;
-            qty: number;
+            id: number;
+            nama: string;
+            harga: number;
+            stok: number;
         }[]
     >([]);
-    const [barang, setBarang] = useState<{
-        id : number;
-        nama : string;
-        harga : number;
-        stok : number;
-    }[]>([])
 
     const toggleOpen = () => {
         if (open === false) {
@@ -58,7 +54,6 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             />
         );
     };
-
 
     const getHistorys = async () => {
         try {
@@ -85,7 +80,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         try {
             const response = await fetch("http://192.168.85.220:5000/barang");
             const barang = await response.json();
-            setBarang(barang)
+            setBarang(barang);
         } catch (error) {
             console.log(error);
         }
@@ -95,11 +90,6 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         getDataBarang();
     }, []);
 
-    useEffect(() => {
-        const mappedCart = historyTransaksi.flatMap((a) => a.carts);
-
-        setCart(mappedCart);
-    }, [historyTransaksi]);
 
     useEffect(() => {
         getHistorys();
@@ -125,7 +115,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 {historyTransaksi.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => navigation.navigate("detail-transaksi")}
+                        onPress={() => navigation.navigate("detail-transaksi",{uuid : item.uuid})}
                         style={styles.containerBarang}>
                         <Text style={{ textDecorationLine: "underline" }}>
                             {item.createdAt.split("T")[0]}
@@ -138,12 +128,15 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                     style={{ fontWeight: "700", fontSize: 20 }}>
                                     #{index + 1}
                                 </Text>
-                                <View style={{ flexDirection: "row"}}>
+                                <View style={{ flexDirection: "row" }}>
                                     {item.carts.slice(0, 3).map((e, index) => (
-                                        <View style={{  marginLeft: 5 }} key={index}>
+                                        <View
+                                            style={{ marginLeft: 5 }}
+                                            key={index}>
                                             <Text
                                                 key={index}
                                                 style={{ width: 40 }}>
+                                                {/* menampilkan nama barang berdasarkan no Id barang pada data carts */}
                                                 {
                                                     barang.find(
                                                         (b) =>
