@@ -4,7 +4,7 @@ import transaksiModel from "../models/transaksiModel.js";
 
 export const addTransaksi = async (req, res) => {
     try {
-      const response = await transaksiModel.create();
+        const response = await transaksiModel.create();
         res.status(200).json({ response });
     } catch (error) {
         req.status(400).json({ msg: error.message });
@@ -61,6 +61,19 @@ export const updateTransaksi = async (req, res) => {
             }
         );
         res.status(200).json({ msg: "Data berhasil dirubah!" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
+
+export const deleteTransaksi = async (req, res) => {
+    try {
+        await transaksiModel.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json({ msg: "Data berhasil dihapus!" });
     } catch (error) {
         res.status(400).json({ msg: error.message });
     }
