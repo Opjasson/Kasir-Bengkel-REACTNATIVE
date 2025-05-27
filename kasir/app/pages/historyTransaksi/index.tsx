@@ -86,6 +86,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         }
     };
 
+
     useEffect(() => {
         getDataBarang();
     }, []);
