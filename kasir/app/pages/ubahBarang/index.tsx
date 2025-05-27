@@ -21,7 +21,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
 
     const [nama, setNama] = useState<string>(sendData.nama);
     const [harga, setHarga] = useState<number>(sendData.harga);
-    const [stok, setStok] = useState<number>(sendData.stok);
+    const [stok, setStok] = useState(sendData.stok);
 
     // function mengubah barang
     const updateBarang = async () => {
@@ -34,7 +34,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                 body: JSON.stringify({
                     nama: nama,
                     harga: harga,
-                    stok: stok,
+                    stok: Number(stok),
                 }),
             });
             alert("Barang berhasil dirubah!");
@@ -83,7 +83,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     }}
                     placeholder="/Pcs"
                     keyboardType="numeric"
-                    onChangeText={(text) => setStok(Number(text))}
+                    onChangeText={(text) => setStok(text)}
                     value={stok + ""}
                 />
             </View>
