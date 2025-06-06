@@ -40,7 +40,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.85.220:5000/barang");
+        const response = await fetch("http://192.168.90.220:5000/barang");
         const barang = await response.json();
         setData(barang);
     };

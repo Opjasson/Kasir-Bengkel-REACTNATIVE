@@ -47,7 +47,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.85.220:5000/barang");
+            const response = await fetch("http://192.168.90.220:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -64,7 +64,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.85.220:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.90.220:5000/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
