@@ -75,7 +75,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             <View style={styles.dataTransaksi}>
 
                 <Text>No id : {id}</Text>
-                <Text>{createdAt}</Text>
+                <Text>{createdAt?.split("T")[0]}</Text>
 
                 {cart.map((item, index) => (
                     <View key={index} style={styles.containerCart}>
