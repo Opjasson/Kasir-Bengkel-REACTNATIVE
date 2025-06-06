@@ -107,7 +107,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         }
     }, [cart, data]);
 
-    const filterData = data.filter((item) => {
+    const filterData = Object.values(data).filter((item) => {
         const words = find?.split(" ");
         return words?.some((word) => item.nama.includes(word));
     });
