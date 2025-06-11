@@ -61,7 +61,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     const handleDelete = async (id: number) => {
         try {
-            await fetch(`http://192.168.85.220:5000/barang/${id}`, {
+            await fetch(`http://192.168.90.220:5000/barang/${id}`, {
                 method: "DELETE",
             });
             if (refresh) {
