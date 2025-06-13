@@ -47,7 +47,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     >([]);
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.90.220:5000/barang");
+        const response = await fetch("http://192.168.200.220:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -113,7 +113,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     });
 
     const prosesCart = async () => {
-        const response = await fetch("http://192.168.90.220:5000/transaksi", {
+        const response = await fetch("http://192.168.200.220:5000/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();

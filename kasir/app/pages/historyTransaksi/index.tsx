@@ -58,7 +58,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     const getHistorys = async () => {
         try {
             const response = await fetch(
-                "http://192.168.90.220:5000/transaksi"
+                "http://192.168.200.220:5000/transaksi"
             );
             const history = (await response.json()) as {
                 response: {
@@ -78,7 +78,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.90.220:5000/barang");
+            const response = await fetch("http://192.168.200.220:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
