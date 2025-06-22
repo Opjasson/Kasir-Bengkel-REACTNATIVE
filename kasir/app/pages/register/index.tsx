@@ -21,7 +21,7 @@ const Register: React.FC<props> = ({ navigation }) => {
     const [error, setError] = useState<string>();
 
     const handleSave = async () => {
-        const response = await fetch("http://192.168.200.220:5000/barang", {
+        const response = await fetch("http://192.168.200.220:5000/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,14 +29,17 @@ const Register: React.FC<props> = ({ navigation }) => {
             body: JSON.stringify({
                 email: email,
                 password: password,
+                confPassword: confPassword,
             }),
         });
 
         if (JSON.stringify(response.status) === "400") {
-            setError("Email atau password salah!");
+            setError("Password dan confirm password salah!");
+        }else {
+            alert("Berhasil membuat akun");
+            navigation.navigate("login");
         }
-        navigation.navigate("kasir");
-        setError(error);
+        
     };
 
     return (
@@ -44,7 +47,9 @@ const Register: React.FC<props> = ({ navigation }) => {
             <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
             <View style={styles.containerForm}>
                 <View style={styles.headRegister}>
-                    <Text style={styles.headRegisterText1}>Halaman Register</Text>
+                    <Text style={styles.headRegisterText1}>
+                        Halaman Register
+                    </Text>
                     <Text style={styles.headRegisterText2}>
                         Buat akun baru sebelum Login
                     </Text>
@@ -57,7 +62,7 @@ const Register: React.FC<props> = ({ navigation }) => {
                         marginBottom: 5,
                         borderRadius: 5,
                     }}
-                    keyboardType="default"
+                    keyboardType="email-address"
                     placeholder="Masukan email anda"
                     onChangeText={(text) => setEmail(text)}
                 />
@@ -71,6 +76,7 @@ const Register: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="default"
                     placeholder="Masukan password anda"
+                    secureTextEntry
                     onChangeText={(text) => setPassword(text)}
                 />
 
@@ -83,8 +89,11 @@ const Register: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="default"
                     placeholder="Masukan ulang password anda"
+                    secureTextEntry
                     onChangeText={(text) => setConfPassword(text)}
                 />
+
+                <Text style={error ? styles.errorMsg : styles.hidden}>{error}</Text>
             </View>
             {/* End Form */}
 
@@ -92,7 +101,9 @@ const Register: React.FC<props> = ({ navigation }) => {
                 <Text style={{ color: "white" }}>Register</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buatAkun}>
+            <TouchableOpacity
+                style={styles.buatAkun}
+                onPress={() => navigation.navigate("login")}>
                 <Text>Sudah punya akun? Login disini</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -118,10 +129,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "light",
     },
-    garisHead : {
-        borderBottomWidth : 3,
-        width : "70%",
-        marginTop : -10
+    garisHead: {
+        borderBottomWidth: 3,
+        width: "70%",
+        marginTop: -10,
     },
     button: {
         backgroundColor: "#27548A",
@@ -149,6 +160,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingHorizontal: 3,
     },
+    errorMsg : {
+        fontSize : 18,
+        color : "red",
+        textAlign : "center",
+    },
+    hidden : {
+        display : "none"
+    }
 });
 
 export default Register;

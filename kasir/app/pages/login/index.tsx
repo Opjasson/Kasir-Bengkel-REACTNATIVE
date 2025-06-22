@@ -35,7 +35,6 @@ const Login: React.FC<props> = ({ navigation }) => {
             setError("Email atau password salah!");
         }
         navigation.navigate("kasir");
-        setError(error);
     };
 
     return (
