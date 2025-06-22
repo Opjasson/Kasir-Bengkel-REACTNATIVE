@@ -14,7 +14,7 @@ interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const Login: React.FC<props> = ({ navigation }) => {
+const Register: React.FC<props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [confPassword, setConfPassword] = useState<string>();
@@ -43,10 +43,10 @@ const Login: React.FC<props> = ({ navigation }) => {
         <ScrollView>
             <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
             <View style={styles.containerForm}>
-                <View style={styles.headLogin}>
-                    <Text style={styles.headLoginText1}>Halaman Register</Text>
-                    <Text style={styles.headLoginText2}>
-                        Buat akun baru sebelum login
+                <View style={styles.headRegister}>
+                    <Text style={styles.headRegisterText1}>Halaman Register</Text>
+                    <Text style={styles.headRegisterText2}>
+                        Buat akun baru sebelum Login
                     </Text>
                     <Text style={styles.garisHead}></Text>
                 </View>
@@ -89,11 +89,11 @@ const Login: React.FC<props> = ({ navigation }) => {
             {/* End Form */}
 
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-                <Text style={{ color: "white" }}>Login</Text>
+                <Text style={{ color: "white" }}>Register</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.buatAkun}>
-                <Text>Buat akun baru</Text>
+                <Text>Sudah punya akun? Login disini</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -104,17 +104,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: 150,
     },
-    headLogin: {
+    headRegister: {
         alignItems: "center",
         marginBottom: 40,
     },
-    headLoginText1: {
+    headRegisterText1: {
         fontSize: 30,
         fontWeight: "900",
         marginBottom: 10,
         color: "#27548A",
     },
-    headLoginText2: {
+    headRegisterText2: {
         fontSize: 20,
         fontWeight: "light",
     },
@@ -151,4 +151,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default Register;
