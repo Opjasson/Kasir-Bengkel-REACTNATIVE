@@ -2,6 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
     ScrollView,
+    StatusBar,
     StyleSheet,
     Text,
     TextInput,
@@ -39,6 +40,7 @@ const Login: React.FC<props> = ({ navigation }) => {
 
     return (
         <ScrollView>
+            <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
             <View style={styles.containerForm}>
                 <View style={styles.headLogin}>
                     <Text style={styles.headLoginText1}>Halaman Login</Text>
