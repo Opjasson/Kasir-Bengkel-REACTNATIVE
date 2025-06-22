@@ -14,34 +14,33 @@ interface props {
 }
 
 const Login: React.FC<props> = ({ navigation }) => {
-    const [nama, setNama] = useState<string>();
-    const [harga, setHarga] = useState<number>();
-    const [stok, setStok] = useState<number>();
+    const [email, setEmail] = useState<string>();
+    const [password, setPassword] = useState<string>();
+    const [error, setError] = useState<string>();
 
     const handleSave = async () => {
-        try {
-            await fetch("http://192.168.200.220:5000/barang", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    nama: nama,
-                    harga: harga,
-                    stok: stok,
-                }),
-            });
-            alert("Barang berhasil ditambahkan!");
-            navigation.navigate("manage-barang");
-        } catch (error) {
-            console.log(error);
+        const response = await fetch("http://192.168.200.220:5000/barang", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+
+        if (JSON.stringify(response.status) === "400") {
+            setError("Email atau password salah!");
         }
+        navigation.navigate("kasir");
+        setError(error);
     };
 
     return (
         <ScrollView>
             <View style={styles.containerForm}>
-                <Text style={styles.textLabel}>Nama Barang</Text>
+                <Text style={styles.textLabel}>Email</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -50,10 +49,10 @@ const Login: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="default"
                     placeholder="Nama barang"
-                    onChangeText={(text) => setNama(text.toLowerCase())}
+                    onChangeText={(text) => setEmail(text)}
                 />
 
-                <Text style={styles.textLabel}>Harga</Text>
+                <Text style={styles.textLabel}>Password</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -62,25 +61,13 @@ const Login: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="numeric"
                     placeholder="Rp."
-                    onChangeText={(text) => setHarga(Number(text))}
-                />
-
-                <Text style={styles.textLabel}>Stok</Text>
-                <TextInput
-                    style={{
-                        borderWidth: 1,
-                        marginBottom: 5,
-                        borderRadius: 5,
-                    }}
-                    placeholder="/Pcs"
-                    keyboardType="numeric"
-                    onChangeText={(text) => setStok(Number(text))}
+                    onChangeText={(text) => setPassword(text)}
                 />
             </View>
             {/* End Form */}
 
             <TouchableOpacity style={styles.button} onPress={handleSave}>
-                <Text style={{ color: "white" }}>Kirim</Text>
+                <Text style={{ color: "white" }}>Login</Text>
             </TouchableOpacity>
         </ScrollView>
     );
