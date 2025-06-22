@@ -109,6 +109,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("kasir")}
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
+                onPress4={() => navigation.navigate("login")}
             />
         );
     };

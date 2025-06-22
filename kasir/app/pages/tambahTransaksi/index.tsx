@@ -35,7 +35,6 @@ const Kasir: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [totalHarga, setTotalHarga] = useState<number>();
     const [qtyBarangBelanja, setQtyBarangBelanja] = useState<number>();
-    const [stok, setStok] = useState<number>();
     const [cart, setCart] = useState<
         {
             id: number;
@@ -143,6 +142,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("kasir")}
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
+                onPress4={() => navigation.navigate("login")}
             />
         );
     };

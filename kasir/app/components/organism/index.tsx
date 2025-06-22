@@ -7,6 +7,7 @@ interface props {
     onPress1: () => void;
     onPress2: () => void;
     onPress3: () => void;
+    onPress4: () => void;
     toggleOpen: () => void;
 }
 
@@ -15,6 +16,7 @@ const DrawerContent: React.FC<props> = ({
     onPress1,
     onPress2,
     onPress3,
+    onPress4,
 }) => {
     return (
         <View style={styles.animatedBox}>
@@ -34,6 +36,15 @@ const DrawerContent: React.FC<props> = ({
 
                 <TouchableOpacity onPress={onPress3}>
                     <Text style={styles.sidebarMenu}>History transaksi</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={styles.tutupSidebar}
+                    onPress={onPress4}>
+                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                        Logout
+                    </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -61,19 +72,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 15,
         backgroundColor: "#27548A",
-        padding: 15
+        padding: 15,
     },
     sidebarTitle: {
         fontSize: 17,
         fontWeight: "700",
-        color: "white"
+        color: "white",
     },
     sidebarMain: {
         flexDirection: "column",
         justifyContent: "space-between",
         height: "50%",
         marginTop: 20,
-        padding: 10
+        padding: 10,
     },
     sidebarMenu: {
         fontSize: 20,
