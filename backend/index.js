@@ -7,11 +7,12 @@ import dotenv from "dotenv";
 import cors from "cors"
 import cartModel from "./models/cartModel.js";
 import transaksiModel from "./models/transaksiModel.js";
+import user from "./models/user.js";
 
 
-// (async() => {
-//     await transaksiModel.sync()
-// })()
+(async() => {
+    await user.sync()
+})()
 
 dotenv.config();
 const app = express();
