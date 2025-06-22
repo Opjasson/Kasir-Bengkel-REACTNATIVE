@@ -79,7 +79,7 @@ const Login: React.FC<props> = ({ navigation }) => {
                 <Text style={{ color: "white" }}>Login</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buatAkun}>
+            <TouchableOpacity style={styles.buatAkun} onPress={() => navigation.navigate("register")}>
                 <Text>Buat akun baru</Text>
             </TouchableOpacity>
         </ScrollView>
