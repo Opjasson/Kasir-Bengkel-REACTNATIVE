@@ -5,6 +5,7 @@ import TambahBarang from "./tambahBarang";
 import HistoryTransaksi from "./historyTransaksi";
 import DetailTransaksi from "./detailTransaksi";
 import ProsesTransaksi from "./prosesTransaksi";
+import Login from "./login";
 
 export {
     Kasir,
@@ -13,5 +14,6 @@ export {
     TambahBarang,
     HistoryTransaksi,
     DetailTransaksi,
-    ProsesTransaksi
+    ProsesTransaksi,
+    Login
 }
