@@ -40,6 +40,13 @@ const Login: React.FC<props> = ({ navigation }) => {
     return (
         <ScrollView>
             <View style={styles.containerForm}>
+                <View style={styles.headLogin}>
+                    <Text style={styles.headLoginText1}>Halaman Login</Text>
+                    <Text style={styles.headLoginText2}>
+                        Aplikasi Kasir Bengkel
+                    </Text>
+                    <Text style={styles.garisHead}></Text>
+                </View>
                 <Text style={styles.textLabel}>Email</Text>
                 <TextInput
                     style={{
@@ -48,7 +55,7 @@ const Login: React.FC<props> = ({ navigation }) => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
-                    placeholder="Nama barang"
+                    placeholder="Masukan email anda"
                     onChangeText={(text) => setEmail(text)}
                 />
 
@@ -59,8 +66,8 @@ const Login: React.FC<props> = ({ navigation }) => {
                         marginBottom: 5,
                         borderRadius: 5,
                     }}
-                    keyboardType="numeric"
-                    placeholder="Rp."
+                    keyboardType="default"
+                    placeholder="Masukan password anda"
                     onChangeText={(text) => setPassword(text)}
                 />
             </View>
@@ -69,21 +76,52 @@ const Login: React.FC<props> = ({ navigation }) => {
             <TouchableOpacity style={styles.button} onPress={handleSave}>
                 <Text style={{ color: "white" }}>Login</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buatAkun}>
+                <Text>Buat akun baru</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     containerForm: {
-        paddingHorizontal: 5,
+        paddingHorizontal: 15,
+        paddingTop: 150,
+    },
+    headLogin: {
+        alignItems: "center",
+        marginBottom: 40,
+    },
+    headLoginText1: {
+        fontSize: 30,
+        fontWeight: "900",
+        marginBottom: 10,
+        color: "#27548A",
+    },
+    headLoginText2: {
+        fontSize: 20,
+        fontWeight: "light",
+    },
+    garisHead : {
+        borderBottomWidth : 3,
+        width : "70%",
+        marginTop : -10
     },
     button: {
         backgroundColor: "#27548A",
-        width: 100,
-        padding: 8,
+        width: "80%",
+        paddingVertical: 15,
         alignItems: "center",
         borderRadius: 9,
-        color: "black",
+        marginTop: 20,
+        marginHorizontal: "auto",
+    },
+    buatAkun: {
+        width: "80%",
+        paddingVertical: 15,
+        alignItems: "center",
+        borderRadius: 9,
         marginHorizontal: "auto",
     },
     topBar: {
