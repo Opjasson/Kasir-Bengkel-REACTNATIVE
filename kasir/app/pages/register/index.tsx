@@ -1,0 +1,154 @@
+import { NavigationProp } from "@react-navigation/native";
+import React, { useState } from "react";
+import {
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+
+interface props {
+    navigation: NavigationProp<any, any>;
+}
+
+const Login: React.FC<props> = ({ navigation }) => {
+    const [email, setEmail] = useState<string>();
+    const [password, setPassword] = useState<string>();
+    const [confPassword, setConfPassword] = useState<string>();
+    const [error, setError] = useState<string>();
+
+    const handleSave = async () => {
+        const response = await fetch("http://192.168.200.220:5000/barang", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+
+        if (JSON.stringify(response.status) === "400") {
+            setError("Email atau password salah!");
+        }
+        navigation.navigate("kasir");
+        setError(error);
+    };
+
+    return (
+        <ScrollView>
+            <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
+            <View style={styles.containerForm}>
+                <View style={styles.headLogin}>
+                    <Text style={styles.headLoginText1}>Halaman Register</Text>
+                    <Text style={styles.headLoginText2}>
+                        Buat akun baru sebelum login
+                    </Text>
+                    <Text style={styles.garisHead}></Text>
+                </View>
+                <Text style={styles.textLabel}>Email</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="default"
+                    placeholder="Masukan email anda"
+                    onChangeText={(text) => setEmail(text)}
+                />
+
+                <Text style={styles.textLabel}>Password</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="default"
+                    placeholder="Masukan password anda"
+                    onChangeText={(text) => setPassword(text)}
+                />
+
+                <Text style={styles.textLabel}>Confirm Password</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="default"
+                    placeholder="Masukan ulang password anda"
+                    onChangeText={(text) => setConfPassword(text)}
+                />
+            </View>
+            {/* End Form */}
+
+            <TouchableOpacity style={styles.button} onPress={handleSave}>
+                <Text style={{ color: "white" }}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buatAkun}>
+                <Text>Buat akun baru</Text>
+            </TouchableOpacity>
+        </ScrollView>
+    );
+};
+
+const styles = StyleSheet.create({
+    containerForm: {
+        paddingHorizontal: 15,
+        paddingTop: 150,
+    },
+    headLogin: {
+        alignItems: "center",
+        marginBottom: 40,
+    },
+    headLoginText1: {
+        fontSize: 30,
+        fontWeight: "900",
+        marginBottom: 10,
+        color: "#27548A",
+    },
+    headLoginText2: {
+        fontSize: 20,
+        fontWeight: "light",
+    },
+    garisHead : {
+        borderBottomWidth : 3,
+        width : "70%",
+        marginTop : -10
+    },
+    button: {
+        backgroundColor: "#27548A",
+        width: "80%",
+        paddingVertical: 15,
+        alignItems: "center",
+        borderRadius: 9,
+        marginTop: 20,
+        marginHorizontal: "auto",
+    },
+    buatAkun: {
+        width: "80%",
+        paddingVertical: 15,
+        alignItems: "center",
+        borderRadius: 9,
+        marginHorizontal: "auto",
+    },
+    topBar: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginBottom: 30,
+    },
+    textLabel: {
+        fontWeight: "bold",
+        fontSize: 18,
+        paddingHorizontal: 3,
+    },
+});
+
+export default Login;
