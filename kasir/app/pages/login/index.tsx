@@ -20,7 +20,7 @@ const Login: React.FC<props> = ({ navigation }) => {
     const [error, setError] = useState<string>();
 
     const handleSave = async () => {
-        const response = await fetch("http://192.168.200.220:5000/barang", {
+        const response = await fetch("http://192.168.200.220:5000/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -33,8 +33,9 @@ const Login: React.FC<props> = ({ navigation }) => {
 
         if (JSON.stringify(response.status) === "400") {
             setError("Email atau password salah!");
+        } else {
+            navigation.navigate("kasir");
         }
-        navigation.navigate("kasir");
     };
 
     return (
@@ -55,7 +56,7 @@ const Login: React.FC<props> = ({ navigation }) => {
                         marginBottom: 5,
                         borderRadius: 5,
                     }}
-                    keyboardType="default"
+                    keyboardType="email-address"
                     placeholder="Masukan email anda"
                     onChangeText={(text) => setEmail(text)}
                 />
@@ -68,9 +69,14 @@ const Login: React.FC<props> = ({ navigation }) => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
+                    secureTextEntry
                     placeholder="Masukan password anda"
                     onChangeText={(text) => setPassword(text)}
                 />
+
+                <Text style={error ? styles.errorMsg : styles.hidden}>
+                    {error}
+                </Text>
             </View>
             {/* End Form */}
 
@@ -78,7 +84,9 @@ const Login: React.FC<props> = ({ navigation }) => {
                 <Text style={{ color: "white" }}>Login</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buatAkun} onPress={() => navigation.navigate("register")}>
+            <TouchableOpacity
+                style={styles.buatAkun}
+                onPress={() => navigation.navigate("register")}>
                 <Text>Buat akun baru</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -104,10 +112,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "light",
     },
-    garisHead : {
-        borderBottomWidth : 3,
-        width : "70%",
-        marginTop : -10
+    garisHead: {
+        borderBottomWidth: 3,
+        width: "70%",
+        marginTop: -10,
     },
     button: {
         backgroundColor: "#27548A",
@@ -134,6 +142,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 18,
         paddingHorizontal: 3,
+    },
+    errorMsg: {
+        fontSize: 18,
+        color: "red",
+        textAlign: "center",
+    },
+    hidden: {
+        display: "none",
     },
 });
 
