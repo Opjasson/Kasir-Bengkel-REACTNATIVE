@@ -20,26 +20,29 @@ const Register: React.FC<props> = ({ navigation }) => {
     const [confPassword, setConfPassword] = useState<string>();
     const [error, setError] = useState<string>();
 
-    const handleSave = async () => {
-        const response = await fetch("http://192.168.200.220:5000/user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                confPassword: confPassword,
-            }),
-        });
+    const handleRegister = async () => {
+        if (email && password && confPassword) {
+            const response = await fetch("http://192.168.200.220:5000/user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    confPassword: confPassword,
+                }),
+            });
 
-        if (JSON.stringify(response.status) === "400") {
-            setError("Password dan confirm password salah!");
+            if (JSON.stringify(response.status) === "400") {
+                setError("Password dan confirm password salah!");
+            } else {
+                alert("Berhasil membuat akun");
+                navigation.navigate("login");
+            }
         }else {
-            alert("Berhasil membuat akun");
-            navigation.navigate("login");
+            setError("Isi semua formulir!")
         }
-        
     };
 
     return (
@@ -97,7 +100,7 @@ const Register: React.FC<props> = ({ navigation }) => {
             </View>
             {/* End Form */}
 
-            <TouchableOpacity style={styles.button} onPress={handleSave}>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={{ color: "white" }}>Register</Text>
             </TouchableOpacity>
 
