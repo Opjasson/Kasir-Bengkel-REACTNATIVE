@@ -10,9 +10,9 @@ import transaksiModel from "./models/transaksiModel.js";
 import user from "./models/user.js";
 
 
-(async() => {
-    await user.sync()
-})()
+// (async() => {
+//     await user.sync()
+// })()
 
 dotenv.config();
 const app = express();
