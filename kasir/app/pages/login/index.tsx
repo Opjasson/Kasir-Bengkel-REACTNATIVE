@@ -19,22 +19,26 @@ const Login: React.FC<props> = ({ navigation }) => {
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
 
-    const handleSave = async () => {
-        const response = await fetch("http://192.168.200.220:5000/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
-        });
+    const handleLogin = async () => {
+        if (email && password) {
+            const response = await fetch("http://192.168.200.220:5000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
 
-        if (JSON.stringify(response.status) === "400") {
-            setError("Email atau password salah!");
+            if (JSON.stringify(response.status) === "400") {
+                setError("Email atau password salah!");
+            } else {
+                navigation.navigate("kasir");
+            }
         } else {
-            navigation.navigate("kasir");
+            setError("Isi email dan password!");
         }
     };
 
@@ -80,7 +84,7 @@ const Login: React.FC<props> = ({ navigation }) => {
             </View>
             {/* End Form */}
 
-            <TouchableOpacity style={styles.button} onPress={handleSave}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={{ color: "white" }}>Login</Text>
             </TouchableOpacity>
 
