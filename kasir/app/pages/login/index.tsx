@@ -21,7 +21,7 @@ const Login: React.FC<props> = ({ navigation }) => {
 
     const handleLogin = async () => {
         if (email && password) {
-            const response = await fetch("http://192.168.200.220:5000/login", {
+            const response = await fetch("http://192.168.3.220:5000/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const Login: React.FC<props> = ({ navigation }) => {
                 }),
             });
 
-            if (JSON.stringify(response.status) === "400") {
+            if (JSON.stringify(response.status) === "401") {
                 setError("Email atau password salah!");
             } else {
                 navigation.navigate("kasir");
