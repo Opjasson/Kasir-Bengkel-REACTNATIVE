@@ -22,7 +22,7 @@ const Register: React.FC<props> = ({ navigation }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.200.220:5000/user", {
+            const response = await fetch("http://192.168.3.220:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Register: React.FC<props> = ({ navigation }) => {
                     confPassword: confPassword,
                 }),
             });
-
+            
             if (JSON.stringify(response.status) === "400") {
                 setError("Password dan confirm password salah!");
             } else {
