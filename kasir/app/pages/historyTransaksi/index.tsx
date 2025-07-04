@@ -59,7 +59,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     const getHistorys = async () => {
         try {
             const response = await fetch(
-                "http://192.168.3.220:5000/transaksi"
+                "http://:5000/transaksi"
             );
             const history = (await response.json()) as {
                 response: {

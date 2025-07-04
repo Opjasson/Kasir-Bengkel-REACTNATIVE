@@ -25,7 +25,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.3.220:5000/transaksi/${routeUuid}`
+            `http://:5000/transaksi/${routeUuid}`
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
