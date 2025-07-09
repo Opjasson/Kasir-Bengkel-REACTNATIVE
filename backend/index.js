@@ -7,6 +7,7 @@ import user_Route from "./routes/userRoute.js"
 import auth_Route from "./routes/authRoute.js"
 import dotenv from "dotenv";
 import cors from "cors"
+import user from "./models/user.js"
 
 
 
