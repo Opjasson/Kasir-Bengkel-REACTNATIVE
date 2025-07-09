@@ -20,7 +20,7 @@ const TambahBarang: React.FC<props> = ({ navigation }) => {
 
     const handleSave = async () => {
         try {
-            await fetch("http://192.168.3.220:5000/barang", {
+            await fetch("http://192.168.220.220:5000/barang", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

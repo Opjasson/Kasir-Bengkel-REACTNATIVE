@@ -25,7 +25,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://:5000/transaksi/${routeUuid}`
+            `http://192.168.220.220:5000/transaksi/${routeUuid}`
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
@@ -47,7 +47,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.3.220:5000/barang");
+            const response = await fetch("http://192.168.220.220:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -64,7 +64,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.3.220:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.220.220:5000/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
@@ -73,7 +73,6 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     return (
         <View style={styles.containerTransaksi}>
             <View style={styles.dataTransaksi}>
-
                 <Text>No id : {id}</Text>
                 <Text>{createdAt?.split("T")[0]}</Text>
 
@@ -91,8 +90,10 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                 <Text>Total harga : {totalHarga}</Text>
             </View>
 
-            <TouchableOpacity onPress={() => deleteTransaksi()} style={styles.buttonDelete}>
-              <Text>Delete</Text>
+            <TouchableOpacity
+                onPress={() => deleteTransaksi()}
+                style={styles.buttonDelete}>
+                <Text>Delete</Text>
             </TouchableOpacity>
         </View>
     );
@@ -100,7 +101,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     containerTransaksi: {
         borderWidth: 2,
-        padding : 10
+        padding: 10,
     },
     dataTransaksi: {
         alignItems: "center",
@@ -108,14 +109,14 @@ const styles = StyleSheet.create({
     containerCart: {
         alignItems: "center",
     },
-    buttonDelete : {
-      backgroundColor : "red",
-      width : "40%",
-      alignItems : "center",
-      marginTop : 10,
-      marginHorizontal : "auto",
-      borderRadius : 20
-    }
+    buttonDelete: {
+        backgroundColor: "red",
+        width: "40%",
+        alignItems: "center",
+        marginTop: 10,
+        marginHorizontal: "auto",
+        borderRadius: 20,
+    },
 });
 
 export default DetailTransaksi;

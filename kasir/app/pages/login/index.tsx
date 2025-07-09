@@ -21,7 +21,7 @@ const Login: React.FC<props> = ({ navigation }) => {
 
     const handleLogin = async () => {
         if (email && password) {
-            const response = await fetch("http://192.168.3.220:5000/login", {
+            const response = await fetch("http://192.168.220.220:5000/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

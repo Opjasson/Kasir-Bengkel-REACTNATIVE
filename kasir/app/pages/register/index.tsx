@@ -22,7 +22,7 @@ const Register: React.FC<props> = ({ navigation }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.3.220:5000/user", {
+            const response = await fetch("http://192.168.220.220:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -33,15 +33,15 @@ const Register: React.FC<props> = ({ navigation }) => {
                     confPassword: confPassword,
                 }),
             });
-            
+
             if (JSON.stringify(response.status) === "400") {
                 setError("Password dan confirm password salah!");
             } else {
                 alert("Berhasil membuat akun");
                 navigation.navigate("login");
             }
-        }else {
-            setError("Isi semua formulir!")
+        } else {
+            setError("Isi semua formulir!");
         }
     };
 
@@ -96,7 +96,9 @@ const Register: React.FC<props> = ({ navigation }) => {
                     onChangeText={(text) => setConfPassword(text)}
                 />
 
-                <Text style={error ? styles.errorMsg : styles.hidden}>{error}</Text>
+                <Text style={error ? styles.errorMsg : styles.hidden}>
+                    {error}
+                </Text>
             </View>
             {/* End Form */}
 
@@ -163,14 +165,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingHorizontal: 3,
     },
-    errorMsg : {
-        fontSize : 18,
-        color : "red",
-        textAlign : "center",
+    errorMsg: {
+        fontSize: 18,
+        color: "red",
+        textAlign: "center",
     },
-    hidden : {
-        display : "none"
-    }
+    hidden: {
+        display: "none",
+    },
 });
 
 export default Register;

@@ -14,7 +14,7 @@ interface props {
 }
 
 interface cartType {
-    id : number;
+    id: number;
     nama: string;
     qty: number;
     harga: number;
@@ -23,13 +23,13 @@ interface cartType {
 const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     const [bayar, setBayar] = useState<number>(0);
     const [barang, setBarang] = useState<
-            {
-                id: number;
-                nama: string;
-                harga: number;
-                stok: number;
-            }[]
-        >([]);
+        {
+            id: number;
+            nama: string;
+            harga: number;
+            stok: number;
+        }[]
+    >([]);
     // dapat data cart dari halaman tambah transaksi
     const cart: cartType[] = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
@@ -39,7 +39,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.3.220:5000/barang");
+            const response = await fetch("http://192.168.220.220:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -48,11 +48,11 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     };
 
     useEffect(() => {
-        getDataBarang()
-    },[])
+        getDataBarang();
+    }, []);
 
     const createTransaksi = async () => {
-        await fetch(`http://192.168.3.220:5000/transaksi/${transaksiId}`, {
+        await fetch(`http://192.168.220.220:5000/transaksi/${transaksiId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
             }),
         });
         cart.forEach(async (item: any) => {
-            await fetch("http://192.168.3.220:5000/cart", {
+            await fetch("http://192.168.220.220:5000/cart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,12 +75,11 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
             });
         });
 
-        
         cart.forEach(async (item: any) => {
-            const foundBarang = barang.find((e) => e.id === item.id)
-            
+            const foundBarang = barang.find((e) => e.id === item.id);
+
             if (foundBarang) {
-                await fetch(`http://192.168.3.220:5000/barang/${item.id}`, {
+                await fetch(`http://192.168.220.220:5000/barang/${item.id}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -89,8 +88,8 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                         stok: foundBarang.stok - item.qty,
                     }),
                 });
-            }else {
-                alert("barang tidak ditemukan")
+            } else {
+                alert("barang tidak ditemukan");
             }
         });
         navigation.navigate("history-transaksi");

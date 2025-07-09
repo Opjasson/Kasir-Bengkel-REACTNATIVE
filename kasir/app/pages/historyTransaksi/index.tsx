@@ -26,7 +26,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             createdAt: string;
         }[]
     >([]);
- 
+
     const [barang, setBarang] = useState<
         {
             id: number;
@@ -59,7 +59,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     const getHistorys = async () => {
         try {
             const response = await fetch(
-                "http://:5000/transaksi"
+                "http://192.168.220.220:5000/transaksi"
             );
             const history = (await response.json()) as {
                 response: {
@@ -79,7 +79,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.3.220:5000/barang");
+            const response = await fetch("http://192.168.220.220:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -87,11 +87,9 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         }
     };
 
-
     useEffect(() => {
         getDataBarang();
     }, []);
-
 
     useEffect(() => {
         getHistorys();
@@ -117,7 +115,11 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 {historyTransaksi.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => navigation.navigate("detail-transaksi",{uuid : item.uuid})}
+                        onPress={() =>
+                            navigation.navigate("detail-transaksi", {
+                                uuid: item.uuid,
+                            })
+                        }
                         style={styles.containerBarang}>
                         <Text style={{ textDecorationLine: "underline" }}>
                             {item.createdAt.split("T")[0]}
