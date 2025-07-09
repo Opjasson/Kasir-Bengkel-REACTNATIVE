@@ -48,7 +48,14 @@ const DrawerContent: React.FC<props> = ({
                     activeOpacity={0.5}
                     style={styles.tutupSidebar}
                     onPress={onPress4}>
-                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                    <Text
+                        style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            color: "red",
+                            backgroundColor: "#FDFFB8",
+                            padding : 10
+                        }}>
                         Logout
                     </Text>
                 </TouchableOpacity>
