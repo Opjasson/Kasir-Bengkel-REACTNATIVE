@@ -28,6 +28,16 @@ export const getUserById = async (req, res) => {
 export const createUser = async (req, res) => {
     const { email, password, confPassword } = req.body;
 
+    const alreadyEmail = await Users.findOne({
+        where: {
+            email: email,
+        },
+    });
+
+    if (alreadyEmail) {
+        return res.status(400).json({ msg: "Email sudah terpakai!" });
+    }
+
     if (password !== confPassword) {
         return res
             .status(400)
