@@ -28,71 +28,12 @@ const data = [
         penjualan: 7000,
         pengeluaran: 5850,
     },
+];
+
+const cartTest = [
     {
-        tanggal: "17 Sep 2020",
-        catatan: "BPJS Kesehatan",
-        penjualan: 7500,
-        pengeluaran: 79000,
-    },
-    {
-        tanggal: "17 Sep 2020",
-        catatan: "PLN 100.000",
-        penjualan: 102850,
-        pengeluaran: 100100,
-    },
-    {
-        tanggal: "17 Sep 2020",
-        catatan: "PLN 20.000",
-        penjualan: 22850,
-        pengeluaran: 20100,
-    },
-    {
-        tanggal: "16 Sep 2020",
-        catatan: "XTRA Combo\n10GB+10GB",
-        penjualan: 87500,
-        pengeluaran: 83680,
-    },
-    {
-        tanggal: "16 Sep 2020",
-        catatan: "PLN 20.000",
-        penjualan: 22850,
-        pengeluaran: 20100,
-    },
-    {
-        tanggal: "15 Sep 2020",
-        catatan: "bayar\nsewa\nmesin\nedc\nbpks",
-        penjualan: 1550000,
-        pengeluaran: 0,
-    },
-    {
-        tanggal: "14 Sep 2020",
-        catatan: "PLN 20.000",
-        penjualan: 22850,
-        pengeluaran: 20100,
-    },
-    {
-        tanggal: "13 Sep 2020",
-        catatan: "BPJS Kesehatan",
-        penjualan: 30500,
-        pengeluaran: 28000,
-    },
-    {
-        tanggal: "11 Sep 2020",
-        catatan: "PLN 20.000",
-        penjualan: 22850,
-        pengeluaran: 20100,
-    },
-    {
-        tanggal: "08 Sep 2020",
-        catatan: "PLN 20.000",
-        penjualan: 22850,
-        pengeluaran: 20100,
-    },
-    {
-        tanggal: "07 Sep 2020",
-        catatan: "Axis\nAigo\nMini\n3GB\n24\nJAM\n15\nHari",
-        penjualan: 25000,
-        pengeluaran: 22500,
+        namaBarang: "jask",
+        qty: 0,
     },
 ];
 
@@ -102,26 +43,33 @@ const formatRupiah = (number) => {
 
 const Laporan: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
-    const [Laporan, setLaporan] = useState<
-        {
-            carts: [];
-            id: number;
-            uuid: string;
-            totalHarga: number;
-            createdAt: string;
-        }[]
-    >([]);
 
     const [barang, setBarang] = useState<
         {
             id: number;
             nama: string;
-            harga: number;
+            harga_beli: number;
+            harga_jual: number;
             stok: number;
         }[]
     >([]);
 
+    const [cart, setCart] = useState<
+        {
+            barangId: number;
+            createdAt: string;
+        }[]
+    >([]);
     const [date, setDate] = useState(new Date());
+
+    const [dataLaporan, setDataLaporan] = useState<
+        {
+            catatan: string;
+            pengeluaran: number;
+            tanggal: string;
+            penjualan: number;
+        }[]
+    >([]);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -147,7 +95,6 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
 
- 
     const onChange = (event: any, selectedDate: any) => {
         const currentDate = selectedDate || date;
         setDate(currentDate);
@@ -158,17 +105,29 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             const response = await fetch(
                 "http://192.168.220.220:5000/transaksi"
             );
-            const history = (await response.json()) as {
-                response: {
-                    carts: [];
-                    id: number;
-                    uuid: string;
-                    totalHarga: number;
-                    createdAt: string;
-                }[];
-            };
-            const dataArray = history.response;
-            setLaporan(dataArray);
+            // const history = (await response.json()) as {
+            //     response: {
+            //         carts: [];
+            //         id: number;
+            //         uuid: string;
+            //         totalHarga: number;
+            //         createdAt: string;
+            //     }[];
+            // };
+            // const dataArray = history.response;
+            // setLaporan(dataArray);
+            const dataRes = await response.json();
+            console.log(dataRes);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getCart = async () => {
+        try {
+            const response = await fetch("http://192.168.220.220:5000/cart");
+            const cat = await response.json();
+            setCart(cat.response);
         } catch (error) {
             console.log(error);
         }
@@ -184,14 +143,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
-    const showDatepicker = () => {
-        DateTimePickerAndroid.open({
-            value: date,
-            onChange,
-            mode: "date",
-            is24Hour: true,
-        });
-    };
+    useEffect(() => {
+        getCart();
+    }, []);
 
     useEffect(() => {
         getDataBarang();
@@ -200,6 +154,80 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     useEffect(() => {
         getHistorys();
     }, []);
+
+    console.log(barang);
+
+    // 111111---------------------------------
+    const getNamabarangCart = cart.map((a) => a.barangId);
+    const getQTYbarangCart = cart.map((a) => a.qty);
+
+    const grouped = cart.reduce((acc, curr) => {
+        acc[curr.barangId] = (acc[curr.barangId] || 0) + curr.qty;
+        return acc;
+    }, {});
+
+    const resultQtyOnly = Object.values(grouped);
+
+    // const result = Object.values(grouped);
+
+    const hasil = barang
+        .filter((item) => getNamabarangCart.includes(item.id))
+        .map((item) => item.nama);
+
+    const haha = hasil.map((item, index) => ({
+        ...cartTest[0], // copy isi template
+        namaBarang: hasil[index],
+        qty: resultQtyOnly[index], // ganti catatan dengan nama baru
+    }));
+
+    // console.log(haha);
+    // console.log(resultQtyOnly);
+
+    // -----------------------
+
+    // 22222------------------------------------------------------------
+    const dataNama = barang.map((item) => item.nama);
+    const pengeluaran = barang.map((item) => item.harga_beli * item.stok);
+    const hitung = haha.map((p) => {
+        const barangData = barang.find((b) => b.nama === p.namaBarang);
+        const total = barangData ? barangData.harga_jual * p.qty : 0;
+        return {
+            nama: p.namaBarang,
+            totalPenjualan: total,
+        };
+    });
+
+    const tanggal = cart.map((item) => item.createdAt.split("T")[0]);
+    const totalPenjualan = hitung.map((item) => item.totalPenjualan);
+
+    const handleUpdate = () => {
+        const hasil = dataNama.map((nama, index) => ({
+            ...data[0], // copy isi template
+            catatan: nama,
+            pengeluaran: pengeluaran[index], // ganti catatan dengan nama baru
+            penjualan: totalPenjualan[index],
+            tanggal: tanggal[index],
+        }));
+
+        setDataLaporan(hasil);
+    };
+
+    const filterData = dataLaporan.filter(
+        (item) => item.tanggal === date.toISOString().split("T")[0]
+    );
+
+    console.log("cart", tanggal);
+
+    // ------------------------------------------------------------
+    const showDatepicker = () => {
+        handleUpdate()
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: "date",
+            is24Hour: true,
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -223,11 +251,12 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         paddingVertical: 15,
                     }}>
                     <Text style={{ fontSize: 20, fontWeight: "900" }}>
-                        Laporan Penjualan PerBulan
+                        Laporan Penjualan Per Hari
                     </Text>
 
                     <Button
                         style={styles.buttonDate}
+                        // aksi={showDatepicker}
                         aksi={showDatepicker}
                         simbol={
                             <Fontisto name="date" size={24} color="black" />
@@ -239,19 +268,12 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 <ScrollView
                     horizontal
                     style={{
-                        backgroundColor: "#FDFFB8",
+                        backgroundColor: "#FDFFB8"
                     }}>
                     <View style={styles.container}>
                         {/* Header */}
                         <View style={[styles.row, styles.header]}>
-                            <Text
-                                style={[
-                                    styles.cell,
-                                    styles.headerText,
-                                    { flex: 1 },
-                                ]}>
-                                Tanggal
-                            </Text>
+                            <Text style={{ width: 50 }}>No</Text>
                             <Text
                                 style={[
                                     styles.cell,
@@ -272,13 +294,13 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         </View>
 
                         {/* Data Rows */}
-                        {data.map((item, index) => {
+                        {filterData.length > 0 ? (filterData.map((item, index) => {
                             const untungRugi =
                                 item.penjualan - item.pengeluaran;
                             return (
                                 <View key={index} style={styles.row}>
-                                    <Text style={[styles.cell, { flex: 1 }]}>
-                                        {item.tanggal}
+                                    <Text style={{ width: 50 }}>
+                                        {index + 1}
                                     </Text>
                                     <Text style={[styles.cell, { flex: 2 }]}>
                                         {item.catatan}
@@ -302,7 +324,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     </Text>
                                 </View>
                             );
-                        })}
+                        })) : (
+                            <Text style={{ color : "black", fontSize : 40 }}>Data tidak tersedia</Text>
+                        )}
                     </View>
                 </ScrollView>
                 {/* ------------ */}
