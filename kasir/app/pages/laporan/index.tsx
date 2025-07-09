@@ -15,7 +15,8 @@ import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import Button from "@/app/components/moleculs/Button";
-import Fontisto from "@expo/vector-icons/Fontisto";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -123,6 +124,116 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
+    const generateHTML = () => {
+        const rows = dataLaporan
+            .map(
+                (item, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${item.catatan}</td>
+            <td>Rp ${item.penjualan.toLocaleString()}</td>
+            <td>Rp  ${item.pengeluaran.toLocaleString()}</td>
+            <td>Rp  ${item.penjualan - item.pengeluaran}</td>
+          </tr>
+        `
+            )
+            .join("");
+        return `
+          <html>
+            <head>
+  <meta charset="UTF-8">
+  <title>Laporan Pencatatan - September 2020</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .summary {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 40px;
+      font-size: 18px;
+    }
+    .summary div {
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .green { color: green; }
+    .red { color: red; }
+    .blue { color: #007bff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .footer {
+      text-align: right;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
+    <h1>Laporan Pencatatan ${date.toISOString().split("T")[0]}</h1>
+    <p><strong>Tirta jaya kusuma</strong><br>083123998141</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Catatan</th>
+        <th>Penjualan</th>
+        <th>Pengeluaran</th>
+        <th>Untung/Rugi</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+    </tbody>
+  </table>
+
+</body>
+          </html>
+        `;
+    };
+
+    const handleSavePdf = async () => {
+        const htmlContent = generateHTML();
+        const { uri } = await Print.printToFileAsync({
+            html: htmlContent,
+        });
+
+        const customFileName = `Data_DailyComparison_${dateNow}.pdf`;
+        const newUri = FileSystem.documentDirectory + customFileName;
+
+        await FileSystem.moveAsync({
+            from: uri,
+            to: newUri,
+        });
+
+        await Sharing.shareAsync(newUri); // Menyimpan atau kirim PDF
+    };
+
     const getCart = async () => {
         try {
             const response = await fetch("http://192.168.220.220:5000/cart");
@@ -220,7 +331,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     // ------------------------------------------------------------
     const showDatepicker = () => {
-        handleUpdate()
+        handleUpdate();
         DateTimePickerAndroid.open({
             value: date,
             onChange,
@@ -253,22 +364,44 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     <Text style={{ fontSize: 20, fontWeight: "900" }}>
                         Laporan Penjualan Per Hari
                     </Text>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}>
+                        <Button
+                            style={styles.buttonDate}
+                            // aksi={showDatepicker}
+                            aksi={showDatepicker}
+                            simbol={
+                                <FontAwesome6
+                                    name="newspaper"
+                                    size={24}
+                                    color="black"
+                                />
+                            }>
+                            {dateNow}
+                        </Button>
 
-                    <Button
-                        style={styles.buttonDate}
-                        // aksi={showDatepicker}
-                        aksi={showDatepicker}
-                        simbol={
-                            <Fontisto name="date" size={24} color="black" />
-                        }>
-                        {dateNow}
-                    </Button>
+                        <Button
+                            aksi={handleSavePdf}
+                            style={styles.buttonDate}
+                            simbol={
+                                <FontAwesome5
+                                    name="print"
+                                    size={24}
+                                    color="black"
+                                />
+                            }>
+                            Cetak
+                        </Button>
+                    </View>
                 </View>
                 {/* menu bagian */}
                 <ScrollView
                     horizontal
                     style={{
-                        backgroundColor: "#FDFFB8"
+                        backgroundColor: "#FDFFB8",
                     }}>
                     <View style={styles.container}>
                         {/* Header */}
@@ -294,38 +427,44 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         </View>
 
                         {/* Data Rows */}
-                        {filterData.length > 0 ? (filterData.map((item, index) => {
-                            const untungRugi =
-                                item.penjualan - item.pengeluaran;
-                            return (
-                                <View key={index} style={styles.row}>
-                                    <Text style={{ width: 50 }}>
-                                        {index + 1}
-                                    </Text>
-                                    <Text style={[styles.cell, { flex: 2 }]}>
-                                        {item.catatan}
-                                    </Text>
-                                    <Text style={[styles.cell, styles.green]}>
-                                        {formatRupiah(item.penjualan)}
-                                    </Text>
-                                    <Text style={[styles.cell, styles.red]}>
-                                        {item.pengeluaran
-                                            ? formatRupiah(item.pengeluaran)
-                                            : "-"}
-                                    </Text>
-                                    <Text
-                                        style={[
-                                            styles.cell,
-                                            untungRugi >= 0
-                                                ? styles.green
-                                                : styles.red,
-                                        ]}>
-                                        {formatRupiah(untungRugi)}
-                                    </Text>
-                                </View>
-                            );
-                        })) : (
-                            <Text style={{ color : "black", fontSize : 40 }}>Data tidak tersedia</Text>
+                        {filterData.length > 0 ? (
+                            filterData.map((item, index) => {
+                                const untungRugi =
+                                    item.penjualan - item.pengeluaran;
+                                return (
+                                    <View key={index} style={styles.row}>
+                                        <Text style={{ width: 50 }}>
+                                            {index + 1}
+                                        </Text>
+                                        <Text
+                                            style={[styles.cell, { flex: 2 }]}>
+                                            {item.catatan}
+                                        </Text>
+                                        <Text
+                                            style={[styles.cell, styles.green]}>
+                                            {formatRupiah(item.penjualan)}
+                                        </Text>
+                                        <Text style={[styles.cell, styles.red]}>
+                                            {item.pengeluaran
+                                                ? formatRupiah(item.pengeluaran)
+                                                : "-"}
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                styles.cell,
+                                                untungRugi >= 0
+                                                    ? styles.green
+                                                    : styles.red,
+                                            ]}>
+                                            {formatRupiah(untungRugi)}
+                                        </Text>
+                                    </View>
+                                );
+                            })
+                        ) : (
+                            <Text style={{ color: "black", fontSize: 40 }}>
+                                Data tidak tersedia
+                            </Text>
                         )}
                     </View>
                 </ScrollView>
@@ -355,7 +494,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 10,
-        backgroundColor: "#CFFFE2",
+        backgroundColor: "#819067",
     },
     container: {
         padding: 10,
