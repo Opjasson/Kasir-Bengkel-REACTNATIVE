@@ -2,12 +2,13 @@ import { Sequelize, where } from "sequelize";
 import barang from "../models/barangModel.js";
 
 export const createBarang = async (req, res) => {
-    const { nama, harga, stok } = req.body;
+    const { nama, harga_jual, harga_beli, stok } = req.body;
 
     try {
         await barang.create({
             nama,
-            harga,
+            harga_jual,
+            harga_beli,
             stok,
         });
         res.status(200).json({ msg: "Barang berhasil ditambahkan1" });
@@ -18,16 +19,17 @@ export const createBarang = async (req, res) => {
 
 export const updateBarangById = async (req, res) => {
     try {
-        const { nama, harga, stok } = req.body;
+        const { nama, harga_jual, harga_beli, stok } = req.body;
         await barang.update(
             {
                 nama,
-                harga,
+                harga_jual,
+                harga_beli,
                 stok,
             },
             {
                 where: {
-                    id : req.params.id
+                    id: req.params.id,
                 },
             }
         );
@@ -40,7 +42,7 @@ export const updateBarangById = async (req, res) => {
 export const getBarang = async (req, res) => {
     try {
         const response = await barang.findAll({
-            attributes: ["id", "nama", "harga", "stok"],
+            attributes: ["id", "nama", "harga_jual", "harga_beli", "stok"],
         });
         res.status(200).json(response);
     } catch (error) {
