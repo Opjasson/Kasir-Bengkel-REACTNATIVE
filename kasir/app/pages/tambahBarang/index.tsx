@@ -15,7 +15,8 @@ interface props {
 
 const TambahBarang: React.FC<props> = ({ navigation }) => {
     const [nama, setNama] = useState<string>();
-    const [harga, setHarga] = useState<number>();
+    const [harga_jual, setharga_jual] = useState<number>();
+    const [harga_beli, setharga_beli] = useState<number>();
     const [stok, setStok] = useState<number>();
 
     const handleSave = async () => {
@@ -27,7 +28,8 @@ const TambahBarang: React.FC<props> = ({ navigation }) => {
                 },
                 body: JSON.stringify({
                     nama: nama,
-                    harga: harga,
+                    harga_jual: harga_jual,
+                    harga_beli: harga_beli,
                     stok: stok,
                 }),
             });
@@ -53,7 +55,7 @@ const TambahBarang: React.FC<props> = ({ navigation }) => {
                     onChangeText={(text) => setNama(text.toLowerCase())}
                 />
 
-                <Text style={styles.textLabel}>Harga</Text>
+                <Text style={styles.textLabel}>Harga Jual</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -62,7 +64,19 @@ const TambahBarang: React.FC<props> = ({ navigation }) => {
                     }}
                     keyboardType="numeric"
                     placeholder="Rp."
-                    onChangeText={(text) => setHarga(Number(text))}
+                    onChangeText={(text) => setharga_jual(Number(text))}
+                />
+
+                <Text style={styles.textLabel}>Harga Beli</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="numeric"
+                    placeholder="Rp."
+                    onChangeText={(text) => setharga_beli(Number(text))}
                 />
 
                 <Text style={styles.textLabel}>Stok</Text>

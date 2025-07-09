@@ -26,7 +26,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
         {
             id: number;
             nama: string;
-            harga: number;
+            harga_jual: number;
             stok: number;
         }[]
     >([]);

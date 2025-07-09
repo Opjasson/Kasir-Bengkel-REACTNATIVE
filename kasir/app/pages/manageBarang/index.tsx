@@ -32,7 +32,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
         {
             id: number;
             nama: string;
-            harga: number;
+            harga_jual: number;
             stok: number;
         }[]
     >([]);
@@ -159,7 +159,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                             <Text style={styles.menu1}>
                                 {item.nama.toLocaleUpperCase()}
                             </Text>
-                            <Text style={styles.menu2}>Rp. {item.harga}</Text>
+                            <Text style={styles.menu2}>Rp. {item.harga_jual}</Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs
                             </Text>

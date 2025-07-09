@@ -20,7 +20,8 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
     const sendData = route.params?.data;
 
     const [nama, setNama] = useState<string>(sendData.nama);
-    const [harga, setHarga] = useState<number>(sendData.harga);
+    const [harga_jual, setharga_jual] = useState<number>(sendData.harga_jual);
+    const [harga_beli, setharga_beli] = useState<number>(sendData.harga_beli);
     const [stok, setStok] = useState(sendData.stok);
 
     // function mengubah barang
@@ -33,7 +34,8 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                 },
                 body: JSON.stringify({
                     nama: nama,
-                    harga: harga,
+                    harga_jual: harga_jual,
+                    harga_beli: harga_beli,
                     stok: Number(stok),
                 }),
             });
@@ -61,7 +63,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     value={nama}
                 />
 
-                <Text style={styles.textLabel}>Harga</Text>
+                <Text style={styles.textLabel}>Harga Jual</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -70,8 +72,21 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
                     }}
                     keyboardType="numeric"
                     placeholder="Rp."
-                    onChangeText={(text) => setHarga(Number(text))}
-                    value={harga + ""}
+                    value={String(harga_jual)}
+                    onChangeText={(text) => setharga_jual(Number(text))}
+                />
+
+                <Text style={styles.textLabel}>Harga Beli</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="numeric"
+                    placeholder="Rp."
+                    value={String(harga_beli)}
+                    onChangeText={(text) => setharga_beli(Number(text))}
                 />
 
                 <Text style={styles.textLabel}>Stok</Text>

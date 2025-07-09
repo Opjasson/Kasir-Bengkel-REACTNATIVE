@@ -27,7 +27,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         {
             id: number;
             nama: string;
-            harga: number;
+            harga_jual: number;
             stok: number;
         }[]
     >([]);
@@ -39,7 +39,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         {
             id: number;
             nama: string;
-            harga: number;
+            harga_jual: number;
             stok?: number;
             qty: number;
         }[]
@@ -67,10 +67,11 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         } else {
             const barang_Masuk = data.filter((item) => item.id === id);
             barang_Masuk.map((a) =>
-                setCart([...cart, { id, nama: a.nama, qty: 1, harga: a.harga }])
+                setCart([...cart, { id, nama: a.nama, qty: 1, harga_jual: a.harga_jual }])
             );
         }
     };
+
 
     const minQty = (id: number) => {
         setCart(
@@ -92,7 +93,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         if (cart.length > 0) {
             const sum = cart.reduce((acc, item) => {
                 const product = data.find((e) => e.id === item.id);
-                return acc + product!.harga * item.qty;
+                return acc + product!.harga_jual * item.qty;
             }, 0);
             setTotalHarga(sum);
 
@@ -186,7 +187,9 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                             <Text style={styles.menu1}>
                                 {item.nama.toLocaleUpperCase()}
                             </Text>
-                            <Text style={styles.menu2}>Rp. {item.harga}</Text>
+                            <Text style={styles.menu2}>
+                                Rp. {item.harga_jual}
+                            </Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs
                             </Text>
