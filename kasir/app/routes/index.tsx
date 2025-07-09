@@ -9,6 +9,7 @@ import {
     DetailTransaksi,
     Login,
     Register,
+    Laporan,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -17,14 +18,22 @@ const Route = () => {
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="login" component={Login} />
-            <Stack.Screen name="register" component={Register} />
+            {/* <Stack.Screen name="login" component={Login} /> */}
+            {/* <Stack.Screen name="register" component={Register} /> */}
             <Stack.Screen name="kasir" component={Kasir} />
+
             <Stack.Screen name="manage-barang" component={ManageBarang} />
+
             <Stack.Screen
                 name="history-transaksi"
                 component={HistoryTransaksi}
             />
+
+            <Stack.Screen
+                name="laporan"
+                component={Laporan}
+            />
+            
             <Stack.Screen
                 options={{
                     headerShown: true,
