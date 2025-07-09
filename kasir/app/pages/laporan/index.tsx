@@ -10,6 +10,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+import Button from "@/app/components/moleculs/Button";
+import Fontisto from "@expo/vector-icons/Fontisto";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -115,6 +121,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }[]
     >([]);
 
+    const [date, setDate] = useState(new Date());
+
     const toggleOpen = () => {
         if (open === false) {
             setOpen(true);
@@ -134,6 +142,15 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 onPress5={() => navigation.navigate("laporan")}
             />
         );
+    };
+
+    // convert tanggal menjadi string
+    const dateNow = date.toISOString().split("T")[0];
+
+ 
+    const onChange = (event: any, selectedDate: any) => {
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
     };
 
     const getHistorys = async () => {
@@ -167,6 +184,15 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
+    const showDatepicker = () => {
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: "date",
+            is24Hour: true,
+        });
+    };
+
     useEffect(() => {
         getDataBarang();
     }, []);
@@ -190,13 +216,31 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             {/* ------------ */}
 
             {/* menampilkan daftar menu */}
-            <ScrollView>
+            <ScrollView style={{ paddingHorizontal: 8 }}>
+                <View
+                    style={{
+                        paddingLeft: 25,
+                        paddingVertical: 15,
+                    }}>
+                    <Text style={{ fontSize: 20, fontWeight: "900" }}>
+                        Laporan Penjualan PerBulan
+                    </Text>
 
-                <View style={{ borderWidth : 2, paddingLeft : 25, paddingVertical : 15 }}>
-                    <Text style={{ fontSize : 20, fontWeight : "900" }}>Laporan Penjualan PerBulan</Text>
+                    <Button
+                        style={styles.buttonDate}
+                        aksi={showDatepicker}
+                        simbol={
+                            <Fontisto name="date" size={24} color="black" />
+                        }>
+                        {dateNow}
+                    </Button>
                 </View>
                 {/* menu bagian */}
-                <ScrollView horizontal>
+                <ScrollView
+                    horizontal
+                    style={{
+                        backgroundColor: "#FDFFB8",
+                    }}>
                     <View style={styles.container}>
                         {/* Header */}
                         <View style={[styles.row, styles.header]}>
@@ -278,6 +322,17 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    buttonDate: {
+        borderWidth: 1,
+        width: 130,
+        flexDirection: "row",
+        gap: 5,
+        marginTop: 20,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 10,
+        backgroundColor: "#CFFFE2",
+    },
     container: {
         padding: 10,
         minWidth: 700,
@@ -299,9 +354,9 @@ const styles = StyleSheet.create({
         flex: 1,
         // paddingHorizontal: 6,
         // paddingRight : 20,
-        width : 110,
-        borderRightWidth : 0.5,
-        paddingLeft : 10
+        width: 110,
+        borderRightWidth: 0.5,
+        paddingLeft: 10,
     },
     green: {
         color: "green",
