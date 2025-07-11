@@ -22,7 +22,6 @@ interface props {
     navigation: NavigationProp<any, any>;
 }
 
-
 const Laporan: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
 
@@ -83,117 +82,6 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     const onChange = (event: any, selectedDate: any) => {
         const currentDate = selectedDate || date;
         setDate(currentDate);
-    };
-
-
-    const generateHTML = () => {
-        const rows = dataLaporan
-            .map(
-                (item, index) => `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${item.catatan}</td>
-            <td>Rp ${item.penjualan.toLocaleString()}</td>
-            <td>Rp  ${item.pengeluaran.toLocaleString()}</td>
-            <td>Rp  ${item.penjualan - item.pengeluaran}</td>
-          </tr>
-        `
-            )
-            .join("");
-        return `
-          <html>
-            <head>
-  <meta charset="UTF-8">
-  <title>Laporan Pencatatan - September 2020</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-    }
-    h1, h2 {
-      text-align: center;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .summary {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 40px;
-      font-size: 18px;
-    }
-    .summary div {
-      padding: 10px;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-    .green { color: green; }
-    .red { color: red; }
-    .blue { color: #007bff; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 30px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-    .footer {
-      text-align: right;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
-    <h1>Laporan Pencatatan ${date.toISOString().split("T")[0]}</h1>
-    <p><strong>Tirta jaya kusuma</strong><br>083123998141</p>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Catatan</th>
-        <th>Penjualan</th>
-        <th>Pengeluaran</th>
-        <th>Untung/Rugi</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${rows}
-    </tbody>
-  </table>
-
-</body>
-          </html>
-        `;
-    };
-
-    const handleSavePdf = async () => {
-        const htmlContent = generateHTML();
-        const { uri } = await Print.printToFileAsync({
-            html: htmlContent,
-        });
-
-        const customFileName = `Data_DailyComparison_${dateNow}.pdf`;
-        const newUri = FileSystem.documentDirectory + customFileName;
-
-        await FileSystem.moveAsync({
-            from: uri,
-            to: newUri,
-        });
-
-        await Sharing.shareAsync(newUri); // Menyimpan atau kirim PDF
     };
 
     const getCart = async () => {
@@ -268,14 +156,132 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         };
     });
 
-    const totalPenjualan2 = transaksiDenganHarga.filter((a) => a.createdAt === date.toISOString().split("T")[0]).reduce((total, item) => {
-        return total + item.harga_jual * item.qty;
-    }, 0);
-
-    
+    const totalPenjualan2 = transaksiDenganHarga
+        .filter((a) => a.createdAt === date.toISOString().split("T")[0])
+        .reduce((total, item) => {
+            return total + item.harga_jual * item.qty;
+        }, 0);
 
     // console.log(transaksiDenganHarga);
     // ************
+
+    const generateHTML = () => {
+        const rows = transaksiDenganHarga
+            .filter((a) => a.createdAt === date.toISOString().split("T")[0])
+            .map(
+                (item, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${item.createdAt}</td>
+            <td>${item.nama_barang}</td>
+            <td>${item.qty}</td>
+            <td>Rp  ${item.harga_jual.toLocaleString()}</td>
+            <td>Rp  ${item.harga_jual * item.qty}</td>
+          </tr>
+        `
+            )
+            .join("");
+        return `
+          <html>
+            <head>
+  <meta charset="UTF-8">
+  <title>Laporan Pencatatan - September 2020</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .summary {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 40px;
+      font-size: 18px;
+    }
+    .summary div {
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .green { color: green; }
+    .red { color: red; }
+    .blue { color: #007bff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .footer {
+      text-align: right;
+      font-size: 14px;
+    }
+      tr#total {
+  font-size: 18px;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
+    <h1>Laporan Pencatatan ${date.toISOString().split("T")[0]}</h1>
+    <p><strong>Tirta Laksana Jaya Murni</strong><br>081246798129</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Nama</th>
+        <th>Qty</th>
+        <th>Harga</th>
+        <th>Total Penjualan</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+      <tr id="total">Total keseluruhan penjualan : ${totalPenjualan2}</tr>
+    </tbody>
+  </table>
+
+</body>
+          </html>
+        `;
+    };
+
+    const handleSavePdf = async () => {
+        const htmlContent = generateHTML();
+        const { uri } = await Print.printToFileAsync({
+            html: htmlContent,
+        });
+
+        const customFileName = `Kasir bengel_${dateNow}.pdf`;
+        const newUri = FileSystem.documentDirectory + customFileName;
+
+        await FileSystem.moveAsync({
+            from: uri,
+            to: newUri,
+        });
+
+        await Sharing.shareAsync(newUri); // Menyimpan atau kirim PDF
+    };
 
     // ------------------------------------------------------------
     const showDatepicker = () => {
@@ -410,7 +416,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     </View>
                                 );
                             })}
-                            <Text style={{ fontSize : 15, fontWeight : "700" }}>Total Penjualan keseluruhan : {totalPenjualan2}</Text>
+                        <Text style={{ fontSize: 15, fontWeight: "700" }}>
+                            Total Penjualan keseluruhan : {totalPenjualan2}
+                        </Text>
                     </View>
                 </ScrollView>
                 {/* ------------ */}
