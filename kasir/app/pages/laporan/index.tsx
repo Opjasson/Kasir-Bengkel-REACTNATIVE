@@ -272,7 +272,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             html: htmlContent,
         });
 
-        const customFileName = `Kasir bengel_${dateNow}.pdf`;
+        const customFileName = `Kasir bengkel_${dateNow}.pdf`;
         const newUri = FileSystem.documentDirectory + customFileName;
 
         await FileSystem.moveAsync({
