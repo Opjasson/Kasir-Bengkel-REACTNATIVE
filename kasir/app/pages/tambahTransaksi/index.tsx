@@ -109,7 +109,7 @@ const Kasir: React.FC<props> = ({ navigation }) => {
 
     const filterData = Object.values(data).filter((item) => {
         const words = find?.split(" ");
-        return words?.some((word) => item.nama.includes(word));
+        return words?.some((word) => item.nama?.includes(word));
     });
 
     const prosesCart = async () => {

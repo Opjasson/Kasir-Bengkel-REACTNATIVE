@@ -31,8 +31,19 @@ const data = [
     },
 ];
 
+const newData = [
+    {
+        tanggal: "17 Sep 2020",
+        barang: "Telkomsel 5.000",
+        qty: 7000,
+        harga: 5850,
+        total_Penjualan: 100000,
+    },
+];
+
 const cartTest = [
     {
+        tanggalCart: 123,
         namaBarang: "jask",
         qty: 0,
     },
@@ -59,16 +70,19 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         {
             barangId: number;
             createdAt: string;
+            qty: number;
+            transaksiId: number;
         }[]
     >([]);
     const [date, setDate] = useState(new Date());
 
     const [dataLaporan, setDataLaporan] = useState<
         {
-            catatan: string;
-            pengeluaran: number;
             tanggal: string;
-            penjualan: number;
+            barang: string;
+            qty: number;
+            harga: number;
+            total_Penjualan: number;
         }[]
     >([]);
 
@@ -101,28 +115,6 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         setDate(currentDate);
     };
 
-    const getHistorys = async () => {
-        try {
-            const response = await fetch(
-                "http://192.168.220.220:5000/transaksi"
-            );
-            // const history = (await response.json()) as {
-            //     response: {
-            //         carts: [];
-            //         id: number;
-            //         uuid: string;
-            //         totalHarga: number;
-            //         createdAt: string;
-            //     }[];
-            // };
-            // const dataArray = history.response;
-            // setLaporan(dataArray);
-            const dataRes = await response.json();
-            console.log(dataRes);
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const generateHTML = () => {
         const rows = dataLaporan
@@ -262,76 +254,61 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         getDataBarang();
     }, []);
 
-    useEffect(() => {
-        getHistorys();
-    }, []);
+    // console.log(barang);
 
-    console.log(barang);
+    // Penting ----------------
+    // Buat map untuk mempermudah pencarian nama berdasarkan barangId
+    const barangMap = Object.fromEntries(barang.map((b) => [b.id, b.nama]));
 
-    // 111111---------------------------------
-    const getNamabarangCart = cart.map((a) => a.barangId);
-    const getQTYbarangCart = cart.map((a) => a.qty);
-
-    const grouped = cart.reduce((acc, curr) => {
-        acc[curr.barangId] = (acc[curr.barangId] || 0) + curr.qty;
-        return acc;
-    }, {});
-
-    const resultQtyOnly = Object.values(grouped);
-
-    // const result = Object.values(grouped);
-
-    const hasil = barang
-        .filter((item) => getNamabarangCart.includes(item.id))
-        .map((item) => item.nama);
-
-    const haha = hasil.map((item, index) => ({
-        ...cartTest[0], // copy isi template
-        namaBarang: hasil[index],
-        qty: resultQtyOnly[index], // ganti catatan dengan nama baru
+    // Ubah barangId menjadi nama
+    const cartDenganNama = cart.map((item) => ({
+        createdAt: item.createdAt.split("T")[0],
+        qty: item.qty,
+        transaksiId: item.transaksiId,
+        nama_barang: barangMap[item.barangId],
     }));
 
-    // console.log(haha);
-    // console.log(resultQtyOnly);
+    const grouped1 = new Map();
 
-    // -----------------------
+    for (const item of cartDenganNama) {
+        const key = `${item.createdAt}_${item.nama_barang}`;
 
-    // 22222------------------------------------------------------------
-    const dataNama = barang.map((item) => item.nama);
-    const pengeluaran = barang.map((item) => item.harga_beli * item.stok);
-    const hitung = haha.map((p) => {
-        const barangData = barang.find((b) => b.nama === p.namaBarang);
-        const total = barangData ? barangData.harga_jual * p.qty : 0;
+        if (grouped1.has(key)) {
+            grouped1.get(key).qty += item.qty;
+        } else {
+            grouped1.set(key, {
+                createdAt: item.createdAt,
+                nama_barang: item.nama_barang,
+                qty: item.qty,
+            });
+        }
+    }
+
+    const hasilGabungan = Array.from(grouped1.values());
+
+    // Buat map nama_barang => data barang
+    const barangMap2 = Object.fromEntries(barang.map((b) => [b.nama, b]));
+
+    // Tambahkan harga ke setiap item transaksi
+    const transaksiDenganHarga = hasilGabungan.map((item) => {
+        const barangInfo = barangMap2[item.nama_barang] || {};
         return {
-            nama: p.namaBarang,
-            totalPenjualan: total,
+            ...item,
+            harga_jual: barangInfo.harga_jual || 0,
         };
     });
 
-    const tanggal = cart.map((item) => item.createdAt.split("T")[0]);
-    const totalPenjualan = hitung.map((item) => item.totalPenjualan);
+    const totalPenjualan2 = transaksiDenganHarga.filter((a) => a.createdAt === date.toISOString().split("T")[0]).reduce((total, item) => {
+        return total + item.harga_jual * item.qty;
+    }, 0);
 
-    const handleUpdate = () => {
-        const hasil = dataNama.map((nama, index) => ({
-            ...data[0], // copy isi template
-            catatan: nama,
-            pengeluaran: pengeluaran[index], // ganti catatan dengan nama baru
-            penjualan: totalPenjualan[index],
-            tanggal: tanggal[index],
-        }));
+    
 
-        setDataLaporan(hasil);
-    };
-
-    const filterData = dataLaporan.filter(
-        (item) => item.tanggal === date.toISOString().split("T")[0]
-    );
-
-    console.log("cart", tanggal);
+    // console.log(transaksiDenganHarga);
+    // ************
 
     // ------------------------------------------------------------
     const showDatepicker = () => {
-        handleUpdate();
         DateTimePickerAndroid.open({
             value: date,
             onChange,
@@ -413,24 +390,31 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     styles.headerText,
                                     { flex: 2 },
                                 ]}>
-                                Catatan
+                                Tanggal
                             </Text>
                             <Text style={[styles.cell, styles.headerText]}>
-                                Penjualan
+                                barang
                             </Text>
                             <Text style={[styles.cell, styles.headerText]}>
-                                Pengeluaran
+                                qty
                             </Text>
                             <Text style={[styles.cell, styles.headerText]}>
-                                Untung/Rugi
+                                harga
+                            </Text>
+                            <Text style={[styles.cell, styles.headerText]}>
+                                total penjualan
                             </Text>
                         </View>
 
                         {/* Data Rows */}
-                        {filterData.length > 0 ? (
-                            filterData.map((item, index) => {
-                                const untungRugi =
-                                    item.penjualan - item.pengeluaran;
+
+                        {transaksiDenganHarga
+                            .filter(
+                                (a) =>
+                                    a.createdAt ===
+                                    date.toISOString().split("T")[0]
+                            )
+                            .map((item, index) => {
                                 return (
                                     <View key={index} style={styles.row}>
                                         <Text style={{ width: 50 }}>
@@ -438,34 +422,25 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                         </Text>
                                         <Text
                                             style={[styles.cell, { flex: 2 }]}>
-                                            {item.catatan}
+                                            {item.createdAt}
                                         </Text>
                                         <Text
                                             style={[styles.cell, styles.green]}>
-                                            {formatRupiah(item.penjualan)}
+                                            {item.nama_barang}
                                         </Text>
                                         <Text style={[styles.cell, styles.red]}>
-                                            {item.pengeluaran
-                                                ? formatRupiah(item.pengeluaran)
-                                                : "-"}
+                                            {item.qty}
                                         </Text>
-                                        <Text
-                                            style={[
-                                                styles.cell,
-                                                untungRugi >= 0
-                                                    ? styles.green
-                                                    : styles.red,
-                                            ]}>
-                                            {formatRupiah(untungRugi)}
+                                        <Text style={styles.cell}>
+                                            {item.harga_jual}
+                                        </Text>
+                                        <Text style={styles.cell}>
+                                            {item.harga_jual * item.qty}
                                         </Text>
                                     </View>
                                 );
-                            })
-                        ) : (
-                            <Text style={{ color: "black", fontSize: 40 }}>
-                                Data tidak tersedia
-                            </Text>
-                        )}
+                            })}
+                            <Text style={{ fontSize : 15, fontWeight : "700" }}>Total Penjualan keseluruhan : {totalPenjualan2}</Text>
                     </View>
                 </ScrollView>
                 {/* ------------ */}
