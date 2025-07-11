@@ -22,36 +22,6 @@ interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const data = [
-    {
-        tanggal: "17 Sep 2020",
-        catatan: "Telkomsel 5.000",
-        penjualan: 7000,
-        pengeluaran: 5850,
-    },
-];
-
-const newData = [
-    {
-        tanggal: "17 Sep 2020",
-        barang: "Telkomsel 5.000",
-        qty: 7000,
-        harga: 5850,
-        total_Penjualan: 100000,
-    },
-];
-
-const cartTest = [
-    {
-        tanggalCart: 123,
-        namaBarang: "jask",
-        qty: 0,
-    },
-];
-
-const formatRupiah = (number) => {
-    return "RP " + number.toLocaleString("id-ID");
-};
 
 const Laporan: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
