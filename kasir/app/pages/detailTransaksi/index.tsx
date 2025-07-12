@@ -109,7 +109,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         <html>
         <head>
         <style>
-        body { font-family: sans-serif; padding: 16px; }
+        @page { size: 58mm auto; margin: 0; } body { width: 58mm; font-size: 10px; padding: 5px; font-family: sans-serif; padding: 16px;  }
         .center { text-align: center; }
         .bold { font-weight: bold; }
         .line { border-top: 1px dashed #000; margin: 10px 0; }
