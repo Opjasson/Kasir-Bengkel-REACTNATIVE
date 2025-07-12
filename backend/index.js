@@ -7,12 +7,12 @@ import user_Route from "./routes/userRoute.js"
 import auth_Route from "./routes/authRoute.js"
 import dotenv from "dotenv";
 import cors from "cors"
-import user from "./models/barangModel.js"
+import transaksi from "./models/transaksiModel.js"
 
 
 
 // (async() => {
-//     await user.sync()
+//     await transaksi.sync()
 // })()
 
 dotenv.config();

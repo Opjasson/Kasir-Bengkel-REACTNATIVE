@@ -13,9 +13,16 @@ const transaksiModel = db.define(
                 notEmpty: true,
             },
         },
+        namaPelanggan: {
+            type: STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
         totalHarga: {
             type: INTEGER,
-            defaultValue : 0,
+            defaultValue: 0,
             allowNull: false,
             validate: {
                 notEmpty: true,
