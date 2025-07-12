@@ -26,6 +26,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const [totalHarga, setTotalHarga] = useState<number>();
     const [createdAt, setCreatedAt] = useState<string>();
+    const [pelanggan, setPelanggan] = useState<string>();
+    const [bayar, setBayar] = useState<number>();
 
     const routeUuid = route.params?.uuid;
 
@@ -37,6 +39,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         setCart(dataJson.carts);
         setUuid(dataJson.uuid);
         setTotalHarga(dataJson.totalHarga);
+        setPelanggan(dataJson.namaPelanggan);
+        setBayar(dataJson.bayarPelanggan);
         setCreatedAt(dataJson.createdAt);
         setId(dataJson.id);
     };
@@ -93,7 +97,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         const rows = cart
             .map(
                 (item, index) => `
-            <div>${barang.find((e) => e.id === item.barangId)?.nama}<br>${
+            <div>Barang : ${barang.find((e) => e.id === item.barangId)?.nama}<br>${
                     item.qty
                 } x ${
                     barang.find((e) => e.id === item.barangId)?.harga_jual
@@ -124,9 +128,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         <p>No. Telp: 081246798129</p>
         </div>
         <div class="line"></div>
-        <div class="row"><span>2023-08-02</span><span>08:46:36</span></div>
-        <div class="row"><span>Kasir: Sheila</span><span>Jl. Diponegoro 1, Sby</span></div>
-        <div>No.0-3</div>
+        <div class="row"><span>${dateNow}</span></div>
+        <div class="row"><span>Pelanggan: ${pelanggan}</span></div>
+        <div>No.xxxx</div>
         <div class="line"></div>
         
         list pesanan
@@ -135,8 +139,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
               <div class="line"></div>
               <div class="row"><span>Jumlah barang</span><span>Qty : ${handleQTyAll()}</span></div>
               <div class="row bold"><span>Total</span><span>Rp ${totalHarga?.toLocaleString()}</span></div>
-              <div class="row"><span>Bayar (Cash)</span><span>Rp 70.000</span></div>
-              <div class="row"><span>Kembali</span><span>Rp 0</span></div>
+              <div class="row"><span>Bayar (Cash)</span><span>Rp ${bayar?.toLocaleString()}</span></div>
+              <div class="row"><span>Kembali</span><span>Rp ${bayar! - totalHarga!}</span></div>
         
               <div class="center"><p>Terima kasih telah berbelanja</p></div>
             </body>
@@ -180,6 +184,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             <View style={styles.dataTransaksi}>
                 <Text>No id : {id}</Text>
                 <Text>{createdAt?.split("T")[0]}</Text>
+                <Text>Nama pelanggan : {pelanggan}</Text>
 
                 {cart.map((item, index) => (
                     <View key={index} style={styles.containerCart}>

@@ -17,7 +17,7 @@ interface cartType {
     id: number;
     nama: string;
     qty: number;
-    harga: number;
+    harga_jual: number;
 }
 
 const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
@@ -34,6 +34,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     const cart: cartType[] = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
     const transaksiId = route.params?.transaksiData;
+    const [namaPelanggan, setNamaPelanggan] = useState<string>()
 
     console.log("ini data transaksi", cart);
 
@@ -58,7 +59,9 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                bayarPelanggan : bayar,
                 totalHarga: totalHarga,
+                namaPelanggan : namaPelanggan
             }),
         });
         cart.forEach(async (item: any) => {
@@ -101,13 +104,24 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
                 <View key={index}>
                     <Text>{item.nama}</Text>
                     <Text>
-                        {item.qty} x{item.harga}
+                        {item.qty} x{item.harga_jual}
                     </Text>
                 </View>
             ))}
 
             <View>
                 <Text>Total : Rp.{totalHarga}</Text>
+                <Text>Nama Pelanggan :</Text>
+                <TextInput
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    onChangeText={(text) => setNamaPelanggan(text)}
+                    keyboardType="default"
+                    placeholder="Nama"
+                />
                 <Text>Bayar :</Text>
                 <TextInput
                     style={{
