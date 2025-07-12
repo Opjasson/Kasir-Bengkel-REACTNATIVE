@@ -17,6 +17,7 @@ import * as FileSystem from "expo-file-system";
 import Button from "@/app/components/moleculs/Button";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -44,6 +45,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }[]
     >([]);
     const [date, setDate] = useState(new Date());
+    const [date2, setDate2] = useState(new Date());
 
     const [dataLaporan, setDataLaporan] = useState<
         {
@@ -79,9 +81,14 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
 
-    const onChange = (event: any, selectedDate: any) => {
+    const onChange1 = (event: any, selectedDate: any) => {
         const currentDate = selectedDate || date;
         setDate(currentDate);
+    };
+
+    const onChange2 = (event: any, selectedDate2: any) => {
+        const currentDate2 = selectedDate2 || date2;
+        setDate2(currentDate2);
     };
 
     const getCart = async () => {
@@ -111,8 +118,6 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     useEffect(() => {
         getDataBarang();
     }, []);
-
-    // console.log(barang);
 
     // Penting ----------------
     // Buat map untuk mempermudah pencarian nama berdasarkan barangId
@@ -156,18 +161,25 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         };
     });
 
-    const totalPenjualan2 = transaksiDenganHarga
-        .filter((a) => a.createdAt === date.toISOString().split("T")[0])
-        .reduce((total, item) => {
-            return total + item.harga_jual * item.qty;
-        }, 0);
+    // Range tanggal yang dipilih
+    const startDate = new Date(date.toISOString().split("T")[0]);
+    const endDate = new Date(date2.toISOString().split("T")[0]);
 
-    // console.log(transaksiDenganHarga);
+    // // Filter berdasarkan range
+    const filteredData = transaksiDenganHarga.filter((item) => {
+        const tgl = new Date(item.createdAt);
+        return tgl >= startDate && tgl <= endDate;
+    });
+
+    const totalPenjualan2 = filteredData.reduce((total, item) => {
+        return total + item.harga_jual * item.qty;
+    }, 0);
+
+    console.log(filteredData);
     // ************
 
     const generateHTML = () => {
-        const rows = transaksiDenganHarga
-            .filter((a) => a.createdAt === date.toISOString().split("T")[0])
+        const rows = filteredData
             .map(
                 (item, index) => `
           <tr>
@@ -240,7 +252,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
   <div class="header">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
-    <h1>Laporan Pencatatan ${date.toISOString().split("T")[0]}</h1>
+    <h1>Laporan Pendataan Penjualan ${date.toISOString().split("T")[0]} - ${
+            date2.toISOString().split("T")[0]
+        }</h1>
     <p><strong>Tirta Laksana Jaya Murni</strong><br>081246798129</p>
   </div>
 
@@ -287,11 +301,23 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     const showDatepicker = () => {
         DateTimePickerAndroid.open({
             value: date,
-            onChange,
+            onChange: onChange1,
             mode: "date",
             is24Hour: true,
         });
     };
+
+    const showDatepicker2 = () => {
+        DateTimePickerAndroid.open({
+            value: date2,
+            onChange: onChange2,
+            mode: "date",
+            is24Hour: true,
+        });
+    };
+
+    // console.log("tgl1", date);
+    // console.log("tgl2", date2);
 
     return (
         <View style={styles.container}>
@@ -315,15 +341,21 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         paddingVertical: 15,
                     }}>
                     <Text style={{ fontSize: 20, fontWeight: "900" }}>
-                        Laporan Penjualan Per Hari
+                        Laporan Penjualan Bengkel Mobil
+                    </Text>
+                    <Text style={{ borderBottomWidth: 2, height: 2 }}></Text>
+                    <Text style={{ fontSize: 15, fontWeight: "light" }}>
+                        Filter data berdasarkan tanggal yang dibutuhkan
                     </Text>
                     <View
                         style={{
                             flexDirection: "row",
                             justifyContent: "space-between",
+                            alignItems: "center",
                         }}>
                         <Button
                             style={styles.buttonDate}
+                            styleTitle={{ color: "white" }}
                             // aksi={showDatepicker}
                             aksi={showDatepicker}
                             simbol={
@@ -333,22 +365,45 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     color="black"
                                 />
                             }>
-                            {dateNow}
+                            {date ? date.toISOString().split("T")[0] : dateNow}
                         </Button>
 
+                        <AntDesign
+                            name="caretright"
+                            size={24}
+                            color="black"
+                            style={{ marginTop: 18 }}
+                        />
+
                         <Button
-                            aksi={handleSavePdf}
                             style={styles.buttonDate}
+                            styleTitle={{ color: "white" }}
+                            // aksi={showDatepicker}
+                            aksi={showDatepicker2}
                             simbol={
-                                <FontAwesome5
-                                    name="print"
+                                <FontAwesome6
+                                    name="newspaper"
                                     size={24}
                                     color="black"
                                 />
                             }>
-                            Cetak
+                            {date2
+                                ? date2.toISOString().split("T")[0]
+                                : dateNow}
                         </Button>
                     </View>
+                    <Button
+                        aksi={handleSavePdf}
+                        style={styles.buttonDate}
+                        simbol={
+                            <FontAwesome5
+                                name="print"
+                                size={24}
+                                color="black"
+                            />
+                        }>
+                        Cetak
+                    </Button>
                 </View>
                 {/* menu bagian */}
                 <ScrollView
@@ -384,38 +439,30 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
                         {/* Data Rows */}
 
-                        {transaksiDenganHarga
-                            .filter(
-                                (a) =>
-                                    a.createdAt ===
-                                    date.toISOString().split("T")[0]
-                            )
-                            .map((item, index) => {
-                                return (
-                                    <View key={index} style={styles.row}>
-                                        <Text style={{ width: 50 }}>
-                                            {index + 1}
-                                        </Text>
-                                        <Text
-                                            style={[styles.cell, { flex: 2 }]}>
-                                            {item.createdAt}
-                                        </Text>
-                                        <Text
-                                            style={[styles.cell, styles.green]}>
-                                            {item.nama_barang}
-                                        </Text>
-                                        <Text style={[styles.cell, styles.red]}>
-                                            {item.qty}
-                                        </Text>
-                                        <Text style={styles.cell}>
-                                            {item.harga_jual}
-                                        </Text>
-                                        <Text style={styles.cell}>
-                                            {item.harga_jual * item.qty}
-                                        </Text>
-                                    </View>
-                                );
-                            })}
+                        {filteredData.map((item, index) => {
+                            return (
+                                <View key={index} style={styles.row}>
+                                    <Text style={{ width: 50 }}>
+                                        {index + 1}
+                                    </Text>
+                                    <Text style={[styles.cell, { flex: 2 }]}>
+                                        {item.createdAt}
+                                    </Text>
+                                    <Text style={[styles.cell, styles.green]}>
+                                        {item.nama_barang}
+                                    </Text>
+                                    <Text style={[styles.cell, styles.red]}>
+                                        {item.qty}
+                                    </Text>
+                                    <Text style={styles.cell}>
+                                        {item.harga_jual}
+                                    </Text>
+                                    <Text style={styles.cell}>
+                                        {item.harga_jual * item.qty}
+                                    </Text>
+                                </View>
+                            );
+                        })}
                         <Text style={{ fontSize: 15, fontWeight: "700" }}>
                             Total Penjualan keseluruhan : {totalPenjualan2}
                         </Text>
