@@ -28,6 +28,14 @@ const transaksiModel = db.define(
                 notEmpty: true,
             },
         },
+        bayarPelanggan: {
+            type: INTEGER,
+            defaultValue: 0,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
     },
     {
         freezeTableName: true,
