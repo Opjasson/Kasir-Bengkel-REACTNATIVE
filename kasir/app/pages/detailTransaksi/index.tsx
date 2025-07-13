@@ -124,8 +124,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         <body>
         <div class="center">
         <h3>Tirta Laksana Jaya Murni</h3>
-        <p>Jl. Dr. Ir. H. Soekarno No.19, Medokan Semampir<br>Surabaya</p>
-        <p>No. Telp: 081246798129</p>
+        <p>Jl. Raya Curug Pangkah <br>Tegal</p>
+        <p>No. Telp: 08156667320</p>
         </div>
         <div class="line"></div>
         <div class="row"><span>${dateNow}</span></div>
