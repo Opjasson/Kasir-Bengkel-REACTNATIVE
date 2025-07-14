@@ -10,6 +10,7 @@ import {
     Login,
     Register,
     Laporan,
+    SetAkun,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -18,7 +19,7 @@ const Route = () => {
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* <Stack.Screen name="login" component={Login} /> */}
+            <Stack.Screen name="login" component={Login} />
             {/* <Stack.Screen name="register" component={Register} /> */}
             <Stack.Screen name="kasir" component={Kasir} />
 
@@ -65,6 +66,15 @@ const Route = () => {
                 }}
                 name="proses-transaksi"
                 component={ProsesTransaksi}
+            />
+
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Set akun",
+                }}
+                name="settingAkun"
+                component={SetAkun}
             />
         </Stack.Navigator>
     );

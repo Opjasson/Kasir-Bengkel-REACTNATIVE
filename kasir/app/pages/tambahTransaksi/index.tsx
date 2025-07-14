@@ -13,16 +13,19 @@ import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
 
+import Feather from "@expo/vector-icons/Feather";
+
 interface props {
     navigation: NavigationProp<any, any>;
+    route: RouteProp<any, any>
 }
 
-const Kasir: React.FC<props> = ({ navigation }) => {
+const Kasir: React.FC<props> = ({ navigation, route }) => {
     const [data, setData] = useState<
         {
             id: number;
@@ -44,6 +47,8 @@ const Kasir: React.FC<props> = ({ navigation }) => {
             qty: number;
         }[]
     >([]);
+
+    const login = route.params?.data
 
     const getDataBarang = async () => {
         const response = await fetch("http://192.168.220.220:5000/barang");
@@ -67,11 +72,13 @@ const Kasir: React.FC<props> = ({ navigation }) => {
         } else {
             const barang_Masuk = data.filter((item) => item.id === id);
             barang_Masuk.map((a) =>
-                setCart([...cart, { id, nama: a.nama, qty: 1, harga_jual: a.harga_jual }])
+                setCart([
+                    ...cart,
+                    { id, nama: a.nama, qty: 1, harga_jual: a.harga_jual },
+                ])
             );
         }
     };
-
 
     const minQty = (id: number) => {
         setCart(
@@ -162,6 +169,15 @@ const Kasir: React.FC<props> = ({ navigation }) => {
                     onPress={() => toggleOpen()}
                 />
                 <Text style={styles.headTitle}>Transaksi Baru</Text>
+
+                <TouchableOpacity onPress={() => navigation.navigate("settingAkun")} style={{ display : login.role === "admin" ? "flex" : "none" }}>
+                    <Feather
+                        name="settings"
+                        style={{ marginLeft: 80 }}
+                        size={30}
+                        color="white"
+                    />
+                </TouchableOpacity>
             </View>
             {/* ------------ */}
 

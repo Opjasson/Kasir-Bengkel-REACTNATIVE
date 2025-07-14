@@ -21,6 +21,10 @@ const Users = db.define(
                 notEmpty: true,
             },
         },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
     },
     {
         freezeTableName: true, //opsi tambahan agar nama table pada DB sama dengan model

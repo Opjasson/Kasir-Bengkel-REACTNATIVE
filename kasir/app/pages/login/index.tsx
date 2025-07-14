@@ -31,11 +31,12 @@ const Login: React.FC<props> = ({ navigation }) => {
                     password: password,
                 }),
             });
-
+            const json = await response.json()
+            
             if (JSON.stringify(response.status) === "401") {
                 setError("Email atau password salah!");
             } else {
-                navigation.navigate("kasir");
+                navigation.navigate("kasir", { data: json.response });
             }
         } else {
             setError("Isi email dan password!");

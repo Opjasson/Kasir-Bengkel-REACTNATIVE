@@ -8,6 +8,7 @@ import ProsesTransaksi from "./prosesTransaksi";
 import Login from "./login";
 import Register from "./register";
 import Laporan from "./laporan";
+import SetAkun from "./setAkun";
 
 export {
     Kasir,
@@ -19,5 +20,6 @@ export {
     ProsesTransaksi,
     Login,
     Register,
-    Laporan
+    Laporan,
+    SetAkun
 }
