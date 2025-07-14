@@ -9,6 +9,7 @@ import Login from "./login";
 import Register from "./register";
 import Laporan from "./laporan";
 import SetAkun from "./setAkun";
+import TambahAkun from "./tambahAkun";
 
 export {
     Kasir,
@@ -21,5 +22,6 @@ export {
     Login,
     Register,
     Laporan,
-    SetAkun
+    SetAkun,
+    TambahAkun
 }

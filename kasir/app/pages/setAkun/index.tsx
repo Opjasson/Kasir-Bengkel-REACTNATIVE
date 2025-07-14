@@ -74,7 +74,8 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
             <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
 
             <View style={styles.headInfo}>
-                <Text style={{ fontSize: 26, fontWeight: "700", color : "white" }}>
+                <Text
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
                     Setting akun kasir
                 </Text>
                 <Text
@@ -82,13 +83,14 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         borderBottomWidth: 2,
                         height: 0,
                         width: "70%",
-                        borderColor : "white"
+                        borderColor: "white",
                     }}></Text>
             </View>
 
             <Button
-                aksi={() => navigation.navigate("TambahAkun")}
-                style={styles.button} styleTitle={ styles.buttonTitle }>
+                aksi={() => navigation.navigate("tambahAkun")}
+                style={styles.button}
+                styleTitle={styles.buttonTitle}>
                 Tambah akun
             </Button>
 

@@ -11,6 +11,7 @@ import {
     Register,
     Laporan,
     SetAkun,
+    TambahAkun,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -19,7 +20,7 @@ const Route = () => {
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="login" component={Login} />
+            {/* <Stack.Screen name="login" component={Login} /> */}
             {/* <Stack.Screen name="register" component={Register} /> */}
             <Stack.Screen name="kasir" component={Kasir} />
 
@@ -75,6 +76,15 @@ const Route = () => {
                 }}
                 name="settingAkun"
                 component={SetAkun}
+            />
+
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Buat akun",
+                }}
+                name="tambahAkun"
+                component={TambahAkun}
             />
         </Stack.Navigator>
     );
