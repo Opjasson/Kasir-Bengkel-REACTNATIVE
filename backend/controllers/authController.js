@@ -15,3 +15,14 @@ export const login = async (req, res) => {
     }
     res.status(201).json({ message: "Login succesfully", response: user });
 };
+
+export const forgotPassword = async (req, res) => {
+    const { email, password, confPassword } = req.body;
+    const user = await Users.findOne({ where: { email } });
+    if (!user) {
+        return res.status(401).json({
+            message: "Email yang anda masukan salah",
+        });
+    }
+    res.status(200).json(user);
+};

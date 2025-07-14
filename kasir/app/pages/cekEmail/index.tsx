@@ -14,30 +14,38 @@ interface props {
     navigation: NavigationProp<any, any>;
 }
 
-const Login: React.FC<props> = ({ navigation }) => {
+const CekEmail: React.FC<props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>();
-    const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
 
-    const handleLogin = async () => {
-        if (email && password) {
-            const response = await fetch("http://192.168.220.220:5000/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
-            const json = await response.json()
-            
-            if (JSON.stringify(response.status) === "401") {
-                setError("Email atau password salah!");
-            } else {
-                navigation.navigate("kasir", { data: json.response });
+    const handleCek = async () => {
+        if (email) {
+            const response = await fetch(
+                "http://192.168.220.220:5000/forgotPass",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                    }),
+                }
+            );
+            const json = await response.json();
+            console.log(json);
+            if (json.message) {
+                setError(json.message)
+            }else {
+                alert("Email terdaftar!")
+                
             }
+            
+            // if (JSON.stringify(response.status) === "401") {
+            //     setError("Email atau password salah!");
+            // } else {
+            //     navigation.navigate("kasir", { data: json.response });
+            // }
         } else {
             setError("Isi email dan password!");
         }
@@ -48,7 +56,7 @@ const Login: React.FC<props> = ({ navigation }) => {
             <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
             <View style={styles.containerForm}>
                 <View style={styles.headLogin}>
-                    <Text style={styles.headLoginText1}>Halaman Login</Text>
+                    <Text style={styles.headLoginText1}>Pastikan Email Dahulu</Text>
                     <Text style={styles.headLoginText2}>
                         Aplikasi Kasir Bengkel
                     </Text>
@@ -66,33 +74,14 @@ const Login: React.FC<props> = ({ navigation }) => {
                     onChangeText={(text) => setEmail(text)}
                 />
 
-                <Text style={styles.textLabel}>Password</Text>
-                <TextInput
-                    style={{
-                        borderWidth: 1,
-                        marginBottom: 5,
-                        borderRadius: 5,
-                    }}
-                    keyboardType="default"
-                    secureTextEntry
-                    placeholder="Masukan password anda"
-                    onChangeText={(text) => setPassword(text)}
-                />
-
                 <Text style={error ? styles.errorMsg : styles.hidden}>
                     {error}
                 </Text>
             </View>
             {/* End Form */}
 
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={{ color: "white" }}>Login</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.buatAkun}
-                onPress={() => navigation.navigate("cekEmail")}>
-                <Text>Lupa password akun.</Text>
+            <TouchableOpacity style={styles.button} onPress={handleCek}>
+                <Text style={{ color: "white" }}>Cek Email</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -158,4 +147,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default CekEmail;

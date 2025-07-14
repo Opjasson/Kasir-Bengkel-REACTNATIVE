@@ -11,6 +11,7 @@ import Laporan from "./laporan";
 import SetAkun from "./setAkun";
 import TambahAkun from "./tambahAkun";
 import UbahAkun from "./ubahAkun";
+import CekEmail from "./cekEmail";
 
 export {
     Kasir,
@@ -25,5 +26,6 @@ export {
     Laporan,
     SetAkun,
     TambahAkun,
-    UbahAkun
+    UbahAkun,
+    CekEmail
 }
