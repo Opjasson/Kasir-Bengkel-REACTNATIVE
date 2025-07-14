@@ -170,7 +170,10 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 />
                 <Text style={styles.headTitle}>Transaksi Baru</Text>
 
-                <TouchableOpacity onPress={() => navigation.navigate("settingAkun")} style={{ display : login.role === "admin" ? "flex" : "none" }}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("settingAkun")}
+                    style={{}}>
+                    {/* display : login.role === "admin" ? "flex" : "none" */}
                     <Feather
                         name="settings"
                         style={{ marginLeft: 80 }}

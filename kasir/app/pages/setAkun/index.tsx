@@ -60,7 +60,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
         });
         if (response) {
             Alert.alert("Data berhasl dihapus!");
-            navigation.navigate("Home");
+            navigation.navigate("settingAkun");
         }
     };
 
@@ -92,6 +92,13 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                 style={styles.button}
                 styleTitle={styles.buttonTitle}>
                 Tambah akun
+            </Button>
+
+            <Button
+                aksi={() => navigation.navigate("kasir")}
+                style={styles.button2}
+                styleTitle={styles.buttonTitle}>
+                Home
             </Button>
 
             <View
@@ -130,7 +137,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             onPress={() =>
-                                navigation.navigate("UbahAkun", {
+                                navigation.navigate("ubahAkun", {
                                     id: item.id,
                                     data: item,
                                 })
@@ -175,6 +182,13 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#4A9782",
+        padding: 8,
+        alignItems: "center",
+        borderRadius: 9,
+        marginBottom: 10,
+    },
+    button2: {
+        backgroundColor: "blue",
         padding: 8,
         alignItems: "center",
         borderRadius: 9,

@@ -12,6 +12,7 @@ import {
     Laporan,
     SetAkun,
     TambahAkun,
+    UbahAkun,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -85,6 +86,15 @@ const Route = () => {
                 }}
                 name="tambahAkun"
                 component={TambahAkun}
+            />
+
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Ubah akun",
+                }}
+                name="ubahAkun"
+                component={UbahAkun}
             />
         </Stack.Navigator>
     );
