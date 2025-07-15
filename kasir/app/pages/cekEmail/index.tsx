@@ -33,12 +33,14 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
                 }
             );
             const json = await response.json();
-            console.log(json);
+            // console.log(json);
             if (json.message) {
                 setError(json.message)
             }else {
                 alert("Email terdaftar!")
-                
+                navigation.navigate("changePass", {
+                    user:  json
+                })
             }
             
             // if (JSON.stringify(response.status) === "401") {
