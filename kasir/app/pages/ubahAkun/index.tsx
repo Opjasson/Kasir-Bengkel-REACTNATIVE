@@ -21,7 +21,7 @@ interface props {
 }
 
 const UbahAkun: React.FC<props> = ({ navigation, route }) => {
-    const user = route.params?.data
+    const user = route.params?.data;
 
     const [email, setEmail] = useState<string>(user.email);
     const [password, setPassword] = useState<string>();
@@ -30,18 +30,21 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
 
     const handleRegister = async () => {
         if (password && confPassword) {
-            const response = await fetch(`http://192.168.220.220:5000/user/${user.id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    role: user.role,
-                    password: password,
-                    confPassword: confPassword,
-                }),
-            });
+            const response = await fetch(
+                `number-ip-addresswlx/user/${user.id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        role: user.role,
+                        password: password,
+                        confPassword: confPassword,
+                    }),
+                }
+            );
 
             if (JSON.stringify(response.status) === "400") {
                 setError("Password dan confPassword tidak sama!");
@@ -59,7 +62,8 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
             <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
 
             <View style={styles.headInfo}>
-                <Text style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
+                <Text
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
                     Ubah akun baru untuk Kasir
                 </Text>
                 <Text
@@ -67,7 +71,7 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
                         borderBottomWidth: 2,
                         height: 0,
                         width: "70%",
-                        borderColor : "white"
+                        borderColor: "white",
                     }}></Text>
             </View>
 

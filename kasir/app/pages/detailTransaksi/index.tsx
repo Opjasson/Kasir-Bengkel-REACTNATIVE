@@ -33,7 +33,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.220.220:5000/transaksi/${routeUuid}`
+            `number-ip-addresswlx/transaksi/${routeUuid}`
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
@@ -57,7 +57,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.220.220:5000/barang");
+            const response = await fetch("number-ip-addresswlx/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -74,7 +74,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.220.220:5000/transaksi/${id}`, {
+        await fetch(`number-ip-addresswlx/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
@@ -97,9 +97,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         const rows = cart
             .map(
                 (item, index) => `
-            <div>Barang : ${barang.find((e) => e.id === item.barangId)?.nama}<br>${
-                    item.qty
-                } x ${
+            <div>Barang : ${
+                barang.find((e) => e.id === item.barangId)?.nama
+            }<br>${item.qty} x ${
                     barang.find((e) => e.id === item.barangId)?.harga_jual
                 }<span class="right">Rp ${
                     item.qty *
@@ -140,7 +140,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
               <div class="row"><span>Jumlah barang</span><span>Qty : ${handleQTyAll()}</span></div>
               <div class="row bold"><span>Total</span><span>Rp ${totalHarga?.toLocaleString()}</span></div>
               <div class="row"><span>Bayar (Cash)</span><span>Rp ${bayar?.toLocaleString()}</span></div>
-              <div class="row"><span>Kembali</span><span>Rp ${bayar! - totalHarga!}</span></div>
+              <div class="row"><span>Kembali</span><span>Rp ${
+                  bayar! - totalHarga!
+              }</span></div>
         
               <div class="center"><p>Terima kasih telah berbelanja</p></div>
             </body>

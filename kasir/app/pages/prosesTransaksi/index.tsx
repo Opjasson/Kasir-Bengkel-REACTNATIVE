@@ -34,13 +34,13 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     const cart: cartType[] = route.params?.cart;
     const totalHarga = route.params?.totalHarga;
     const transaksiId = route.params?.transaksiData;
-    const [namaPelanggan, setNamaPelanggan] = useState<string>()
+    const [namaPelanggan, setNamaPelanggan] = useState<string>();
 
     console.log("ini data transaksi", cart);
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.220.220:5000/barang");
+            const response = await fetch("number-ip-addresswlx/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -53,19 +53,19 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     }, []);
 
     const createTransaksi = async () => {
-        await fetch(`http://192.168.220.220:5000/transaksi/${transaksiId}`, {
+        await fetch(`number-ip-addresswlx/transaksi/${transaksiId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                bayarPelanggan : bayar,
+                bayarPelanggan: bayar,
                 totalHarga: totalHarga,
-                namaPelanggan : namaPelanggan
+                namaPelanggan: namaPelanggan,
             }),
         });
         cart.forEach(async (item: any) => {
-            await fetch("http://192.168.220.220:5000/cart", {
+            await fetch("number-ip-addresswlx/cart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
             const foundBarang = barang.find((e) => e.id === item.id);
 
             if (foundBarang) {
-                await fetch(`http://192.168.220.220:5000/barang/${item.id}`, {
+                await fetch(`number-ip-addresswlx/barang/${item.id}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",

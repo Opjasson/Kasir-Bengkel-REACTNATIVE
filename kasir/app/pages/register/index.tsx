@@ -22,7 +22,7 @@ const Register: React.FC<props> = ({ navigation }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.220.220:5000/user", {
+            const response = await fetch("number-ip-addresswlx/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -27,7 +27,7 @@ const Ubahbarang: React.FC<props> = ({ navigation, route }) => {
     // function mengubah barang
     const updateBarang = async () => {
         try {
-            await fetch(`http://192.168.220.220:5000/barang/${index}`, {
+            await fetch(`number-ip-addresswlx/barang/${index}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

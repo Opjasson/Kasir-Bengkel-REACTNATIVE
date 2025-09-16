@@ -28,7 +28,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.220.220:5000/user", {
+            const response = await fetch("number-ip-addresswlx/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -56,7 +56,8 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
             <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
 
             <View style={styles.headInfo}>
-                <Text style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
+                <Text
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
                     Buat akun baru untuk Kasir
                 </Text>
                 <Text
@@ -64,7 +65,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
                         borderBottomWidth: 2,
                         height: 0,
                         width: "70%",
-                        borderColor : "white"
+                        borderColor: "white",
                     }}></Text>
             </View>
 

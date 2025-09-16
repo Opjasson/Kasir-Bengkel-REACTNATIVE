@@ -22,7 +22,7 @@ import Feather from "@expo/vector-icons/Feather";
 
 interface props {
     navigation: NavigationProp<any, any>;
-    route: RouteProp<any, any>
+    route: RouteProp<any, any>;
 }
 
 const Kasir: React.FC<props> = ({ navigation, route }) => {
@@ -48,10 +48,10 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
         }[]
     >([]);
 
-    const login = route.params?.data
+    const login = route.params?.data;
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.220.220:5000/barang");
+        const response = await fetch("number-ip-addresswlx/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -120,7 +120,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     });
 
     const prosesCart = async () => {
-        const response = await fetch("http://192.168.220.220:5000/transaksi", {
+        const response = await fetch("number-ip-addresswlx/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();
@@ -171,8 +171,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 <Text style={styles.headTitle}>Transaksi Baru</Text>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("settingAkun")}
-                    >
+                    onPress={() => navigation.navigate("settingAkun")}>
                     <Feather
                         name="settings"
                         style={{ marginLeft: 80 }}

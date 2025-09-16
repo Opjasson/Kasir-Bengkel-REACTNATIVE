@@ -20,29 +20,26 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
 
     const handleCek = async () => {
         if (email) {
-            const response = await fetch(
-                "http://192.168.220.220:5000/forgotPass",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                    }),
-                }
-            );
+            const response = await fetch("number-ip-addresswlx/forgotPass", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                }),
+            });
             const json = await response.json();
             // console.log(json);
             if (json.message) {
-                setError(json.message)
-            }else {
-                alert("Email terdaftar!")
+                setError(json.message);
+            } else {
+                alert("Email terdaftar!");
                 navigation.navigate("changePass", {
-                    user:  json
-                })
+                    user: json,
+                });
             }
-            
+
             // if (JSON.stringify(response.status) === "401") {
             //     setError("Email atau password salah!");
             // } else {
@@ -58,7 +55,9 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
             <StatusBar barStyle={"light-content"} backgroundColor={"#1F1F1F"} />
             <View style={styles.containerForm}>
                 <View style={styles.headLogin}>
-                    <Text style={styles.headLoginText1}>Pastikan Email Dahulu</Text>
+                    <Text style={styles.headLoginText1}>
+                        Pastikan Email Dahulu
+                    </Text>
                     <Text style={styles.headLoginText2}>
                         Aplikasi Kasir Bengkel
                     </Text>

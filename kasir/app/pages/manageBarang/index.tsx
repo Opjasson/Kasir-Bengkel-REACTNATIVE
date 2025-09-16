@@ -39,7 +39,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.220.220:5000/barang");
+        const response = await fetch("number-ip-addresswlx/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -60,7 +60,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     const handleDelete = async (id: number) => {
         try {
-            await fetch(`http://192.168.220.220:5000/barang/${id}`, {
+            await fetch(`number-ip-addresswlx/barang/${id}`, {
                 method: "DELETE",
             });
             if (refresh) {
@@ -159,7 +159,9 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                             <Text style={styles.menu1}>
                                 {item.nama.toLocaleUpperCase()}
                             </Text>
-                            <Text style={styles.menu2}>Rp. {item.harga_jual}</Text>
+                            <Text style={styles.menu2}>
+                                Rp. {item.harga_jual}
+                            </Text>
                             <Text style={styles.menu3}>
                                 Stok : {item.stok} pcs
                             </Text>
