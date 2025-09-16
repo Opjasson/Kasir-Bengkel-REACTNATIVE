@@ -172,8 +172,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
                 <TouchableOpacity
                     onPress={() => navigation.navigate("settingAkun")}
-                    style={{}}>
-                    {/* display : login.role === "admin" ? "flex" : "none" */}
+                    >
                     <Feather
                         name="settings"
                         style={{ marginLeft: 80 }}
