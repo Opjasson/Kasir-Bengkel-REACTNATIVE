@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     onPress1: () => void;
@@ -21,10 +22,10 @@ const DrawerContent: React.FC<props> = ({
     onPress5,
 }) => {
     return (
-        <View style={styles.animatedBox}>
+        <SafeAreaView style={styles.animatedBox}>
             <View style={styles.sidebarHead}>
                 <FontAwesome5 name="cash-register" size={28} color="white" />
-                <Text style={styles.sidebarTitle}>Kasir Bengkel</Text>
+                <Text style={styles.sidebarTitle}>Toko Makmur Jaya</Text>
             </View>
 
             <View style={styles.sidebarMain}>
@@ -72,7 +73,7 @@ const DrawerContent: React.FC<props> = ({
                     <Text style={{ fontSize: 18 }}>Tutup</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

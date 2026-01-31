@@ -93,7 +93,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/cart");
+            const response = await fetch("http://192.168.159.12:5000/cart");
             const cat = await response.json();
             setCart(cat.response);
         } catch (error) {
@@ -103,7 +103,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/barang");
+            const response = await fetch("http://192.168.159.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -190,7 +190,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             <td>Rp  ${item.harga_jual.toLocaleString()}</td>
             <td>Rp  ${item.harga_jual * item.qty}</td>
           </tr>
-        `
+        `,
             )
             .join("");
         return `
@@ -253,8 +253,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
   <div class="header">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
     <h1>Laporan Pendataan Penjualan ${date.toISOString().split("T")[0]} - ${
-            date2.toISOString().split("T")[0]
-        }</h1>
+        date2.toISOString().split("T")[0]
+    }</h1>
     <p><strong>Tirta Laksana Jaya Murni</strong><br>081246798129</p>
   </div>
 
@@ -339,7 +339,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     style={{
                         paddingLeft: 25,
                         paddingVertical: 15,
-                    }}>
+                    }}
+                >
                     <Text style={{ fontSize: 20, fontWeight: "900" }}>
                         Laporan Penjualan Bengkel Mobil
                     </Text>
@@ -352,7 +353,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center",
-                        }}>
+                        }}
+                    >
                         <Button
                             style={styles.buttonDate}
                             styleTitle={{ color: "white" }}
@@ -364,7 +366,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     size={24}
                                     color="black"
                                 />
-                            }>
+                            }
+                        >
                             {date ? date.toISOString().split("T")[0] : dateNow}
                         </Button>
 
@@ -386,7 +389,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     size={24}
                                     color="black"
                                 />
-                            }>
+                            }
+                        >
                             {date2
                                 ? date2.toISOString().split("T")[0]
                                 : dateNow}
@@ -401,7 +405,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                 size={24}
                                 color="black"
                             />
-                        }>
+                        }
+                    >
                         Cetak
                     </Button>
                 </View>
@@ -410,7 +415,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     horizontal
                     style={{
                         backgroundColor: "#FDFFB8",
-                    }}>
+                    }}
+                >
                     <View style={styles.container}>
                         {/* Header */}
                         <View style={[styles.row, styles.header]}>
@@ -420,7 +426,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                     styles.cell,
                                     styles.headerText,
                                     { flex: 2 },
-                                ]}>
+                                ]}
+                            >
                                 Tanggal
                             </Text>
                             <Text style={[styles.cell, styles.headerText]}>
@@ -479,7 +486,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 drawerPercentage={70}
                 animationTime={250}
                 overlay={true}
-                opacity={0.4}></MenuDrawer>
+                opacity={0.4}
+            ></MenuDrawer>
         </View>
     );
 };

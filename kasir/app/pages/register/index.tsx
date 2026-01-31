@@ -22,7 +22,7 @@ const Register: React.FC<props> = ({ navigation }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("number-ip-addresswlx/user", {
+            const response = await fetch("http://192.168.159.12:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +108,8 @@ const Register: React.FC<props> = ({ navigation }) => {
 
             <TouchableOpacity
                 style={styles.buatAkun}
-                onPress={() => navigation.navigate("login")}>
+                onPress={() => navigation.navigate("login")}
+            >
                 <Text>Sudah punya akun? Login disini</Text>
             </TouchableOpacity>
         </ScrollView>

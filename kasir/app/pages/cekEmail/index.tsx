@@ -20,15 +20,18 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
 
     const handleCek = async () => {
         if (email) {
-            const response = await fetch("number-ip-addresswlx/forgotPass", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+            const response = await fetch(
+                "http://192.168.159.12:5000/forgotPass",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                    }),
                 },
-                body: JSON.stringify({
-                    email: email,
-                }),
-            });
+            );
             const json = await response.json();
             // console.log(json);
             if (json.message) {

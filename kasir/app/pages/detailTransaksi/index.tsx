@@ -33,7 +33,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `number-ip-addresswlx/transaksi/${routeUuid}`
+            `http://192.168.159.12:5000/transaksi/${routeUuid}`,
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
@@ -57,7 +57,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/barang");
+            const response = await fetch("http://192.168.159.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -74,7 +74,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`number-ip-addresswlx/transaksi/${id}`, {
+        await fetch(`http://192.168.159.12:5000/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
@@ -100,13 +100,13 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             <div>Barang : ${
                 barang.find((e) => e.id === item.barangId)?.nama
             }<br>${item.qty} x ${
-                    barang.find((e) => e.id === item.barangId)?.harga_jual
-                }<span class="right">Rp ${
-                    item.qty *
-                    barang.find((e) => e.id === item.barangId)!.harga_jual
-                }</span>
+                barang.find((e) => e.id === item.barangId)?.harga_jual
+            }<span class="right">Rp ${
+                item.qty *
+                barang.find((e) => e.id === item.barangId)!.harga_jual
+            }</span>
             </div>
-    `
+    `,
             )
             .join("");
         return `
@@ -154,22 +154,27 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     // console.log(sum);
 
-    const handleSavePdf = async () => {
-        const htmlContent = handleCetak();
-        const { uri } = await Print.printToFileAsync({
-            html: htmlContent,
-        });
+ const handleSavePdf = async () => {
+  const htmlContent = handleCetak();
 
-        const customFileName = `Kasir bengkel_${dateNow}.pdf`;
-        const newUri = FileSystem.documentDirectory + customFileName;
+  const { uri } = await Print.printToFileAsync({
+    html: htmlContent,
+  });
 
-        await FileSystem.moveAsync({
-            from: uri,
-            to: newUri,
-        });
+  const customFileName = `Kasir_bengkel_${dateNow}.pdf`;
 
-        await Sharing.shareAsync(newUri); // Menyimpan atau kirim PDF
-    };
+  // buat file target
+  const targetFile = new FileSystem.File(FileSystem.Paths.document, customFileName);
+
+  // file sumber
+  const sourceFile = new FileSystem.File(uri);
+
+  // move → harus File object
+  await sourceFile.move(targetFile);
+
+  // share pakai uri hasil target
+  await Sharing.shareAsync(targetFile.uri);
+};
 
     //
     // console.log(barangMap);
@@ -208,7 +213,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             <View>
                 <TouchableOpacity
                     onPress={() => deleteTransaksi()}
-                    style={styles.buttonDelete}>
+                    style={styles.buttonDelete}
+                >
                     <Text>Delete</Text>
                 </TouchableOpacity>
 
@@ -217,7 +223,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                     style={styles.buttonDate}
                     simbol={
                         <FontAwesome5 name="print" size={24} color="black" />
-                    }>
+                    }
+                >
                     Cetak
                 </Button>
             </View>

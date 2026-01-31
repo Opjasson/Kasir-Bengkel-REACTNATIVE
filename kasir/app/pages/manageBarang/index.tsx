@@ -39,7 +39,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
-        const response = await fetch("number-ip-addresswlx/barang");
+        const response = await fetch("http://192.168.159.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -60,7 +60,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     const handleDelete = async (id: number) => {
         try {
-            await fetch(`number-ip-addresswlx/barang/${id}`, {
+            await fetch(`http://192.168.159.12:5000/barang/${id}`, {
                 method: "DELETE",
             });
             if (refresh) {
@@ -88,7 +88,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                     onPress: () => pindahHalaman.navigate("manage-barang"),
                     style: "default",
                 },
-            ]
+            ],
         );
     };
 
@@ -131,7 +131,8 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
             <View style={styles.containerTambah}>
                 <TouchableOpacity
                     style={styles.tambahBarang}
-                    onPress={() => navigation.navigate("tambah-barang")}>
+                    onPress={() => navigation.navigate("tambah-barang")}
+                >
                     <FontAwesome6 name="add" size={25} color="white" />
                     <Text style={{ fontSize: 17, color: "white" }}>Tambah</Text>
                 </TouchableOpacity>
@@ -174,7 +175,8 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                                         data: item,
                                     })
                                 }
-                                style={styles.menuIcon}>
+                                style={styles.menuIcon}
+                            >
                                 <FontAwesome
                                     name="pencil"
                                     size={30}
@@ -184,7 +186,8 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
                             <TouchableOpacity
                                 onPress={() => info(item.id)}
-                                style={styles.menuIcon}>
+                                style={styles.menuIcon}
+                            >
                                 <Fontisto
                                     name="trash"
                                     size={30}
@@ -205,7 +208,8 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                 drawerPercentage={70}
                 animationTime={250}
                 overlay={true}
-                opacity={0.4}></MenuDrawer>
+                opacity={0.4}
+            ></MenuDrawer>
         </View>
     );
 };

@@ -59,7 +59,9 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getHistorys = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/transaksi");
+            const response = await fetch(
+                "http://192.168.159.12:5000/transaksi",
+            );
             const history = (await response.json()) as {
                 response: {
                     carts: [];
@@ -78,7 +80,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/barang");
+            const response = await fetch("http://192.168.159.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -119,7 +121,8 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                 uuid: item.uuid,
                             })
                         }
-                        style={styles.containerBarang}>
+                        style={styles.containerBarang}
+                    >
                         <Text style={{ textDecorationLine: "underline" }}>
                             {item.createdAt.split("T")[0]}
                         </Text>
@@ -128,22 +131,25 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
                             <View style={styles.barisInfo2}>
                                 <Text
-                                    style={{ fontWeight: "700", fontSize: 20 }}>
+                                    style={{ fontWeight: "700", fontSize: 20 }}
+                                >
                                     #{index + 1}
                                 </Text>
                                 <View style={{ flexDirection: "row" }}>
                                     {item.carts.slice(0, 3).map((e, index) => (
                                         <View
                                             style={{ marginLeft: 5 }}
-                                            key={index}>
+                                            key={index}
+                                        >
                                             <Text
                                                 key={index}
-                                                style={{ width: 40 }}>
+                                                style={{ width: 40 }}
+                                            >
                                                 {/* menampilkan nama barang berdasarkan no Id barang pada data carts */}
                                                 {
                                                     barang.find(
                                                         (b) =>
-                                                            b.id === e.barangId
+                                                            b.id === e.barangId,
                                                     )?.nama
                                                 }
                                             </Text>
@@ -167,7 +173,8 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 drawerPercentage={70}
                 animationTime={250}
                 overlay={true}
-                opacity={0.4}></MenuDrawer>
+                opacity={0.4}
+            ></MenuDrawer>
         </View>
     );
 };

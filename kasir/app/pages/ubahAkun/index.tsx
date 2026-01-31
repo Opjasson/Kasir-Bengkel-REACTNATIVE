@@ -31,7 +31,7 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
     const handleRegister = async () => {
         if (password && confPassword) {
             const response = await fetch(
-                `number-ip-addresswlx/user/${user.id}`,
+                `http://192.168.159.12:5000/user/${user.id}`,
                 {
                     method: "PATCH",
                     headers: {
@@ -43,7 +43,7 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
                         password: password,
                         confPassword: confPassword,
                     }),
-                }
+                },
             );
 
             if (JSON.stringify(response.status) === "400") {
@@ -63,7 +63,8 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
 
             <View style={styles.headInfo}>
                 <Text
-                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}
+                >
                     Ubah akun baru untuk Kasir
                 </Text>
                 <Text
@@ -72,7 +73,8 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
                         height: 0,
                         width: "70%",
                         borderColor: "white",
-                    }}></Text>
+                    }}
+                ></Text>
             </View>
 
             {/* Form Update */}
@@ -128,7 +130,8 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
                     style={[
                         styles.button,
                         { marginHorizontal: "auto", width: 190, marginTop: 10 },
-                    ]}>
+                    ]}
+                >
                     Buat akun
                 </Button>
             </ScrollView>

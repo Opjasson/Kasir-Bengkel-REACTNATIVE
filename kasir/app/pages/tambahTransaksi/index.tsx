@@ -19,6 +19,10 @@ import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
 
 import Feather from "@expo/vector-icons/Feather";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -51,7 +55,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     const login = route.params?.data;
 
     const getDataBarang = async () => {
-        const response = await fetch("number-ip-addresswlx/barang");
+        const response = await fetch("http://192.168.159.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -66,8 +70,8 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 cart.map((barang) =>
                     barang.id === id
                         ? { ...barang, qty: barang.qty + 1 }
-                        : barang
-                )
+                        : barang,
+                ),
             );
         } else {
             const barang_Masuk = data.filter((item) => item.id === id);
@@ -75,7 +79,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 setCart([
                     ...cart,
                     { id, nama: a.nama, qty: 1, harga_jual: a.harga_jual },
-                ])
+                ]),
             );
         }
     };
@@ -89,9 +93,9 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                               ...barang,
                               qty: barang.qty > 0 ? barang.qty - 1 : 0,
                           }
-                        : barang
+                        : barang,
                 )
-                .filter((barang) => barang.qty > 0)
+                .filter((barang) => barang.qty > 0),
         );
     };
     console.log(cart);
@@ -120,7 +124,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     });
 
     const prosesCart = async () => {
-        const response = await fetch("number-ip-addresswlx/transaksi", {
+        const response = await fetch("http://192.168.159.12:5000/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();
@@ -157,8 +161,10 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     };
     // -------------
 
+    const inset = useSafeAreaInsets();
+
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={"#27548A"} barStyle={"light-content"} />
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
@@ -171,7 +177,8 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 <Text style={styles.headTitle}>Transaksi Baru</Text>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("settingAkun")}>
+                    onPress={() => navigation.navigate("settingAkun")}
+                >
                     <Feather
                         name="settings"
                         style={{ marginLeft: 80 }}
@@ -215,7 +222,8 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                             {/* icon minus */}
                             <TouchableOpacity
                                 style={styles.menuIcon}
-                                onPress={() => minQty(item.id)}>
+                                onPress={() => minQty(item.id)}
+                            >
                                 <Entypo name="minus" size={30} color="black" />
                             </TouchableOpacity>
                             {/* --------- */}
@@ -230,13 +238,15 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                                     display: cart.find((k) => k.id === item.id)
                                         ? "flex"
                                         : "none",
-                                }}>
+                                }}
+                            >
                                 {cart.find((a) => a.id === item.id) ? (
                                     <Text
                                         style={{
                                             paddingHorizontal: 9,
                                             display: "flex",
-                                        }}>
+                                        }}
+                                    >
                                         {
                                             cart.find((a) => a.id === item.id)
                                                 ?.qty
@@ -257,7 +267,8 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                                         ? "none"
                                         : "flex",
                                 }}
-                                onPress={() => addCart(item.id)}>
+                                onPress={() => addCart(item.id)}
+                            >
                                 <FontAwesome6
                                     name="add"
                                     size={30}
@@ -275,19 +286,15 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 {/* ------------ */}
             </ScrollView>
             {/* ---------- */}
-            <MenuDrawer
-                open={open}
-                position={"left"}
-                drawerContent={sideBarContent()}
-                drawerPercentage={70}
-                animationTime={250}
-                overlay={true}
-                opacity={0.4}></MenuDrawer>
 
             <TouchableOpacity
-                style={styles.containerCart}
+                style={[
+                    {bottom : inset.bottom},
+                    styles.containerCart]
+                }
                 activeOpacity={1}
-                onPress={() => prosesCart()}>
+                onPress={() => prosesCart()}
+            >
                 <View style={styles.cartContent1}>
                     <AntDesign name="shoppingcart" size={28} color="white" />
                     <Text style={styles.cartContent2}>
@@ -297,7 +304,17 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
                 <Text style={styles.cartContent2}>Total : Rp.{totalHarga}</Text>
             </TouchableOpacity>
-        </View>
+
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={sideBarContent()}
+                drawerPercentage={70}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}
+            ></MenuDrawer>
+        </SafeAreaView>
     );
 };
 
@@ -397,7 +414,6 @@ const styles = StyleSheet.create({
         height: 70,
         width: "100%",
         position: "absolute",
-        bottom: 0,
         backgroundColor: "#27548A",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,

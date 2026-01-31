@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -40,7 +41,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("number-ip-addresswlx/barang");
+            const response = await fetch("http://192.168.159.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -53,7 +54,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     }, []);
 
     const createTransaksi = async () => {
-        await fetch(`number-ip-addresswlx/transaksi/${transaksiId}`, {
+        await fetch(`http://192.168.159.12:5000/transaksi/${transaksiId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +66,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
             }),
         });
         cart.forEach(async (item: any) => {
-            await fetch("number-ip-addresswlx/cart", {
+            await fetch("http://192.168.159.12:5000/cart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +83,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
             const foundBarang = barang.find((e) => e.id === item.id);
 
             if (foundBarang) {
-                await fetch(`number-ip-addresswlx/barang/${item.id}`, {
+                await fetch(`http://192.168.159.12:5000/barang/${item.id}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
@@ -99,7 +100,7 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     };
 
     return (
-        <View>
+        <SafeAreaView>
             {cart.map((item, index) => (
                 <View key={index}>
                     <Text>{item.nama}</Text>
@@ -138,10 +139,11 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 
             <TouchableOpacity
                 style={styles.tambahBarang}
-                onPress={() => createTransaksi()}>
+                onPress={() => createTransaksi()}
+            >
                 <Text style={{ fontSize: 17, color: "white" }}>Tambah</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 };
 

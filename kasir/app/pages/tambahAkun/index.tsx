@@ -28,7 +28,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("number-ip-addresswlx/user", {
+            const response = await fetch("http://192.168.159.12:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -57,7 +57,8 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
             <View style={styles.headInfo}>
                 <Text
-                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}
+                >
                     Buat akun baru untuk Kasir
                 </Text>
                 <Text
@@ -66,7 +67,8 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
                         height: 0,
                         width: "70%",
                         borderColor: "white",
-                    }}></Text>
+                    }}
+                ></Text>
             </View>
 
             {/* Form Update */}
@@ -121,7 +123,8 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
                     style={[
                         styles.button,
                         { marginHorizontal: "auto", width: 190, marginTop: 10 },
-                    ]}>
+                    ]}
+                >
                     Buat akun
                 </Button>
             </ScrollView>

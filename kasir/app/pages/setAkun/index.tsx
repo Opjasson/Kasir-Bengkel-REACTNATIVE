@@ -26,7 +26,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
     const [id, setId] = useState<number>();
 
     const getUserId = async () => {
-        const response = await fetch("number-ip-addresswlx/login");
+        const response = await fetch("http://192.168.159.12:5000/login");
         const data = await response.json();
         setId(Object.values(data)[0]?.userId);
     };
@@ -43,7 +43,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const fetchData = async () => {
-        const response = await fetch("number-ip-addresswlx/user");
+        const response = await fetch("http://192.168.159.12:5000/user");
         const data = await response.json();
         console.log(data.data);
 
@@ -52,7 +52,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const deleteAkun = async (id: number) => {
-        const response = await fetch(`number-ip-addresswlx/user/${id}`, {
+        const response = await fetch(`http://192.168.159.12:5000/user/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -75,7 +75,8 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
             <View style={styles.headInfo}>
                 <Text
-                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}>
+                    style={{ fontSize: 26, fontWeight: "700", color: "white" }}
+                >
                     Setting akun kasir
                 </Text>
                 <Text
@@ -84,20 +85,23 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         height: 0,
                         width: "70%",
                         borderColor: "white",
-                    }}></Text>
+                    }}
+                ></Text>
             </View>
 
             <Button
                 aksi={() => navigation.navigate("tambahAkun")}
                 style={styles.button}
-                styleTitle={styles.buttonTitle}>
+                styleTitle={styles.buttonTitle}
+            >
                 Tambah akun
             </Button>
 
             <Button
                 aksi={() => navigation.navigate("kasir")}
                 style={styles.button2}
-                styleTitle={styles.buttonTitle}>
+                styleTitle={styles.buttonTitle}
+            >
                 Home
             </Button>
 
@@ -110,7 +114,8 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     width: "85%",
                     marginHorizontal: "auto",
                     marginBottom: 10,
-                }}>
+                }}
+            >
                 <Text style={{ fontSize: 18, width: "60%" }}>Email</Text>
                 <Text style={{ fontSize: 18, width: "40%" }}>Aksi</Text>
             </View>
@@ -125,7 +130,8 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         width: "85%",
                         marginHorizontal: "auto",
                         marginBottom: 8,
-                    }}>
+                    }}
+                >
                     <Text style={{ fontSize: 18, width: "60%" }}>
                         {item.email}
                     </Text>
@@ -134,14 +140,16 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                             flexDirection: "row",
                             width: "40%",
                             gap: 8,
-                        }}>
+                        }}
+                    >
                         <TouchableOpacity
                             onPress={() =>
                                 navigation.navigate("ubahAkun", {
                                     id: item.id,
                                     data: item,
                                 })
-                            }>
+                            }
+                        >
                             <Text style={{ fontSize: 18, color: "blue" }}>
                                 Ubah
                             </Text>
